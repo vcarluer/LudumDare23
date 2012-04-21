@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Planet extends GameItem {
 	
 	public Planet(int x, int y) {
-		this.sprite = new Sprite(new Texture(Gdx.files.internal("data/planet.png")));
+		this.setSprite("data/planet.png");
 		
 		this.worldX = x;
 		this.worldY = y;
@@ -19,15 +19,22 @@ public class Planet extends GameItem {
 		this.x = this.worldX * World.TILESIZE;
 		this.y = this.worldY * World.TILESIZE;
 	}
-	
-	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
-		this.sprite.draw(batch);
-	}
+
 
 	public Actor hit(float x, float y) {
 		return null;
+	}
+
+
+	@Override
+	protected float getRefereceWidth() {
+		return 16;
+	}
+
+
+	@Override
+	protected float getReferenceHeight() {
+		return 16;
 	}
 
 }

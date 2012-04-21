@@ -2,6 +2,7 @@ package org.devince.tinyworld;
 
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
+import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.world.World;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -20,6 +21,7 @@ public class TinyWorld extends Game {
 	
 	private Stage stage;
 	private World world;
+	private Player player;
 	
 	private OrthographicCamera cam;
 	
@@ -38,6 +40,9 @@ public class TinyWorld extends Game {
 		
 		this.stage = new Stage(WIDTH, HEIGHT, true);
 		this.world = new World();
+		
+		this.player = new Player(0, 0);
+		this.addGameItem(this.player);
 	}
 	
 	public void render() {
