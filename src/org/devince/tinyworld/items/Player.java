@@ -1,7 +1,9 @@
 package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
+import org.devince.tinyworld.world.Galaxy;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -93,9 +95,22 @@ public class Player extends GameItem {
 			this.velocity.x = - MAX_VELOCITY;
 		}
 		
-		Planet[] around = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
+		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
+		float nextX = this.x + this.velocity.x;
+		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, this.y);
+		if (nextAround[Galaxy.BOTTOM] == null) {
+			if (this.velocity.x < 0) {
+				this.x = currentAround[Galaxy.BOTTOM].x - currentAround[Galaxy.BOTTOM].width / 2f;
+			}
+			
+			if (this.velocity.x > 0) {
+				this.x = currentAround[Galaxy.BOTTOM].x + currentAround[Galaxy.BOTTOM].width / 2f - 0.1f;
+			}
+			
+		} else {
+			this.x += this.velocity.x;
+		}
 		
-		this.x += this.velocity.x;
 	}
 
 	@Override

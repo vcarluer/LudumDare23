@@ -17,6 +17,7 @@ public class TinyWorld extends Game {
 	public static final String TITLE = "Tiny World";
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
+	public static final String TAG = "TinyWorld";
 	
 	private Stage stage;
 	private Galaxy galaxy;
