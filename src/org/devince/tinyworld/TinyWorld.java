@@ -19,7 +19,7 @@ public class TinyWorld extends Game {
 	public static final int HEIGHT = 600;
 	
 	private Stage stage;
-	private Galaxy world;
+	private Galaxy galaxy;
 	private Player player;
 	
 	private OrthographicCamera cam;
@@ -40,12 +40,12 @@ public class TinyWorld extends Game {
 		this.stage = new Stage(WIDTH, HEIGHT, true);
 		Gdx.input.setInputProcessor(this.stage);
 		
-		this.world = new Galaxy();
+		this.galaxy = new Galaxy();
 		
 		this.player = new Player(0, 0);
 		this.addGameItem(this.player);
 		
-		this.setPlayerOnPlanet(this.world.getStartPlanet());
+		this.setPlayerOnPlanet(this.galaxy.getStartPlanet());
 		
 	}
 	
@@ -78,5 +78,9 @@ public class TinyWorld extends Game {
 	private void setPlayerOnPlanet(Planet planet) {
 		this.player.x = planet.x;
 		this.player.y = planet.y + planet.height / 2f + this.player.height / 2f;
+	}
+	
+	public Galaxy getGalaxy() {
+		return this.galaxy;
 	}
 }

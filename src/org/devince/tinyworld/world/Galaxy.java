@@ -37,15 +37,22 @@ public class Galaxy {
 	}
 	
 	public Planet[] getAroundPlanetsFromGamePosition(float x, float y) {
-		float shiftX = x - TILESIZE / 2f;
-		float shiftY = y - TILESIZE / 2f;
-		return this.getAroundPlanets((int)Math.ceil(shiftX / TILESIZE), (int)Math.ceil(shiftY / TILESIZE));
+		float shiftX = x + TILESIZE / 2f;
+		float shiftY = y + TILESIZE / 2f;
+		return this.getAroundPlanets((int)Math.floor(shiftX / TILESIZE), (int)Math.floor(shiftY / TILESIZE));
 	}
 	
 	public Planet[] getAroundPlanets(int x, int y) {
-		// always returns planets in order from T clockwise
+		// always returns planets in same order
 		
-		
+		int cpt = 0;
+		for (int cX = x - 1; cX < x + 2; cX++) {
+			for (int cY = y - 1; cY < y + 2; cY++) {
+				if (cX == x && cY == y) continue;
+				this.aroundPlanets[cpt] = this.getPlanet(cX, cY);
+				cpt++;
+			}
+		}
 		
 		return this.aroundPlanets;
 	}
@@ -54,5 +61,11 @@ public class Galaxy {
 		this.comparePoint.setX(x);
 		this.comparePoint.setY(y);
 		return this.planets.containsKey(this.comparePoint);
+	}
+	
+	private Planet getPlanet(int x, int y) {
+		this.comparePoint.setX(x);
+		this.comparePoint.setY(y);
+		return this.planets.get(this.comparePoint);
 	}
 }

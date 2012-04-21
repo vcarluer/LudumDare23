@@ -1,5 +1,7 @@
 package org.devince.tinyworld.items;
 
+import org.devince.tinyworld.TinyWorld;
+
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -90,6 +92,8 @@ public class Player extends GameItem {
 		if (this.velocity.x < - MAX_VELOCITY) {
 			this.velocity.x = - MAX_VELOCITY;
 		}
+		
+		Planet[] around = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
 		
 		this.x += this.velocity.x;
 	}
