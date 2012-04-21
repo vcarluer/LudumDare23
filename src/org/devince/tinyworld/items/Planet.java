@@ -2,10 +2,6 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.world.World;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Planet extends GameItem {

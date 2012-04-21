@@ -5,7 +5,6 @@ import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.world.World;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -13,7 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TinyWorld extends Game {
-	private static final float DEFAULT_ZOOM = 0.5f;
+	private static final float DEFAULT_ZOOM = 0.3f;
 	private static TinyWorld game;
 	public static final String TITLE = "Tiny World";
 	public static final int WIDTH = 800;
@@ -39,10 +38,15 @@ public class TinyWorld extends Game {
 		this.cam.zoom = DEFAULT_ZOOM;
 		
 		this.stage = new Stage(WIDTH, HEIGHT, true);
+		Gdx.input.setInputProcessor(this.stage);
+		
 		this.world = new World();
 		
 		this.player = new Player(0, 0);
 		this.addGameItem(this.player);
+		
+		this.setPlayerOnPlanet(this.world.getStartPlanet());
+		
 	}
 	
 	public void render() {
@@ -51,6 +55,8 @@ public class TinyWorld extends Game {
 		this.cam.update();
 		this.cam.apply(Gdx.gl10);
 		
+		this.stage.setKeyboardFocus(this.player);
+		this.stage.act(Gdx.graphics.getDeltaTime());
 		this.stage.draw();
 		super.render();
 	}
@@ -67,5 +73,10 @@ public class TinyWorld extends Game {
 	
 	public OrthographicCamera getCamera() {
 		return this.cam;
+	}
+	
+	private void setPlayerOnPlanet(Planet planet) {
+		this.player.x = planet.x;
+		this.player.y = planet.y + planet.height / 2f + this.player.height / 2f;
 	}
 }

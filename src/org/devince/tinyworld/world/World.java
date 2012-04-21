@@ -26,4 +26,8 @@ public class World {
 		TinyWorld.get().addGameItem(planet);
 		return planet;
 	}
+
+	public Planet getStartPlanet() {
+		return this.startPlanet;
+	}
 }

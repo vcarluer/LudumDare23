@@ -13,6 +13,11 @@ public abstract class GameItem extends Actor {
 	protected int worldX;
 	protected int worldY;
 	
+	public GameItem() {
+		this.width = this.getRefereceWidth();
+		this.height = this.getReferenceHeight();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
