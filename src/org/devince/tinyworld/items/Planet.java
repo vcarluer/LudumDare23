@@ -2,6 +2,7 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.world.Galaxy;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Planet extends GameItem {
@@ -31,6 +32,11 @@ public class Planet extends GameItem {
 	@Override
 	protected float getReferenceHeight() {
 		return 16;
+	}
+
+
+	public Rectangle getBoundingBox() {
+		return new Rectangle(this.x - this.width / 2f, this.y - this.height / 2f, this.width, this.height);
 	}
 
 }

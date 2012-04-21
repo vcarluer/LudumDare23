@@ -5,6 +5,7 @@ import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -102,37 +103,67 @@ public class Player extends GameItem {
 		float nextX = this.x + this.getTX(this.velocity.x);
 		float nextY = this.y + this.getTY(this.velocity.x);
 		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY);
+		
+		// Case no bottom
 		Planet bottom = this.getBottom(nextAround);
 		if (bottom == null) {
-//			if (this.velocity.x < 0) {
-//				this.x = currentAround[Galaxy.BOTTOM].x - currentAround[Galaxy.BOTTOM].width / 2f;
-//			}
-//			
-//			if (this.velocity.x > 0) {
-//				this.x = currentAround[Galaxy.BOTTOM].x + currentAround[Galaxy.BOTTOM].width / 2f - 0.1f;
-//			}
-			
 			bottom = this.getBottom(currentAround);
 			this.changeNormal();
-			if (this.velocity.x > 0) {
-				this.x = this.getMiddleX(bottom) - this.getTX(bottom.width / 2f);
-				this.y = this.getMiddleY(bottom) - this.getTY(bottom.height / 2f);
-			}
-			
-			if (this.velocity.x < 0) {
-				this.x = this.getMiddleX(bottom) + this.getTX(bottom.width / 2f);
-				this.y = this.getMiddleY(bottom) + this.getTY(bottom.height / 2f);
-			}
-			
-			
+			this.changeFace(bottom);
 		} else {
-//			this.x += this.getTX(this.velocity.x);
-//			this.y += this.getTY(this.velocity.x);
+			// case planet block
+			Planet nextPlanet = null;
+			boolean switchPlanet = false;
+			if (this.velocity.x > 0) {
+				nextPlanet = this.getRight(currentAround);
+			}
+			
+			if (nextPlanet == null && this.velocity.x < 0) {
+				nextPlanet = this.getLeft(currentAround);
+			}
+			
+			if (nextPlanet != null) {
+				Rectangle bb = new Rectangle(nextX - this.width / 2f, nextY - this.height / 2f, this.width, this.height);
+				Rectangle pBB = nextPlanet.getBoundingBox();
+				
+				if (bb.overlaps(pBB)) {
+					switchPlanet = true;
+				}
+			}
+				
+			if (switchPlanet) {
+				this.changeNormalCC();
+				this.changeFacePlain(nextPlanet);
+			}
 		}
 		
 		this.x += this.getTX(this.velocity.x);
 		this.y += this.getTY(this.velocity.x);
 		
+	}
+	
+	public void changeFace(Planet planet) {
+		if (this.velocity.x > 0) {
+			this.x = this.getMiddleX(planet) - this.getTX(planet.width / 2f);
+			this.y = this.getMiddleY(planet) - this.getTY(planet.height / 2f);
+		}
+		
+		if (this.velocity.x < 0) {
+			this.x = this.getMiddleX(planet) + this.getTX(planet.width / 2f);
+			this.y = this.getMiddleY(planet) + this.getTY(planet.height / 2f);
+		}
+	}
+	
+	public void changeFacePlain(Planet planet) {
+		if (this.velocity.x > 0) {
+			this.x = this.getMiddleX(planet) - this.getTX(planet.width / 2f - this.width / 2f);
+			this.y = this.getMiddleY(planet) - this.getTY(planet.height / 2f - this.width / 2f);
+		}
+		
+		if (this.velocity.x < 0) {
+			this.x = this.getMiddleX(planet) + this.getTX(planet.width / 2f - this.width / 2f);
+			this.y = this.getMiddleY(planet) + this.getTY(planet.height / 2f - this.width / 2f);
+		}
 	}
 	
 	private float getMiddleX(Planet planet) {
@@ -175,12 +206,16 @@ public class Player extends GameItem {
 		return 0;
 	}
 	
-	private void changeNormal() {
+	private void changeNormal(boolean cc) {
 		float vel = 0;
 		if (this.velocity.x > 0) {
 			vel = 1;
 		} else {
 			vel = -1;
+		}
+		
+		if (cc) {
+			vel *= -1;
 		}
 		
 		if (this.normal.y == 1) {
@@ -207,6 +242,14 @@ public class Player extends GameItem {
 			return;
 		}
 	}
+	
+	private void changeNormal() {
+		this.changeNormal(false);
+	}
+	
+	private void changeNormalCC() {
+		this.changeNormal(true);
+	}
 
 	private Planet getBottom(Planet[] nextAround) {
 		if (this.normal.y == 1) {
@@ -223,6 +266,46 @@ public class Player extends GameItem {
 		
 		if (this.normal.x == -1) {
 			return nextAround[Galaxy.MIDDLE_RIGHT];
+		}
+		
+		return null;
+	}
+	
+	private Planet getRight(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.MIDDLE_RIGHT];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.BOTTOM];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.MIDDLE_LEFT];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.TOP];
+		}
+		
+		return null;
+	}
+	
+	private Planet getLeft(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.MIDDLE_LEFT];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.TOP];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.MIDDLE_RIGHT];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.BOTTOM];
 		}
 		
 		return null;

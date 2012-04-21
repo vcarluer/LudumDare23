@@ -31,6 +31,9 @@ public class Galaxy {
 
 	private void initWorld() {
 		this.startPlanet = this.addPlanet(0, 0);
+		this.addPlanet(1, 0);
+		this.addPlanet(1, 1);
+		this.addPlanet(2, 1);
 	}
 	
 	private Planet addPlanet(int x, int y) {
