@@ -53,6 +53,7 @@ public class TinyWorld extends Game {
 	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		this.cam.position.set(this.player.x, this.player.y, 0);
 		this.cam.update();
 		this.cam.apply(Gdx.gl10);
 		
