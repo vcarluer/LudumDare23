@@ -123,7 +123,7 @@ public class Player extends GameItem {
 			}
 			
 			if (nextPlanet != null) {
-				Rectangle bb = new Rectangle(nextX - this.width / 2f, nextY - this.height / 2f, this.width, this.height);
+				Rectangle bb = this.createBoundingBox(nextX, nextY);
 				Rectangle pBB = nextPlanet.getBoundingBox();
 				
 				if (bb.overlaps(pBB)) {

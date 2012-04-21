@@ -33,10 +33,4 @@ public class Planet extends GameItem {
 	protected float getReferenceHeight() {
 		return 16;
 	}
-
-
-	public Rectangle getBoundingBox() {
-		return new Rectangle(this.x - this.width / 2f, this.y - this.height / 2f, this.width, this.height);
-	}
-
 }
