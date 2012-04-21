@@ -20,6 +20,7 @@ public class Player extends GameItem {
 	
 	private Vector2 acceleration;
 	private Vector2 velocity;
+	private Vector2 normal;
 
 	public Player(float x, float y) {
 		this.setSprite("data/player.png");
@@ -28,6 +29,7 @@ public class Player extends GameItem {
 		
 		this.acceleration = new Vector2();
 		this.velocity = new Vector2();
+		this.normal = new Vector2(0, 1);
 	}
 	
 	@Override
@@ -96,23 +98,176 @@ public class Player extends GameItem {
 		}
 		
 		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
-		float nextX = this.x + this.velocity.x;
-		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, this.y);
-		if (nextAround[Galaxy.BOTTOM] == null) {
-			if (this.velocity.x < 0) {
-				this.x = currentAround[Galaxy.BOTTOM].x - currentAround[Galaxy.BOTTOM].width / 2f;
+		
+		float nextX = this.x + this.getTX(this.velocity.x);
+		float nextY = this.y + this.getTY(this.velocity.x);
+		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY);
+		Planet bottom = this.getBottom(nextAround);
+		if (bottom == null) {
+//			if (this.velocity.x < 0) {
+//				this.x = currentAround[Galaxy.BOTTOM].x - currentAround[Galaxy.BOTTOM].width / 2f;
+//			}
+//			
+//			if (this.velocity.x > 0) {
+//				this.x = currentAround[Galaxy.BOTTOM].x + currentAround[Galaxy.BOTTOM].width / 2f - 0.1f;
+//			}
+			
+			bottom = this.getBottom(currentAround);
+			this.changeNormal();
+			if (this.velocity.x > 0) {
+				this.x = this.getMiddleX(bottom) - this.getTX(bottom.width / 2f);
+				this.y = this.getMiddleY(bottom) - this.getTY(bottom.height / 2f);
 			}
 			
-			if (this.velocity.x > 0) {
-				this.x = currentAround[Galaxy.BOTTOM].x + currentAround[Galaxy.BOTTOM].width / 2f - 0.1f;
+			if (this.velocity.x < 0) {
+				this.x = this.getMiddleX(bottom) + this.getTX(bottom.width / 2f);
+				this.y = this.getMiddleY(bottom) + this.getTY(bottom.height / 2f);
 			}
+			
 			
 		} else {
-			this.x += this.velocity.x;
+//			this.x += this.getTX(this.velocity.x);
+//			this.y += this.getTY(this.velocity.x);
 		}
 		
+		this.x += this.getTX(this.velocity.x);
+		this.y += this.getTY(this.velocity.x);
+		
+	}
+	
+	private float getMiddleX(Planet planet) {
+		if (this.normal.y == 1) {
+			return planet.x;
+		}
+		
+		if (this.normal.x == 1) {
+			return planet.x + planet.width / 2f + this.width / 2f;
+		}
+		
+		if (this.normal.y == -1) {
+			return planet.x;
+		}
+		
+		if (this.normal.x == -1) {
+			return planet.x - planet.width / 2f - this.width / 2f;
+		}
+		
+		return 0;
+	}
+	
+	private float getMiddleY(Planet planet) {
+		if (this.normal.y == 1) {
+			return planet.y + planet.height / 2f + this.height / 2f;
+		}
+		
+		if (this.normal.x == 1) {
+			return planet.y;
+		}
+		
+		if (this.normal.y == -1) {
+			return planet.y - planet.height / 2f - this.height / 2f;
+		}
+		
+		if (this.normal.x == -1) {
+			return planet.y;
+		}
+		
+		return 0;
+	}
+	
+	private void changeNormal() {
+		float vel = 0;
+		if (this.velocity.x > 0) {
+			vel = 1;
+		} else {
+			vel = -1;
+		}
+		
+		if (this.normal.y == 1) {
+			this.normal.x = vel;
+			this.normal.y = 0;
+			return;
+		}
+		
+		if (this.normal.x == 1) {
+			this.normal.x =0;
+			this.normal.y = -vel;
+			return;
+		}
+		
+		if (this.normal.y == -1) {
+			this.normal.x = -vel;
+			this.normal.y = 0;
+			return;
+		}
+		
+		if (this.normal.x == -1) {
+			this.normal.x = 0;
+			this.normal.y = vel;
+			return;
+		}
 	}
 
+	private Planet getBottom(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.BOTTOM];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.MIDDLE_LEFT];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.TOP];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.MIDDLE_RIGHT];
+		}
+		
+		return null;
+	}
+
+	private float getTX(float x) {
+		if (this.normal.y == 1) {
+			return x;
+		}
+		
+		if (this.normal.x == 1) {
+			return 0;
+		}
+		
+		if (this.normal.y == -1) {
+			return -x;
+		}
+		
+		if (this.normal.x == -1) {
+			return 0;
+		}
+		
+		return x;
+	}
+
+	private float getTY(float y) {
+		if (this.normal.y == 1) {
+			return 0;
+		}
+		
+		if (this.normal.x == 1) {
+			return -y;
+		}
+		
+		if (this.normal.y == -1) {
+			return 0;
+		}
+		
+		if (this.normal.x == -1) {
+			return y;
+		}
+		
+		return y;
+	}
+	
 	@Override
 	public Actor hit(float x, float y) {
 		// TODO Auto-generated method stub

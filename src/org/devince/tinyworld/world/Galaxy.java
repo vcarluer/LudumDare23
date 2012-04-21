@@ -14,9 +14,9 @@ public class Galaxy {
 	public static int TOP_LEFT = 2;
 	public static int BOTTOM = 3;
 	public static int TOP = 4;
-	public static int BOTTOM_RIGHT = 6;
-	public static int MIDDLE_RIGHT = 7;
-	public static int TOP_RIGHT = 8;
+	public static int BOTTOM_RIGHT = 5;
+	public static int MIDDLE_RIGHT = 6;
+	public static int TOP_RIGHT = 7;
 	
 	
 	private HashMap<Point, Planet> planets;
