@@ -1,8 +1,8 @@
 package org.devince.tinyworld.items;
 
 public class Point {
-	private int x;
-	private int y;
+	public int x;
+	public int y;
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -22,6 +22,8 @@ public class Player extends GameItem {
 	private Vector2 acceleration;
 	private Vector2 velocity;
 	private Vector2 normal;
+	private boolean createBlock ;
+	private int facing;
 
 	public Player(float x, float y) {
 		this.setSprite("data/player.png");
@@ -41,6 +43,9 @@ public class Player extends GameItem {
 			break;
 		case Keys.LEFT:
 			this.direction = LEFT;
+			break;
+		case Keys.SPACE:
+			this.createBlock = true;
 			break;
 		default:
 			return false;
@@ -83,6 +88,13 @@ public class Player extends GameItem {
 	public void act(float delta) {
 		super.act(delta);
 		
+		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
+		// Create block action
+		if (this.createBlock) {
+			this.createBlock(currentAround);
+		}
+		
+		// Move
 		if (this.acceleration.x != 0) {
 			float acceTime = this.acceleration.x * delta;
 			this.velocity.x += acceTime;
@@ -98,7 +110,7 @@ public class Player extends GameItem {
 			this.velocity.x = - MAX_VELOCITY;
 		}
 		
-		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
+		
 		
 		float nextX = this.x + this.getTX(this.velocity.x);
 		float nextY = this.y + this.getTY(this.velocity.x);
@@ -140,8 +152,64 @@ public class Player extends GameItem {
 		this.x += this.getTX(this.velocity.x);
 		this.y += this.getTY(this.velocity.x);
 		
+		if (this.velocity.x != 0) {
+			if (this.velocity.x > 0) {
+				this.facing = RIGHT;
+			} else {
+				this.facing = LEFT;
+			}
+		}
+		
+		
 	}
 	
+	private void createBlock(Planet[] around) {
+		float xPlanet = 0;
+		float yPlanet = 0;
+		boolean createPlanete = false;
+		Vector2 vct = new Vector2();
+		if (this.facing == RIGHT) {
+			if (this.getBottomRight(around) == null) {
+				vct.x = Galaxy.TILESIZE;
+				vct.y = - Galaxy.TILESIZE;
+				createPlanete = true;
+			} else if (this.getRight(around) == null) {
+				vct.x = Galaxy.TILESIZE;
+				vct.y = 0;
+				createPlanete = true;
+			} else if (this.getTopRight(around) == null) {
+				vct.x = Galaxy.TILESIZE;
+				vct.y = Galaxy.TILESIZE;
+				createPlanete = true;
+			}
+		}
+		
+		if (this.facing == LEFT) {
+			if (this.getBottomLeft(around) == null) {
+				vct.x = - Galaxy.TILESIZE;
+				vct.y = - Galaxy.TILESIZE;
+				createPlanete = true;
+			} else if (this.getLeft(around) == null) {
+				vct.x = - Galaxy.TILESIZE;
+				vct.y = 0;
+				createPlanete = true;
+			} else if (this.getTopLeft(around) == null) {
+				vct.x = - Galaxy.TILESIZE;
+				vct.y = Galaxy.TILESIZE;
+				createPlanete = true;
+			}
+		}
+		
+		if (createPlanete) {
+			vct.rotate(- this.getNormalAngle());
+			Point pt = TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.x + vct.x, this.y + vct.y);
+			
+			TinyWorld.get().getGalaxy().addPlanet(pt.x, pt.y);
+		}
+		
+		this.createBlock = false;
+	}
+
 	public void changeFace(Planet planet) {
 		if (this.velocity.x > 0) {
 			this.x = this.getMiddleX(planet) - this.getTX(planet.width / 2f);
@@ -310,6 +378,86 @@ public class Player extends GameItem {
 		
 		return null;
 	}
+	
+	private Planet getBottomRight(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.BOTTOM_RIGHT];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.BOTTOM_LEFT];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.TOP_LEFT];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.TOP_RIGHT];
+		}
+		
+		return null;
+	}
+	
+	private Planet getTopRight(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.TOP_RIGHT];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.BOTTOM_RIGHT];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.BOTTOM_LEFT];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.TOP_LEFT];
+		}
+		
+		return null;
+	}
+	
+	private Planet getBottomLeft(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.BOTTOM_LEFT];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.TOP_LEFT];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.TOP_RIGHT];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.BOTTOM_RIGHT];
+		}
+		
+		return null;
+	}
+	
+	private Planet getTopLeft(Planet[] nextAround) {
+		if (this.normal.y == 1) {
+			return nextAround[Galaxy.TOP_LEFT];
+		}
+		
+		if (this.normal.x == 1) {
+			return nextAround[Galaxy.TOP_RIGHT];
+		}
+		
+		if (this.normal.y == -1) {
+			return nextAround[Galaxy.BOTTOM_RIGHT];
+		}
+		
+		if (this.normal.x == -1) {
+			return nextAround[Galaxy.BOTTOM_LEFT];
+		}
+		
+		return null;
+	}
 
 	private float getTX(float x) {
 		if (this.normal.y == 1) {
@@ -349,6 +497,30 @@ public class Player extends GameItem {
 		}
 		
 		return y;
+	}
+	
+	private float getNormalAngle() {
+		if (this.normal.y == 1) {
+			return 0;
+		}
+		
+		if (this.normal.x == 1) {
+			return 90;
+		}
+		
+		if (this.normal.y == -1) {
+			return 180;
+		}
+		
+		if (this.normal.x == -1) {
+			return 270;
+		}
+		
+		return 0;
+	}
+	
+	private float getAngleRadian() {
+		return (float) Math.toRadians(this.getNormalAngle());
 	}
 	
 	@Override

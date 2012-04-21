@@ -36,10 +36,16 @@ public class Galaxy {
 		this.addPlanet(2, 1);
 	}
 	
-	private Planet addPlanet(int x, int y) {
-		Planet planet = new Planet(x, y);
-		this.planets.put(planet.getGalaxyPoint(), planet);
-		TinyWorld.get().addGameItem(planet);
+	public Planet addPlanet(int x, int y) {
+		this.comparePoint.x = x;
+		this.comparePoint.y = y;
+		Planet planet = null;
+		if (!this.planets.containsKey(this.comparePoint)) {
+			planet = new Planet(x, y);
+			this.planets.put(planet.getGalaxyPoint(), planet);
+			TinyWorld.get().addGameItem(planet);
+		}
+		
 		return planet;
 	}
 
@@ -47,9 +53,21 @@ public class Galaxy {
 		return this.startPlanet;
 	}
 	
+	public Point getGalaxyCoordinate(float x, float y) {
+		float shiftX = x + TILESIZE / 2f;
+		float shiftY = y + TILESIZE / 2f;
+		
+		Point point = new Point();
+		point.setX((int)Math.floor(shiftX / TILESIZE));
+		point.setY((int)Math.floor(shiftY / TILESIZE));
+		
+		return point;
+	}
+	
 	public Planet[] getAroundPlanetsFromGamePosition(float x, float y) {
 		float shiftX = x + TILESIZE / 2f;
 		float shiftY = y + TILESIZE / 2f;
+		// No point creation by calling getGalaxyCoordinate for optim
 		return this.getAroundPlanets((int)Math.floor(shiftX / TILESIZE), (int)Math.floor(shiftY / TILESIZE));
 	}
 	
