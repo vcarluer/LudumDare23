@@ -10,37 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class GameItem extends Actor {
 	protected Sprite sprite;
-	protected int worldX;
-	protected int worldY;
+	protected Point galaxyPoint;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
 		this.height = this.getReferenceHeight();
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + worldX;
-		result = prime * result + worldY;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		GameItem other = (GameItem) obj;
-		if (worldX != other.worldX)
-			return false;
-		if (worldY != other.worldY)
-			return false;
-		return true;
+		this.galaxyPoint = new Point();
 	}
 
 	public void draw(SpriteBatch batch, float parentAlpha) {
@@ -58,4 +33,8 @@ public abstract class GameItem extends Actor {
 	
 	protected abstract float getRefereceWidth();
 	protected abstract float getReferenceHeight();
+	
+	public Point getGalaxyPoint() {
+		return this.galaxyPoint;
+	}
 }

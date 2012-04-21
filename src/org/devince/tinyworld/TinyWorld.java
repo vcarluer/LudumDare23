@@ -3,7 +3,7 @@ package org.devince.tinyworld;
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
-import org.devince.tinyworld.world.World;
+import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -19,7 +19,7 @@ public class TinyWorld extends Game {
 	public static final int HEIGHT = 600;
 	
 	private Stage stage;
-	private World world;
+	private Galaxy world;
 	private Player player;
 	
 	private OrthographicCamera cam;
@@ -40,7 +40,7 @@ public class TinyWorld extends Game {
 		this.stage = new Stage(WIDTH, HEIGHT, true);
 		Gdx.input.setInputProcessor(this.stage);
 		
-		this.world = new World();
+		this.world = new Galaxy();
 		
 		this.player = new Player(0, 0);
 		this.addGameItem(this.player);
