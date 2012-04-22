@@ -5,6 +5,7 @@ import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -47,7 +48,11 @@ public class Player extends GameItem implements IHurtable {
 	private float invincibleElapsed;
 	private Texture invTexture;
 	private boolean isPlayer;
-
+	
+	// sounds
+	private Sound sndCreate;
+	private Sound sndHurt;
+	
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
 		this.x = x;
@@ -61,6 +66,8 @@ public class Player extends GameItem implements IHurtable {
 		
 		this.life = START_LIFE;
 		this.invTexture = new Texture(Gdx.files.internal("data/playerinv.png"));
+		this.sndCreate = this.sndLoad("data/createplan.wav");
+		this.sndHurt = this.sndLoad("data/hurt.wav");
 	}
 	
 	protected String getSpritePath() {
@@ -306,6 +313,7 @@ public class Player extends GameItem implements IHurtable {
 			Point pt = TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.x + vct.x, this.y + vct.y);
 			
 			TinyWorld.get().getGalaxy().addPlanet(pt.x, pt.y);
+			this.sndCreate.play();
 		}
 		
 		this.createBlock = false;
@@ -605,6 +613,10 @@ public class Player extends GameItem implements IHurtable {
 	public void hurt(GameItem from) {
 		if (!this.isInvincible) {
 			this.life--;
+			if (this.isPlayer) {
+				this.sndHurt.play();
+			}
+			
 			FadeOut fo = FadeOut.$(0.1f);
 			FadeIn fi = FadeIn.$(0.1f);
 			Sequence seq = Sequence.$(fo, fi);

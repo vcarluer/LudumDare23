@@ -2,6 +2,7 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 
 public class AlienShooter extends Alien {
@@ -13,12 +14,15 @@ public class AlienShooter extends Alien {
 	private Player player;
 	private Vector2 dir;
 	
+	private Sound sndShoot;
+	
 	public AlienShooter(float x, float y) {
 		super(x, y);
 		this.player = TinyWorld.get().getPlayer();
 		this.shooter = new Shooter(this.player);
 		this.shootDelta = this.getShootDelta();
 		this.dir = new Vector2();
+		this.sndShoot = this.sndLoad("data/enshoot.wav");
 	}
 	
 	@Override
@@ -36,6 +40,7 @@ public class AlienShooter extends Alien {
 			
 			this.shooter.setPosition(this.x + this.dir.x, this.y + this.dir.y);
 			this.shooter.shoot();
+			this.sndShoot.play();
 			this.shootElapsed = 0;
 			this.shootDelta = this.getShootDelta();
 		}

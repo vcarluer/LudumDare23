@@ -4,6 +4,7 @@ import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,11 @@ public class Planet extends GameItem implements IHurtable {
 	protected boolean primary;
 	protected int life;
 	private Sprite backSprite;
+	
+	// sounds
+	private Sound sndExtDestroy;
+	private Sound sndPlanetExplose;
+	private Sound sndPlanetHurt;
 
 	public Planet(int x, int y, boolean primary) {
 		if (!primary) {
@@ -54,6 +60,10 @@ public class Planet extends GameItem implements IHurtable {
 			this.rotation = 270f;
 			break;
 		}
+		
+		this.sndExtDestroy = this.sndLoad("data/extdestroy.wav");
+		this.sndPlanetExplose = this.sndLoad("data/planetexplose.wav");
+		this.sndPlanetHurt = this.sndLoad("data/planethurt.wav");
 	}
 	
 	protected boolean getPrimary() {
@@ -130,7 +140,14 @@ public class Planet extends GameItem implements IHurtable {
 			
 			
 			if (this.life <= 0) {
+				if (this.primary) {
+					this.sndPlanetExplose.play();
+				} else {
+					this.sndExtDestroy.play();
+				}
 				TinyWorld.get().getGalaxy().removePlanet(this);
+			} else {
+				this.sndPlanetHurt.play();
 			}
 		}
 	}

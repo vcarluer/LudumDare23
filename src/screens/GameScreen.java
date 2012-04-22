@@ -5,6 +5,7 @@ import org.devince.tinyworld.TinyWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,6 +17,7 @@ public class GameScreen implements Screen {
 	private BitmapFont font;
 	private BitmapFont fontGO;
 	private SpriteBatch batch;
+	private Sound sndSelect;
 	
 	public GameScreen() {				
 		this.font = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
@@ -24,6 +26,7 @@ public class GameScreen implements Screen {
 		this.fontGO.setColor(Color.GREEN);
 		this.fontGO.setScale(2f);
 		this.batch = new SpriteBatch();
+		this.sndSelect = Gdx.audio.newSound(Gdx.files.internal("data/select.wav"));
 	}
 	
 	@Override
@@ -55,6 +58,7 @@ public class GameScreen implements Screen {
 				fontGO.draw(this.batch, "PRESS ANY KEY", 50, TinyWorld.HEIGHT / 2f - 75f);
 				if (Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
 					this.cumDelta = 0;
+					this.sndSelect.play();
 					TinyWorld.get().restart();
 				}
 			}

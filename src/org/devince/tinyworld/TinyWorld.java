@@ -13,6 +13,7 @@ import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
 import org.devince.tinyworld.items.ShootGenerator;
+import org.devince.tinyworld.items.Star;
 import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
 
@@ -20,8 +21,11 @@ import screens.GameScreen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -54,6 +58,9 @@ public class TinyWorld extends Game {
 	public static int TIER1 = 5;
 	public static int TIER2 = 10;
 	
+	private List<Star> stars;
+	private SpriteBatch batch;
+	
 	public static TinyWorld get() {
 		if (game == null) {
 			game = new TinyWorld();
@@ -68,6 +75,9 @@ public class TinyWorld extends Game {
 	
 	public void create() {
 		this.setScreen(new GameScreen());
+		Music music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
+		music.setLooping(true);
+		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
 		this.handled = new HashMap<UUID, GameItem>();
@@ -83,6 +93,10 @@ public class TinyWorld extends Game {
 		
 		this.viewPort = new Rectangle();
 		this.gamePort = new Rectangle();
+		
+		this.stars = new ArrayList<Star>();
+		this.batch = new SpriteBatch();
+		
 		this.init();
 	}
 	
@@ -124,6 +138,8 @@ public class TinyWorld extends Game {
 		this.stage.setKeyboardFocus(this.player);
 		this.handleContacts();
 		this.stage.act(Gdx.graphics.getDeltaTime());
+		
+		this.renderStars();
 		this.galaxy.drawBack();
 		this.stage.draw();
 		super.render();
@@ -306,6 +322,25 @@ public class TinyWorld extends Game {
 		
 		this.shootGenerator = new ShootGenerator();
 		this.stage.addActor(this.shootGenerator);
+		
+		this.stars.clear();
+		for (int i = 0; i < 150; i++) {
+			float x = (- WIDTH) + (int)(Math.random() * WIDTH * 2) + this.player.x; 
+			float y = (- HEIGHT) + (int)(Math.random() * HEIGHT * 2) + this.player.y;
+			Star s = new Star(x, y, new Texture("data/star.png"));
+			this.stars.add(s);
+		}
+	}
+	
+	private void renderStars() {
+		this.batch.setProjectionMatrix(this.cam.combined);
+		this.batch.begin();
+		for(Star s : this.stars) {
+			s.getBaseSprite().setPosition(s.x, s.y);
+			s.getBaseSprite().draw(this.batch);
+		}
+		
+		this.batch.end();
 	}
 
 	public int getItemsCount() {

@@ -2,11 +2,15 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
 
+import com.badlogic.gdx.audio.Sound;
+
 public class Alien extends Player {
 
 	private static final int START_LIFE = 1;
 	private static final float MAX_VELOCITY = 1f;
 	private static final float BASE_VELOCITY = 0.2f;
+	
+	private Sound sndEnenmyHurt;
 
 	public Alien(float x, float y) {
 		super(x, y);
@@ -25,6 +29,14 @@ public class Alien extends Player {
 		} else {
 			this.direction = LEFT;
 		}
+		
+		this.sndEnenmyHurt = this.sndLoad("data/enhurt.wav");
+	}
+
+	@Override
+	public void hurt(GameItem from) {
+		this.sndEnenmyHurt.play();
+		super.hurt(from);
 	}
 
 	@Override

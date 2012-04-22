@@ -2,12 +2,14 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Invincibility extends GameItem {
-
+	private Sound sndInv;
 	public Invincibility() {
 		this.setSprite("data/invincible.png");
+		this.sndInv = this.sndLoad("data/inv.wav");
 	}
 	
 	@Override
@@ -24,6 +26,7 @@ public class Invincibility extends GameItem {
 	public void handleContact(GameItem item) {
 		if (item == TinyWorld.get().getPlayer()) {
 			TinyWorld.get().getPlayer().startInvincible();
+			this.sndInv.play();
 			this.destroy();
 		}
 	}

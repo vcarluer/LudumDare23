@@ -2,12 +2,14 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Life extends GameItem {
-	
+	private Sound sndLife;
 	public Life() {
 		this.setSprite("data/life.png");
+		this.sndLife = this.sndLoad("data/life.wav");
 	}
 	
 	@Override
@@ -30,6 +32,7 @@ public class Life extends GameItem {
 	public void handleContact(GameItem item) {
 		if (item == TinyWorld.get().getPlayer()) {
 			TinyWorld.get().getPlayer().addLife();
+			this.sndLife.play();
 			this.destroy();
 		}
 	}

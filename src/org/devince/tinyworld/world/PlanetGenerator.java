@@ -11,6 +11,7 @@ import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
 import org.devince.tinyworld.items.Sun;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class PlanetGenerator extends GameItem {
@@ -27,10 +28,12 @@ public class PlanetGenerator extends GameItem {
 	
 	private float spawnDeltaItem;
 	private float spawnTimeItem;
+	private Sound sndCreate;
 	
 	public PlanetGenerator() {
 		this.spawnDelta = SPAWN_MAX;
 		this.spawnDeltaItem = SPAWN_MAX_ITEM;
+		this.sndCreate = this.sndLoad("data/spawn.wav");
 	}
 	
 	private float getSpawnDelta() {
@@ -92,6 +95,7 @@ public class PlanetGenerator extends GameItem {
 		if (this.spawnTime > this.spawnDelta) {
 			if (free == null) {
 				planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
+				this.sndCreate.play();
 			} else {
 				planet = free;
 			}

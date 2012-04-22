@@ -5,7 +5,9 @@ import java.util.UUID;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.world.Galaxy;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -172,5 +174,13 @@ public abstract class GameItem extends Actor {
 	
 	public boolean getEnable() {
 		return this.enable;
+	}
+	
+	public Sprite getBaseSprite() {
+		return this.sprite;
+	}
+	
+	protected Sound sndLoad(String path) {
+		return Gdx.audio.newSound(Gdx.files.internal(path));
 	}
 }
