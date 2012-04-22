@@ -15,13 +15,24 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class PlanetGenerator extends GameItem {
 	private static final int SPAWN_RADIUS = 5;
 	private static final int MAX_ALIEN = 10;
+	private static float SPAWN_MAX = 2f; 
+	private static float SPAWN_BASE = 6f;
 	private float spawnDelta;
 	private float spawnTime;
 	
 	public PlanetGenerator() {
-		this.spawnDelta = 2f;
+		this.spawnDelta = this.getSpawnDelta();
 	}
 	
+	private float getSpawnDelta() {
+		float delta = SPAWN_BASE - (TinyWorld.get().getLevel() / 3f);
+		if (delta > SPAWN_MAX) {
+			delta = SPAWN_MAX;
+		}
+		
+		return delta;
+	}
+
 	@Override
 	protected float getRefereceWidth() {
 		return 0;
@@ -80,6 +91,7 @@ public class PlanetGenerator extends GameItem {
 				this.randomItem(planet);
 				
 				this.spawnTime = 0;
+				this.spawnDelta = this.getSpawnDelta();
 			}
 		}
 	}
