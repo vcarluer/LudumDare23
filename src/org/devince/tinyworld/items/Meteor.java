@@ -15,6 +15,13 @@ public class Meteor extends Shoot {
 		this.height = METEOR_SIZE;
 		
 		this.life = LIFE;
+		if (TinyWorld.get().isTier1()) {
+			this.life++;
+		}
+		
+		if (TinyWorld.get().isTier2()) {
+			this.life++;
+		}
 	}
 	
 	@Override

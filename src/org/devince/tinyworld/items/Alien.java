@@ -11,6 +11,13 @@ public class Alien extends Player {
 	public Alien(float x, float y) {
 		super(x, y);
 		this.life = START_LIFE;
+		if (TinyWorld.get().isTier1()) {
+			this.life++;
+		}
+		
+		if (TinyWorld.get().isTier2()) {
+			this.life++;
+		}
 		
 		double dir = Math.random();
 		if (dir < 0.5f) {

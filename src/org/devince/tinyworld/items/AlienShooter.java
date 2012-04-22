@@ -5,7 +5,8 @@ import org.devince.tinyworld.TinyWorld;
 import com.badlogic.gdx.math.Vector2;
 
 public class AlienShooter extends Alien {
-	private static final float SHOOT_DELTA = 2f;
+	private static final float SHOOT_DELTA = 1f;
+	private static final float MIN_DELTA = 0.5f;
 	private Shooter shooter;
 	private float shootDelta;
 	private float shootElapsed;
@@ -42,7 +43,11 @@ public class AlienShooter extends Alien {
 	}
 	
 	private float getShootDelta() {
-		return (float) (1 + SHOOT_DELTA * Math.random());
+		float d = (float) (1 + SHOOT_DELTA * Math.random()) * (3 / TinyWorld.get().getLevel());
+		if (d < MIN_DELTA) {
+			d = MIN_DELTA;
+		}
+		return d;
 	}
 
 }

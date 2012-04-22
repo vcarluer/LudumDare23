@@ -7,7 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Shoot extends GameItem {
 	public static float SIZE = 4f;
-	private static final float VELOCITY = 100f;
+	private static final float MAX_VELOCITY = 100f;
+	private static final float BASE_VELOCITY = 10f;
 	private static float LIFE_TIME = 3f;
 	private float elapasedTime;
 	// Normalized target
@@ -41,16 +42,25 @@ public class Shoot extends GameItem {
 
 	@Override
 	public void act(float delta) {
-		this.elapasedTime += delta;
-		if (this.elapasedTime > LIFE_TIME) {
+		if (!TinyWorld.get().getGamePort().overlaps(this.getBoundingBox())) {
 			TinyWorld.get().addItemToRemove(this);
 			return;
 		}
-		float x = this.norTarget.x * delta * VELOCITY;
-		float y = this.norTarget.y * delta * VELOCITY;
+		
+		float x = this.norTarget.x * delta * this.getVelocity();
+		float y = this.norTarget.y * delta * this.getVelocity();
 		this.x += x;
 		this.y += y;
 		super.act(delta);
+	}
+
+	private float getVelocity() {
+		float vel = TinyWorld.get().getLevel() * BASE_VELOCITY;
+		if (vel > MAX_VELOCITY) {
+			vel = MAX_VELOCITY;
+		}
+		
+		return vel;
 	}
 
 	@Override

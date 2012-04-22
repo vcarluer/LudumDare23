@@ -4,6 +4,7 @@ import org.devince.tinyworld.TinyWorld;
 
 public class ShootGenerator extends Shooter {
 	private static final float SHOOT_DELTA = 2f;
+	private static final float MIN_DELTA = 1f;
 	private float shootDelta;
 	private float shootElapsed;
 	
@@ -14,21 +15,30 @@ public class ShootGenerator extends Shooter {
 	
 	public ShootGenerator(GameItem target) {
 		super(target);
-		this.shootDelta = SHOOT_DELTA;
+		this.shootDelta = this.getShootDelta();
+	}
+
+	private float getShootDelta() {
+		float d = (float) (1 + SHOOT_DELTA * Math.random()) * (10 / TinyWorld.get().getLevel());
+		if (d < MIN_DELTA) {
+			d = MIN_DELTA;
+		}
+		return d;
 	}
 
 	@Override
 	public void act(float delta) {
 		// Always place upper corner
 		
-		float x = this.target.x - (TinyWorld.WIDTH / 2f * TinyWorld.get().getZoom());
-		float y = this.target.y + (TinyWorld.HEIGHT / 2f * TinyWorld.get().getZoom());
+		float x = TinyWorld.get().getViewPort().x;
+		float y = TinyWorld.get().getViewPort().y + TinyWorld.get().getViewPort().height;
 		this.setPosition(x, y);
 		
 		this.shootElapsed += delta;
 		if (this.shootElapsed > this.shootDelta) {
 			this.shoot();
 			this.shootElapsed = 0f;
+			this.shootDelta = this.getShootDelta();
 		}
 		
 		super.act(delta);

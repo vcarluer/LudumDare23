@@ -1,5 +1,7 @@
 package org.devince.tinyworld.items;
 
+import org.devince.tinyworld.TinyWorld;
+
 public class Sun extends Planet {
 
 	public Sun(int x, int y) {
@@ -17,6 +19,12 @@ public class Sun extends Planet {
 		if (item instanceof Player) {
 			Player p = (Player) item;
 			p.hurt(this);
+			if (TinyWorld.get().isTier1()) {
+				p.hurt(this);
+			}
+			if (TinyWorld.get().isTier2()) {
+				p.hurt(this);
+			}
 		}
 		
 		super.handleContact(item);

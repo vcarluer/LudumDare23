@@ -16,7 +16,7 @@ public class Player extends GameItem implements IHurtable {
 	private static final int NONE = 0;
 	protected static final int ACCELERATION_BASE = 5;
 	private static final float DAMP = 0.9f;
-	private static final float MAX_VELOCITY = 2f;
+	private static final float MAX_VELOCITY = 1.1f;
 	private static final float SCALE_VELOCITY = 0.02f;
 	private static final int UP = 1;
 	private static final int DOWN = -1;
@@ -244,7 +244,16 @@ public class Player extends GameItem implements IHurtable {
 	}
 
 	protected float getMaxVelocity() {
-		return MAX_VELOCITY;
+		float max = MAX_VELOCITY;
+		if (TinyWorld.get().isTier1()) {
+			max += 0.1f;
+		}
+		
+		if (TinyWorld.get().isTier2()) {
+			max += 0.1f;
+		}
+		
+		return max;
 	}
 
 	private void createBlock(Planet[] around) {

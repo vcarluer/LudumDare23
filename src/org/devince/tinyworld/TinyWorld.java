@@ -18,6 +18,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TinyWorld extends Game {
@@ -41,7 +42,11 @@ public class TinyWorld extends Game {
 	private HashMap<UUID, GameItem> handled;
 	private int level;
 	private int score;
+	private Rectangle viewPort;
+	private Rectangle gamePort;
 	
+	public static int TIER1 = 5;
+	public static int TIER2 = 10;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -56,9 +61,12 @@ public class TinyWorld extends Game {
 	}
 	
 	public void create() {
+		this.level = 1;
+		
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
 		this.handled = new HashMap<UUID, GameItem>();
+		
 		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
@@ -75,15 +83,35 @@ public class TinyWorld extends Game {
 		
 		this.setPlayerOnPlanet(this.galaxy.getStartPlanet());
 		
+		this.viewPort = new Rectangle();
+		this.createViewPort();
+		this.gamePort = new Rectangle();
+		this.constructGamePort();
+		
 		this.planetGenerator = new PlanetGenerator();
 		this.stage.addActor(this.planetGenerator);
 		
 		this.shootGenerator = new ShootGenerator();
 		this.stage.addActor(this.shootGenerator);
 		
-		this.level = 1;
+		
 	}
 	
+	private void createViewPort() {
+		this.viewPort.set(
+				this.player.x - (WIDTH / 2f * this.getZoom()), 
+				this.player.y - (HEIGHT / 2f * this.getZoom()),
+				WIDTH * this.getZoom(), 
+				HEIGHT * this.getZoom());
+	}
+
+	private void constructGamePort() {
+		this.gamePort.set(this.viewPort.x - 50, 
+				this.viewPort.y - 50,
+				this.viewPort.width + 100, 
+				this.viewPort.height + 100);
+	}
+
 	public void render() {
 		if (this.player.getLife() <= 0) {
 			this.setGameOver();
@@ -98,6 +126,8 @@ public class TinyWorld extends Game {
 		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		this.createViewPort();
+		this.constructGamePort();
 		this.cam.position.set(this.player.x, this.player.y, 0);
 		this.cam.update();
 		this.cam.apply(Gdx.gl10);
@@ -220,5 +250,29 @@ public class TinyWorld extends Game {
 
 	public void addScore(int score) {
 		this.score += score;
+		
+		if (this.score % 1 == 0) {
+			this.level++;
+		}
+	}
+	
+	public Rectangle getViewPort() {
+		return this.viewPort;
+	}
+	
+	public Rectangle getGamePort() {
+		return this.gamePort;
+	}
+
+	public boolean isTier1() {
+		return this.level >= TIER1;
+	}
+	
+	public boolean isTier2() {
+		return this.level >= TIER2;
+	}
+	
+	public int getScore() {
+		return this.score;
 	}
 }

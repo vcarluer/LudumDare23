@@ -23,6 +23,13 @@ public class Planet extends GameItem implements IHurtable {
 		this.y = this.galaxyPoint.getY() * Galaxy.TILESIZE;
 		
 		this.life = this.getMaxLife();
+		if (TinyWorld.get().isTier1()) {
+			this.life--;
+		}
+		
+		if (TinyWorld.get().isTier2()) {
+			this.life--;
+		}
 	}
 	
 	protected int getMaxLife() {
