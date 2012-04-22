@@ -23,6 +23,7 @@ public class Player extends GameItem implements IHurtable {
 	private static final float MAX_SCALE = 1.1f;
 	private static final float MIN_SCALE = 0.9f;
 	private static final int START_LIFE = 3;
+	private static final float INVINCIBLE_TIME = 5f;
 	private int direction;
 	private float scale;
 	
@@ -33,6 +34,8 @@ public class Player extends GameItem implements IHurtable {
 	private int facing;
 	private int scaleDirection;
 	protected int life;
+	private boolean isInvincible;
+	private float invincibleElapsed;
 
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
@@ -111,6 +114,13 @@ public class Player extends GameItem implements IHurtable {
 		// Create block action
 		if (this.createBlock) {
 			this.createBlock(currentAround);
+		}
+		
+		if (this.isInvincible) {
+			this.invincibleElapsed += delta;
+			if (this.invincibleElapsed > INVINCIBLE_TIME) {
+				this.isInvincible = false;
+			}
 		}
 		
 		// kill Alien
@@ -225,8 +235,8 @@ public class Player extends GameItem implements IHurtable {
 	}
 	
 	private void kill() {
-		this.life = 1;
-		this.hurt(null);
+		this.life = 0;
+		TinyWorld.get().addItemToRemove(this);
 	}
 
 	protected float getMaxVelocity() {
@@ -610,14 +620,16 @@ public class Player extends GameItem implements IHurtable {
 	}
 
 	public void hurt(GameItem from) {
-		this.life--;
-		if (from != null) {
-			this.acceleration.x *= -1;
-			this.velocity.x *= -1 * MAX_VELOCITY;
-		}
-		
-		if (this.life <= 0) {
-			TinyWorld.get().addItemToRemove(this);
+		if (!this.isInvincible) {
+			this.life--;
+			if (from != null) {
+				this.acceleration.x *= -1;
+				this.velocity.x *= -1 * MAX_VELOCITY;
+			}
+			
+			if (this.life <= 0) {
+				TinyWorld.get().addItemToRemove(this);
+			}
 		}
 	}
 
@@ -637,5 +649,10 @@ public class Player extends GameItem implements IHurtable {
 
 	public void addLife() {
 		this.life++;
+	}
+
+	public void startInvincible() {
+		this.isInvincible = true;
+		this.invincibleElapsed = 0f;
 	}
 }
