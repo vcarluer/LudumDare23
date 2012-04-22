@@ -1,5 +1,8 @@
 package org.devince.tinyworld;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
@@ -27,6 +30,9 @@ public class TinyWorld extends Game {
 	
 	private OrthographicCamera cam;
 	
+	private List<GameItem> items;
+	private List<GameItem> itemsToRemove;
+	
 	public static TinyWorld get() {
 		if (game == null) {
 			game = new TinyWorld();
@@ -36,6 +42,9 @@ public class TinyWorld extends Game {
 	}
 	
 	public void create() {
+		this.items = new ArrayList<GameItem>();
+		this.itemsToRemove = new ArrayList<GameItem>();
+		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
 		this.cam.zoom = DEFAULT_ZOOM;
@@ -56,6 +65,17 @@ public class TinyWorld extends Game {
 	}
 	
 	public void render() {
+		if (this.player.getLife() <= 0) {
+			this.setGameOver();
+		}
+		
+		for(GameItem item : this.itemsToRemove) {
+			this.items.remove(item);
+			this.stage.removeActor(item);
+		}
+		
+		this.itemsToRemove.clear();
+		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		this.cam.position.set(this.player.x, this.player.y, 0);
@@ -64,8 +84,21 @@ public class TinyWorld extends Game {
 		
 		this.stage.setKeyboardFocus(this.player);
 		this.stage.act(Gdx.graphics.getDeltaTime());
+		this.handleContacts();
 		this.stage.draw();
 		super.render();
+	}
+
+	private void handleContacts() {
+		for(GameItem item : this.items) {
+			for(GameItem item2 : this.items) {
+				if (item != item2) {
+					if (item.getBoundingBox().overlaps(item2.getBoundingBox())) {
+						item.handleContact(item2);
+					}
+				}
+			}
+		}
 	}
 
 	public void resize(int width, int height) {
@@ -76,11 +109,12 @@ public class TinyWorld extends Game {
 	public void addGameItem(GameItem item) {
 		// to add in render
 		this.stage.addActor(item);
+		this.items.add(item);
 	}
 	
 	public void addGameItemOnPlanet(GameItem item, Planet planet) {
 		// to add in render
-		this.stage.addActor(item);
+		this.addGameItem(item);
 		this.setItemOnPlanet(planet, item);
 	}
 	
@@ -107,5 +141,9 @@ public class TinyWorld extends Game {
 
 	public Player getPlayer() {
 		return this.player;
+	}
+
+	public void addItemToRemove(GameItem item) {
+		this.itemsToRemove.add(item);
 	}
 }

@@ -22,6 +22,17 @@ public class Alien extends Player {
 	}
 
 	@Override
+	public void handleContact(GameItem item) {
+		if (item instanceof Player) {
+			Player p = (Player) item;
+			p.hurt(this);
+			this.hurt(p);
+		}
+		
+		super.handleContact(item);
+	}
+
+	@Override
 	protected float getMaxVelocity() {
 		return MAX_VELOCITY;
 	}

@@ -112,10 +112,6 @@ public class Player extends GameItem {
 			bottom.handleContact(this);
 		}
 		
-		if (this.life <= 0) {
-			TinyWorld.get().setGameOver();
-		}
-		
 		// Create block action
 		if (this.createBlock) {
 			this.createBlock(currentAround);
@@ -610,12 +606,20 @@ public class Player extends GameItem {
 			this.acceleration.x *= -1;
 			this.velocity.x *= -1 * MAX_VELOCITY;
 		}
+		
+		if (this.life <= 0) {
+			TinyWorld.get().addItemToRemove(this);
+		}
 	}
 
 	@Override
 	public Point getGalaxyPoint() {
 		TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.galaxyPoint, this.x, this.y);
 		return super.getGalaxyPoint();
+	}
+
+	public int getLife() {
+		return this.life;
 	}
 
 }
