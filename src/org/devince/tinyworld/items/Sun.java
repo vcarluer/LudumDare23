@@ -6,7 +6,6 @@ public class Sun extends Planet {
 
 	public Sun(int x, int y) {
 		super(x, y);
-		this.primary = true;
 	}
 
 	@Override
@@ -30,5 +29,8 @@ public class Sun extends Planet {
 		super.handleContact(item);
 	}
 	
-	
+	 @Override
+	 protected boolean getPrimary() {
+		return true;
+	}
 }

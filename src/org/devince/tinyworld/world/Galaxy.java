@@ -8,6 +8,8 @@ import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Point;
 import org.devince.tinyworld.items.Sun;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class Galaxy {
 	public static final int TILESIZE = 16;
 	public final static int NONE = -1;
@@ -27,10 +29,12 @@ public class Galaxy {
 	private HashMap<Point, Planet> planets;
 	private Planet startPlanet;
 	private Point comparePoint;
+	private SpriteBatch batch;
 	
 	public Galaxy() {
 		this.planets = new HashMap<Point, Planet>();
 		this.comparePoint = new Point();
+		this.batch = new SpriteBatch();
 	}
 
 	public void initWorld() {
@@ -132,5 +136,15 @@ public class Galaxy {
 	public void reset() {
 		this.planets.clear();
 		this.startPlanet = null;
+	}
+	
+	public void drawBack() {
+		this.batch.begin();
+		this.batch.setProjectionMatrix(TinyWorld.get().getCamera().combined);
+		for(Planet planet : this.planets.values()) {
+			planet.drawBack(this.batch);
+		}
+		
+		this.batch.end();
 	}
 }
