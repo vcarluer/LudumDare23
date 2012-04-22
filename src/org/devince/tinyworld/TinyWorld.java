@@ -14,6 +14,8 @@ import org.devince.tinyworld.items.ShootGenerator;
 import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
 
+import screens.GameScreen;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -44,6 +46,7 @@ public class TinyWorld extends Game {
 	private int score;
 	private Rectangle viewPort;
 	private Rectangle gamePort;
+	private boolean gameOver;
 	
 	public static int TIER1 = 5;
 	public static int TIER2 = 10;
@@ -61,12 +64,10 @@ public class TinyWorld extends Game {
 	}
 	
 	public void create() {
-		this.level = 1;
-		
+		this.setScreen(new GameScreen());
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
 		this.handled = new HashMap<UUID, GameItem>();
-		
 		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
@@ -76,28 +77,13 @@ public class TinyWorld extends Game {
 		Gdx.input.setInputProcessor(this.stage);
 		
 		this.galaxy = new Galaxy();
-		this.galaxy.initWorld();
-		
-		this.player = new Player(0, 0);
-		this.addGameItem(this.player);
-		
-		this.setPlayerOnPlanet(this.galaxy.getStartPlanet());
 		
 		this.viewPort = new Rectangle();
-		this.createViewPort();
 		this.gamePort = new Rectangle();
-		this.constructGamePort();
-		
-		this.planetGenerator = new PlanetGenerator();
-		this.stage.addActor(this.planetGenerator);
-		
-		this.shootGenerator = new ShootGenerator();
-		this.stage.addActor(this.shootGenerator);
-		
-		
+		this.init();
 	}
 	
-	private void createViewPort() {
+	private void constructViewPort() {
 		this.viewPort.set(
 				this.player.x - (WIDTH / 2f * this.getZoom()), 
 				this.player.y - (HEIGHT / 2f * this.getZoom()),
@@ -124,9 +110,9 @@ public class TinyWorld extends Game {
 		
 		this.itemsToRemove.clear();
 		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		this.createViewPort();
+		this.constructViewPort();
 		this.constructGamePort();
 		this.cam.position.set(this.player.x, this.player.y, 0);
 		this.cam.update();
@@ -223,6 +209,7 @@ public class TinyWorld extends Game {
 
 	public void setGameOver() {
 		this.stage.removeActor(this.player);
+		this.gameOver = true;
 	}
 
 	public Player getPlayer() {
@@ -274,5 +261,40 @@ public class TinyWorld extends Game {
 	
 	public int getScore() {
 		return this.score;
+	}
+
+	public boolean isGameOver() {
+		return this.gameOver;
+	}
+
+	public void restart() {
+		this.init();
+	}
+	
+	private void init() {
+		this.level = 1;
+		this.gameOver = false;
+		
+		this.items.clear();
+		this.itemsToRemove.clear();
+				
+		this.stage.clear();
+		
+		this.galaxy.reset();
+		this.galaxy.initWorld();
+		
+		this.player = new Player(0, 0);
+		this.addGameItem(this.player);
+		
+		this.setPlayerOnPlanet(this.galaxy.getStartPlanet());
+		
+		this.constructViewPort();
+		this.constructGamePort();
+		
+		this.planetGenerator = new PlanetGenerator();
+		this.stage.addActor(this.planetGenerator);
+		
+		this.shootGenerator = new ShootGenerator();
+		this.stage.addActor(this.shootGenerator);
 	}
 }

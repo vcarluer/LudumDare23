@@ -128,4 +128,9 @@ public class Galaxy {
 		TinyWorld.get().addItemToRemove(planet);
 		
 	}
+
+	public void reset() {
+		this.planets.clear();
+		this.startPlanet = null;
+	}
 }
