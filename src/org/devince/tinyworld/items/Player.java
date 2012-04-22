@@ -30,7 +30,7 @@ public class Player extends GameItem implements IHurtable {
 	
 	protected Vector2 acceleration;
 	private Vector2 velocity;
-	private Vector2 normal;
+	
 	private boolean createBlock ;
 	private int facing;
 	private int scaleDirection;
@@ -45,7 +45,7 @@ public class Player extends GameItem implements IHurtable {
 		
 		this.acceleration = new Vector2();
 		this.velocity = new Vector2();
-		this.normal = new Vector2(0, 1);
+		
 		this.scaleDirection = UP;
 		this.scale = 1;
 		
@@ -314,46 +314,6 @@ public class Player extends GameItem implements IHurtable {
 			this.x = this.getMiddleX(planet) + this.getTX(planet.width / 2f - this.width / 2f);
 			this.y = this.getMiddleY(planet) + this.getTY(planet.height / 2f - this.width / 2f);
 		}
-	}
-	
-	private float getMiddleX(Planet planet) {
-		if (this.normal.y == 1) {
-			return planet.x;
-		}
-		
-		if (this.normal.x == 1) {
-			return planet.x + planet.width / 2f + this.width / 2f;
-		}
-		
-		if (this.normal.y == -1) {
-			return planet.x;
-		}
-		
-		if (this.normal.x == -1) {
-			return planet.x - planet.width / 2f - this.width / 2f;
-		}
-		
-		return 0;
-	}
-	
-	private float getMiddleY(Planet planet) {
-		if (this.normal.y == 1) {
-			return planet.y + planet.height / 2f + this.height / 2f;
-		}
-		
-		if (this.normal.x == 1) {
-			return planet.y;
-		}
-		
-		if (this.normal.y == -1) {
-			return planet.y - planet.height / 2f - this.height / 2f;
-		}
-		
-		if (this.normal.x == -1) {
-			return planet.y;
-		}
-		
-		return 0;
 	}
 	
 	private void changeNormal(boolean cc) {

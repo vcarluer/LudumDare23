@@ -3,12 +3,14 @@ package org.devince.tinyworld.items;
 import java.util.UUID;
 
 import org.devince.tinyworld.TinyWorld;
+import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class GameItem extends Actor {
@@ -16,6 +18,7 @@ public abstract class GameItem extends Actor {
 	protected Point galaxyPoint;
 	protected Rectangle boundingBox;
 	private UUID uid;
+	protected Vector2 normal;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
@@ -23,6 +26,7 @@ public abstract class GameItem extends Actor {
 		this.galaxyPoint = new Point();
 		this.boundingBox = new Rectangle();
 		this.setUid(UUID.randomUUID());
+		this.normal = new Vector2(0, 1);
 	}
 
 	public void draw(SpriteBatch batch, float parentAlpha) {
@@ -73,5 +77,66 @@ public abstract class GameItem extends Actor {
 
 	protected void setUid(UUID uid) {
 		this.uid = uid;
+	}
+	
+	public float getMiddleX(Planet planet) {
+		if (this.normal.y == 1) {
+			return planet.x;
+		}
+		
+		if (this.normal.x == 1) {
+			return planet.x + planet.width / 2f + this.width / 2f;
+		}
+		
+		if (this.normal.y == -1) {
+			return planet.x;
+		}
+		
+		if (this.normal.x == -1) {
+			return planet.x - planet.width / 2f - this.width / 2f;
+		}
+		
+		return 0;
+	}
+	
+	public float getMiddleY(Planet planet) {
+		if (this.normal.y == 1) {
+			return planet.y + planet.height / 2f + this.height / 2f;
+		}
+		
+		if (this.normal.x == 1) {
+			return planet.y;
+		}
+		
+		if (this.normal.y == -1) {
+			return planet.y - planet.height / 2f - this.height / 2f;
+		}
+		
+		if (this.normal.x == -1) {
+			return planet.y;
+		}
+		
+		return 0;
+	}
+	
+	public void setNormal(int direction) {
+		switch (direction) {
+		case Galaxy.TOP:
+			this.normal.x = 0;
+			this.normal.y = 1;
+			break;
+		case Galaxy.RIGHT:
+			this.normal.x = 1;
+			this.normal.y = 0;
+			break;
+		case Galaxy.BOTTOM:
+			this.normal.x = 0;
+			this.normal.y = -1;
+			break;
+		case Galaxy.LEFT:
+			this.normal.x = -1;
+			this.normal.y = 0;
+			break;
+		}
 	}
 }

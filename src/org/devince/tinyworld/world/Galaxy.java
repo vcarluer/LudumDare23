@@ -10,15 +10,18 @@ import org.devince.tinyworld.items.Sun;
 
 public class Galaxy {
 	public static final int TILESIZE = 16;
-	public static int BOTTOM_LEFT = 0;
-	public static int MIDDLE_LEFT = 1;
-	public static int TOP_LEFT = 2;
-	public static int BOTTOM = 3;
-	public static int CENTER = 4;
-	public static int TOP = 5;
-	public static int BOTTOM_RIGHT = 6;
-	public static int MIDDLE_RIGHT = 7;
-	public static int TOP_RIGHT = 8;
+	public final static int NONE = -1;
+	public final static int BOTTOM_LEFT = 0;
+	public final static int MIDDLE_LEFT = 1;
+	public final static int LEFT = 1;
+	public final static int TOP_LEFT = 2;
+	public final static int BOTTOM = 3;
+	public final static int CENTER = 4;
+	public final static int TOP = 5;
+	public final static int BOTTOM_RIGHT = 6;
+	public final static int MIDDLE_RIGHT = 7;
+	public final static int RIGHT = 7;
+	public final static int TOP_RIGHT = 8;
 	
 	
 	private HashMap<Point, Planet> planets;

@@ -9,6 +9,7 @@ import org.devince.tinyworld.items.Alien;
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
+import org.devince.tinyworld.items.Score;
 import org.devince.tinyworld.items.ShootGenerator;
 import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
@@ -150,12 +151,40 @@ public class TinyWorld extends Game {
 	}
 	
 	private void setPlayerOnPlanet(Planet planet) {
-		this.setItemOnPlanet(planet, this.player);
+		this.setItemOnPlanet(planet, this.player, Galaxy.TOP);
+		Score scoreItem = new Score();
+		this.addGameItem(scoreItem);
+		this.setItemOnPlanet(planet, scoreItem, Galaxy.BOTTOM);
 	}
 	
 	private void setItemOnPlanet(Planet planet, GameItem item) {
-		item.x = planet.x;
-		item.y = planet.y + planet.height / 2f + item.height / 2f;
+		this.setItemOnPlanet(planet, item, Galaxy.NONE);
+	}
+	
+	private void setItemOnPlanet(Planet planet, GameItem item, int forceNormal) {
+		int normal = forceNormal;
+		if (forceNormal == Galaxy.NONE) {
+			int direction = (int) Math.floor(Math.random() * 4);
+			
+			switch(direction) {
+				case 0:
+					normal = Galaxy.TOP;
+					break;
+				case 1:
+					normal = Galaxy.RIGHT;
+					break;
+				case 2:
+					normal = Galaxy.BOTTOM;
+					break;
+				case 3:
+					normal = Galaxy.LEFT;
+					break;
+			}
+		}
+		
+		item.setNormal(normal);
+		item.x = item.getMiddleX(planet);
+		item.y = item.getMiddleY(planet);
 	}
 	
 	public Galaxy getGalaxy() {
