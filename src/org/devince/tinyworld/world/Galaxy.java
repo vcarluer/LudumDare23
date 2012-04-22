@@ -6,6 +6,7 @@ import java.util.Set;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Point;
+import org.devince.tinyworld.items.Sun;
 
 public class Galaxy {
 	public static final int TILESIZE = 16;
@@ -30,10 +31,11 @@ public class Galaxy {
 	}
 
 	private void initWorld() {
-		this.startPlanet = this.addPlanet(0, 0);
-		this.addPlanet(1, 0);
-		this.addPlanet(1, 1);
-		this.addPlanet(2, 1);
+		this.startPlanet = this.addPlanet(-5, -5);
+		this.addPlanet(new Sun(0, 0));
+		this.addPlanet(new Sun(1, 0));
+		this.addPlanet(new Sun(0, 1));
+		this.addPlanet(new Sun(1, 1));
 	}
 	
 	public Planet addPlanet(int x, int y) {
@@ -42,6 +44,15 @@ public class Galaxy {
 		Planet planet = null;
 		if (!this.planets.containsKey(this.comparePoint)) {
 			planet = new Planet(x, y);
+			this.planets.put(planet.getGalaxyPoint(), planet);
+			TinyWorld.get().addGameItem(planet);
+		}
+		
+		return planet;
+	}
+	
+	public Planet addPlanet(Planet planet) {
+		if (!this.planets.containsKey(planet.getGalaxyPoint())) {
 			this.planets.put(planet.getGalaxyPoint(), planet);
 			TinyWorld.get().addGameItem(planet);
 		}

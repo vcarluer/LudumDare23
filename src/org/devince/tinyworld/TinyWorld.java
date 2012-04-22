@@ -85,4 +85,8 @@ public class TinyWorld extends Game {
 	public Galaxy getGalaxy() {
 		return this.galaxy;
 	}
+
+	public void setGameOver() {
+		this.stage.removeActor(this.player);
+	}
 }

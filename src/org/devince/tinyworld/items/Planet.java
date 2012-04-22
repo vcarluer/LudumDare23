@@ -8,13 +8,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Planet extends GameItem {
 	
 	public Planet(int x, int y) {
-		this.setSprite("data/planet.png");
+		this.setSprite(this.getSpritePath());
 		
 		this.galaxyPoint.setX(x);
 		this.galaxyPoint.setY(y);
 		
 		this.x = this.galaxyPoint.getX() * Galaxy.TILESIZE;
 		this.y = this.galaxyPoint.getY() * Galaxy.TILESIZE;
+	}
+	
+	protected String getSpritePath() {
+		return "data/planet.png";
 	}
 
 

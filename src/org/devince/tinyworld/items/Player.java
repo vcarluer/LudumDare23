@@ -22,6 +22,7 @@ public class Player extends GameItem {
 	private static final int DOWN = -1;
 	private static final float MAX_SCALE = 1.1f;
 	private static final float MIN_SCALE = 0.9f;
+	private static final int START_LIFE = 3;
 	private int direction;
 	private float scale;
 	
@@ -31,6 +32,7 @@ public class Player extends GameItem {
 	private boolean createBlock ;
 	private int facing;
 	private int scaleDirection;
+	private int life;
 
 	public Player(float x, float y) {
 		this.setSprite("data/player.png");
@@ -42,6 +44,8 @@ public class Player extends GameItem {
 		this.normal = new Vector2(0, 1);
 		this.scaleDirection = UP;
 		this.scale = 1;
+		
+		this.life = START_LIFE;
 	}
 	
 	@Override
@@ -98,6 +102,16 @@ public class Player extends GameItem {
 		super.act(delta);
 		
 		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
+		Planet bottom = this.getBottom(currentAround);
+		
+		if (bottom != null) {
+			bottom.handleContact(this);
+		}
+		
+		if (this.life <= 0) {
+			TinyWorld.get().setGameOver();
+		}
+		
 		// Create block action
 		if (this.createBlock) {
 			this.createBlock(currentAround);
@@ -126,7 +140,7 @@ public class Player extends GameItem {
 		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY);
 		
 		// Case no bottom
-		Planet bottom = this.getBottom(nextAround);
+		bottom = this.getBottom(nextAround);
 		if (bottom == null) {
 			bottom = this.getBottom(currentAround);
 			this.changeNormal();
@@ -580,6 +594,14 @@ public class Player extends GameItem {
 	@Override
 	protected float getReferenceHeight() {
 		return 8;
+	}
+
+	public void hurt(GameItem from) {
+		this.life--;
+		if (from != null) {
+			this.acceleration.x *= -1;
+			this.velocity.x *= -1 * MAX_VELOCITY;
+		}
 	}
 
 }
