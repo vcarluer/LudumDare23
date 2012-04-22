@@ -1,5 +1,7 @@
 package org.devince.tinyworld.items;
 
+import java.util.UUID;
+
 import org.devince.tinyworld.TinyWorld;
 
 import com.badlogic.gdx.Gdx;
@@ -13,12 +15,14 @@ public abstract class GameItem extends Actor {
 	protected Sprite sprite;
 	protected Point galaxyPoint;
 	protected Rectangle boundingBox;
+	private UUID uid;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
 		this.height = this.getReferenceHeight();
 		this.galaxyPoint = new Point();
 		this.boundingBox = new Rectangle();
+		this.setUid(UUID.randomUUID());
 	}
 
 	public void draw(SpriteBatch batch, float parentAlpha) {
@@ -60,5 +64,13 @@ public abstract class GameItem extends Actor {
 	}
 	
 	public void handleContact(GameItem item) {
+	}
+
+	public UUID getUid() {
+		return uid;
+	}
+
+	protected void setUid(UUID uid) {
+		this.uid = uid;
 	}
 }

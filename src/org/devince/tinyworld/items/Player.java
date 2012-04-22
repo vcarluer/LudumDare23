@@ -108,13 +108,13 @@ public class Player extends GameItem {
 		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
 		Planet bottom = this.getBottom(currentAround);
 		
-		if (bottom != null) {
-			bottom.handleContact(this);
-		}
-		
 		// Create block action
 		if (this.createBlock) {
 			this.createBlock(currentAround);
+		}
+		
+		if (currentAround[Galaxy.CENTER] != null) {
+			this.hurt(bottom);
 		}
 		
 		// Move
@@ -621,5 +621,14 @@ public class Player extends GameItem {
 	public int getLife() {
 		return this.life;
 	}
-
+	
+	@Override
+	public void handleContact(GameItem item) {
+		if (item instanceof Player) {
+			Player p = (Player) item;
+			p.hurt(this);
+		}
+		
+		super.handleContact(item);
+	}
 }

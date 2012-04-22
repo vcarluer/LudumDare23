@@ -1,7 +1,9 @@
 package org.devince.tinyworld;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
@@ -32,6 +34,7 @@ public class TinyWorld extends Game {
 	
 	private List<GameItem> items;
 	private List<GameItem> itemsToRemove;
+	private HashMap<UUID, GameItem> handled;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -44,6 +47,7 @@ public class TinyWorld extends Game {
 	public void create() {
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
+		this.handled = new HashMap<UUID, GameItem>();
 		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
@@ -83,21 +87,27 @@ public class TinyWorld extends Game {
 		this.cam.apply(Gdx.gl10);
 		
 		this.stage.setKeyboardFocus(this.player);
-		this.stage.act(Gdx.graphics.getDeltaTime());
 		this.handleContacts();
+		this.stage.act(Gdx.graphics.getDeltaTime());
 		this.stage.draw();
 		super.render();
 	}
 
 	private void handleContacts() {
+		this.handled.clear();
 		for(GameItem item : this.items) {
 			for(GameItem item2 : this.items) {
-				if (item != item2) {
-					if (item.getBoundingBox().overlaps(item2.getBoundingBox())) {
-						item.handleContact(item2);
+				if (!this.handled.containsKey(item2.getUid())) {
+					if (item != item2) {
+						if (item.getBoundingBox().overlaps(item2.getBoundingBox())) {
+							item.handleContact(item2);
+							item2.handleContact(item);
+						}
 					}
 				}
 			}
+			
+			this.handled.put(item.getUid(), item);
 		}
 	}
 
