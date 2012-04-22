@@ -51,7 +51,6 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		this.batch.begin();
-		
 		if (TinyWorld.get().isGameOver()) {
 			cumDelta += delta;
 			if (cumDelta > 1f) {

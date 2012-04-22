@@ -18,6 +18,7 @@ import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
 
 import screens.GameScreen;
+import screens.Title;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -60,6 +61,7 @@ public class TinyWorld extends Game {
 	
 	private List<Star> stars;
 	private SpriteBatch batch;
+	private boolean gameStarted;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -74,7 +76,7 @@ public class TinyWorld extends Game {
 	}
 	
 	public void create() {
-		this.setScreen(new GameScreen());
+		this.setScreen(new Title());
 		Music music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
 		music.setLooping(true);
 		music.play();
@@ -116,32 +118,35 @@ public class TinyWorld extends Game {
 	}
 
 	public void render() {
-		if (this.player.getLife() <= 0) {
-			this.setGameOver();
+		if (this.gameStarted) {
+			if (this.player.getLife() <= 0) {
+				this.setGameOver();
+			}
+			
+			for(GameItem item : this.itemsToRemove) {
+				this.items.remove(item);
+				this.stage.removeActor(item);
+			}
+			
+			this.itemsToRemove.clear();
+			
+			Gdx.gl.glClearColor(0, 0, 0, 1);
+			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			this.constructViewPort();
+			this.constructGamePort();
+			this.cam.position.set(this.player.x, this.player.y, 0);
+			this.cam.update();
+			this.cam.apply(Gdx.gl10);
+			
+			this.stage.setKeyboardFocus(this.player);
+			this.handleContacts();
+			this.stage.act(Gdx.graphics.getDeltaTime());
+			
+			this.renderStars();
+			this.galaxy.drawBack();
+			this.stage.draw();
 		}
 		
-		for(GameItem item : this.itemsToRemove) {
-			this.items.remove(item);
-			this.stage.removeActor(item);
-		}
-		
-		this.itemsToRemove.clear();
-		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		this.constructViewPort();
-		this.constructGamePort();
-		this.cam.position.set(this.player.x, this.player.y, 0);
-		this.cam.update();
-		this.cam.apply(Gdx.gl10);
-		
-		this.stage.setKeyboardFocus(this.player);
-		this.handleContacts();
-		this.stage.act(Gdx.graphics.getDeltaTime());
-		
-		this.renderStars();
-		this.galaxy.drawBack();
-		this.stage.draw();
 		super.render();
 	}
 
@@ -352,5 +357,10 @@ public class TinyWorld extends Game {
 		}
 		
 		return total;
+	}
+
+	public void start() {
+		this.gameStarted = true;
+		this.setScreen(new GameScreen());
 	}
 }
