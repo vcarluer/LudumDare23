@@ -116,4 +116,10 @@ public class Galaxy {
 		galaxyPoint.setX((int)Math.floor(shiftX / TILESIZE));
 		galaxyPoint.setY((int)Math.floor(shiftY / TILESIZE));
 	}
+
+	public void removePlanet(Planet planet) {
+		this.planets.remove(planet.getGalaxyPoint());
+		TinyWorld.get().addItemToRemove(planet);
+		
+	}
 }

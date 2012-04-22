@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Player extends GameItem {
+public class Player extends GameItem implements IHurtable {
 	private final static float EPSILON = 0.05f;
 	private static final int RIGHT = 1;
 	private static final int LEFT = -1;
