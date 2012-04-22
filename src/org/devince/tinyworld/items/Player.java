@@ -35,7 +35,7 @@ public class Player extends GameItem {
 	protected int life;
 
 	public Player(float x, float y) {
-		this.setSprite("data/player.png");
+		this.setSprite(this.getSpritePath());
 		this.x = x;
 		this.y = y;
 		
@@ -48,6 +48,10 @@ public class Player extends GameItem {
 		this.life = START_LIFE;
 	}
 	
+	protected String getSpritePath() {
+		return "data/player.png";
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
 		switch(keycode) {

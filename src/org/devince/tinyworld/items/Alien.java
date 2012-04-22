@@ -17,6 +17,11 @@ public class Alien extends Player {
 	}
 
 	@Override
+	protected String getSpritePath() {
+		return "data/alien.png";
+	}
+
+	@Override
 	protected float getMaxVelocity() {
 		return MAX_VELOCITY;
 	}
