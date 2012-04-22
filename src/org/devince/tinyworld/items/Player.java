@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Player extends GameItem implements IHurtable {
 	private final static float EPSILON = 0.05f;
-	private static final int RIGHT = 1;
-	private static final int LEFT = -1;
+	protected static final int RIGHT = 1;
+	protected static final int LEFT = -1;
 	private static final int NONE = 0;
 	protected static final int ACCELERATION_BASE = 5;
 	private static final float DAMP = 0.9f;
@@ -25,7 +25,7 @@ public class Player extends GameItem implements IHurtable {
 	private static final int START_LIFE = 3;
 	private static final float INVINCIBLE_TIME = 5f;
 	private static final int SCORE = 1;
-	private int direction;
+	protected int direction;
 	private float scale;
 	
 	protected Vector2 acceleration;
