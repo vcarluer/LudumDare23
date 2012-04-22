@@ -65,13 +65,8 @@ public class Galaxy {
 	}
 	
 	public Point getGalaxyCoordinate(float x, float y) {
-		float shiftX = x + TILESIZE / 2f;
-		float shiftY = y + TILESIZE / 2f;
-		
 		Point point = new Point();
-		point.setX((int)Math.floor(shiftX / TILESIZE));
-		point.setY((int)Math.floor(shiftY / TILESIZE));
-		
+		this.getGalaxyCoordinate(point, x, y);
 		return point;
 	}
 	
@@ -107,5 +102,14 @@ public class Galaxy {
 		this.comparePoint.setX(x);
 		this.comparePoint.setY(y);
 		return this.planets.get(this.comparePoint);
+	}
+
+	public void getGalaxyCoordinate(Point galaxyPoint, float x, float y) {
+		float shiftX = x + TILESIZE / 2f;
+		float shiftY = y + TILESIZE / 2f;
+		
+		
+		galaxyPoint.setX((int)Math.floor(shiftX / TILESIZE));
+		galaxyPoint.setY((int)Math.floor(shiftY / TILESIZE));
 	}
 }

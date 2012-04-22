@@ -604,4 +604,10 @@ public class Player extends GameItem {
 		}
 	}
 
+	@Override
+	public Point getGalaxyPoint() {
+		TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.galaxyPoint, this.x, this.y);
+		return super.getGalaxyPoint();
+	}
+
 }

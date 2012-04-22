@@ -4,6 +4,7 @@ import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.world.Galaxy;
+import org.devince.tinyworld.world.PlanetGenerator;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -22,6 +23,7 @@ public class TinyWorld extends Game {
 	private Stage stage;
 	private Galaxy galaxy;
 	private Player player;
+	private PlanetGenerator planetGenerator;
 	
 	private OrthographicCamera cam;
 	
@@ -47,6 +49,9 @@ public class TinyWorld extends Game {
 		this.addGameItem(this.player);
 		
 		this.setPlayerOnPlanet(this.galaxy.getStartPlanet());
+		
+		this.planetGenerator = new PlanetGenerator();
+		this.stage.addActor(this.planetGenerator);
 		
 	}
 	
@@ -88,5 +93,9 @@ public class TinyWorld extends Game {
 
 	public void setGameOver() {
 		this.stage.removeActor(this.player);
+	}
+
+	public Player getPlayer() {
+		return this.player;
 	}
 }
