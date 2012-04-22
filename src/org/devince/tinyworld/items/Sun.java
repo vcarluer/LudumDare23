@@ -33,4 +33,9 @@ public class Sun extends Planet {
 	 protected boolean getPrimary() {
 		return true;
 	}
+	 
+	 @Override
+	 public String getBackSpritePath() {
+		return "data/sunback.png";
+	}
 }
