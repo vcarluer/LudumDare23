@@ -42,7 +42,7 @@ public class PlanetGenerator extends GameItem {
 			Player p = TinyWorld.get().getPlayer();
 			x += p.getGalaxyPoint().x;
 			y += p.getGalaxyPoint().y;
-			Planet planet = TinyWorld.get().getGalaxy().addPlanet(x, y);
+			Planet planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
 			if (planet != null) {
 				Alien alien = new Alien(0, 0);
 				TinyWorld.get().addGameItemOnPlanet(alien, planet);

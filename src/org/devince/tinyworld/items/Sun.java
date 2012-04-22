@@ -4,6 +4,7 @@ public class Sun extends Planet {
 
 	public Sun(int x, int y) {
 		super(x, y);
+		this.primary = true;
 	}
 
 	@Override

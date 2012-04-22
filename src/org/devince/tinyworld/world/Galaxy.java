@@ -32,7 +32,7 @@ public class Galaxy {
 	}
 
 	private void initWorld() {
-		this.startPlanet = this.addPlanet(-5, -5);
+		this.startPlanet = this.addPlanet(-5, -5, true);
 		this.addPlanet(new Sun(0, 0));
 		this.addPlanet(new Sun(1, 0));
 		this.addPlanet(new Sun(0, 1));
@@ -40,11 +40,15 @@ public class Galaxy {
 	}
 	
 	public Planet addPlanet(int x, int y) {
+		return this.addPlanet(x, y, false);
+	}
+	
+	public Planet addPlanet(int x, int y, boolean primary) {
 		this.comparePoint.x = x;
 		this.comparePoint.y = y;
 		Planet planet = null;
 		if (!this.planets.containsKey(this.comparePoint)) {
-			planet = new Planet(x, y);
+			planet = new Planet(x, y, primary);
 			this.planets.put(planet.getGalaxyPoint(), planet);
 			TinyWorld.get().addGameItem(planet);
 		}

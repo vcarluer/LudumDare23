@@ -2,12 +2,15 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.world.Galaxy;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Planet extends GameItem {
 	
-	public Planet(int x, int y) {
+	protected boolean primary;
+
+	public Planet(int x, int y, boolean primary) {
+		this.primary = primary;
+		
 		this.setSprite(this.getSpritePath());
 		
 		this.galaxyPoint.setX(x);
@@ -17,8 +20,17 @@ public class Planet extends GameItem {
 		this.y = this.galaxyPoint.getY() * Galaxy.TILESIZE;
 	}
 	
+	public Planet(int x, int y) {
+		this(x, y, false);
+	}
+	
 	protected String getSpritePath() {
-		return "data/planet.png";
+		if (this.primary) {
+			return "data/planet.png";
+		} else {
+			return "data/planetext.png";
+		}
+		
 	}
 
 
