@@ -66,6 +66,7 @@ public class TinyWorld extends Game {
 		Gdx.input.setInputProcessor(this.stage);
 		
 		this.galaxy = new Galaxy();
+		this.galaxy.initWorld();
 		
 		this.player = new Player(0, 0);
 		this.addGameItem(this.player);
@@ -137,8 +138,10 @@ public class TinyWorld extends Game {
 	
 	public void addGameItemOnPlanet(GameItem item, Planet planet) {
 		// to add in render
-		this.addGameItem(item);
 		this.setItemOnPlanet(planet, item);
+		if (!this.galaxy.contains(item.getGalaxyPoint())) {
+			this.addGameItem(item);
+		}
 	}
 	
 	public OrthographicCamera getCamera() {

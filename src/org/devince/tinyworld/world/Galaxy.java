@@ -28,10 +28,9 @@ public class Galaxy {
 	public Galaxy() {
 		this.planets = new HashMap<Point, Planet>();
 		this.comparePoint = new Point();
-		this.initWorld();
 	}
 
-	private void initWorld() {
+	public void initWorld() {
 		this.startPlanet = this.addPlanet(-5, -5, true);
 		this.addPlanet(new Sun(0, 0));
 		this.addPlanet(new Sun(1, 0));

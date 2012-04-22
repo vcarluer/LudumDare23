@@ -32,11 +32,15 @@ public class Shooter extends GameItem {
 
 	public void shoot() {
 		if (this.ignoreBlock || !TinyWorld.get().getGalaxy().contains(this.getGalaxyPoint())) {
-			Shoot shoot = new Shoot(this.x, this.y, this.target.x, this.target.y);
+			Shoot shoot = this.createShoot();
 			TinyWorld.get().addGameItem(shoot);
 		}
 	}
 	
+	protected Shoot createShoot() {
+		return new Shoot(this.x, this.y, this.target.x, this.target.y);
+	}
+
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;

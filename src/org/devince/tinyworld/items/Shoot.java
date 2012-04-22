@@ -16,11 +16,15 @@ public class Shoot extends GameItem {
 	public Shoot(float x, float y, float dirX, float dirY) {
 		this.x = x;
 		this.y = y;
-		this.setSprite("data/shoot.png");
+		this.setSprite(this.getSprite());
 		this.norTarget = new Vector2(dirX - x, dirY - y);
 		this.norTarget.nor();
 	}
 	
+	protected String getSprite() {
+		return "data/shoot.png";
+	}
+
 	@Override
 	protected float getRefereceWidth() {
 		return SIZE;

@@ -34,4 +34,8 @@ public class ShootGenerator extends Shooter {
 		super.act(delta);
 	}
 	
+	@Override
+	protected Shoot createShoot() {
+		return new Meteor(this.x, this.y, this.target.x, this.target.y);
+	}
 }

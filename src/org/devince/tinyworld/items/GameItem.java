@@ -44,6 +44,7 @@ public abstract class GameItem extends Actor {
 	protected abstract float getReferenceHeight();
 	
 	public Point getGalaxyPoint() {
+		TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.galaxyPoint, this.x, this.y);
 		return this.galaxyPoint;
 	}
 	

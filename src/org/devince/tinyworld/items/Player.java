@@ -621,12 +621,6 @@ public class Player extends GameItem implements IHurtable {
 		}
 	}
 
-	@Override
-	public Point getGalaxyPoint() {
-		TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.galaxyPoint, this.x, this.y);
-		return super.getGalaxyPoint();
-	}
-
 	public int getLife() {
 		return this.life;
 	}
@@ -639,5 +633,9 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		super.handleContact(item);
+	}
+
+	public void addLife() {
+		this.life++;
 	}
 }

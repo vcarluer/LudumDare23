@@ -4,6 +4,7 @@ import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.items.Alien;
 import org.devince.tinyworld.items.AlienShooter;
 import org.devince.tinyworld.items.GameItem;
+import org.devince.tinyworld.items.Life;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 
@@ -74,9 +75,16 @@ public class PlanetGenerator extends GameItem {
 					TinyWorld.get().addGameItemOnPlanet(alien, planet);
 				}
 				
+				this.randomItem(planet);
+				
 				this.spawnTime = 0;
 			}
 		}
+	}
+
+	private void randomItem(Planet planet) {
+		Life life = new Life();
+		TinyWorld.get().addGameItemOnPlanet(life, planet);
 	}
 
 }
