@@ -198,37 +198,45 @@ public class Player extends GameItem implements IHurtable {
 		if (this.velocity.x > EPSILON || this.velocity.x < - EPSILON) {
 			if (this.velocity.x > 0) {
 				this.facing = RIGHT;
+				if (this.isFlip) {
+					this.sprite.flip(true, false);
+					this.isFlip = false;
+				}
 			} else {
 				this.facing = LEFT;
+				if (!this.isFlip) {
+					this.sprite.flip(true, false);
+					this.isFlip = true;
+				}
 			}
-			
-			this.scale += this.scaleDirection * SCALE_VELOCITY;
-			
-			if (this.scale > MAX_SCALE) {
-				this.scale = MAX_SCALE;
-				this.scaleDirection *= -1;
-			}
-			
-			if (this.scale < MIN_SCALE) {
-				this.scale = MIN_SCALE;
-				this.scaleDirection *= -1;
-			}
-			
-			if (this.normal.y == 1) {
-				this.sprite.setOrigin(0.5f * this.width, 0);
-			}
-			
-			if (this.normal.x == 1) {
-				this.sprite.setOrigin(0f, 0.5f * this.height);
-			}
-			
-			if (this.normal.y == -1) {
-				this.sprite.setOrigin(0.5f * this.width, 1 * this.height);
-			}
-			
-			if (this.normal.x == - 1) {
-				this.sprite.setOrigin(1f * this.width, 0.5f * this.height);
-			}
+				
+//			this.scale += this.scaleDirection * SCALE_VELOCITY;
+//			
+//			if (this.scale > MAX_SCALE) {
+//				this.scale = MAX_SCALE;
+//				this.scaleDirection *= -1;
+//			}
+//			
+//			if (this.scale < MIN_SCALE) {
+//				this.scale = MIN_SCALE;
+//				this.scaleDirection *= -1;
+//			}
+//			
+//			if (this.normal.y == 1) {
+//				this.sprite.setOrigin(0.5f * this.width, 0);
+//			}
+//			
+//			if (this.normal.x == 1) {
+//				this.sprite.setOrigin(0f, 0.5f * this.height);
+//			}
+//			
+//			if (this.normal.y == -1) {
+//				this.sprite.setOrigin(0.5f * this.width, 1 * this.height);
+//			}
+//			
+//			if (this.normal.x == - 1) {
+//				this.sprite.setOrigin(1f * this.width, 0.5f * this.height);
+//			}
 			
 		} else {
 			this.scale = 1;
@@ -236,7 +244,11 @@ public class Player extends GameItem implements IHurtable {
 		
 		this.scaleX = this.scale;
 		this.scaleY = this.scale;
+		
+		this.rotation = - this.getNormalAngle();
 	}
+	
+	private boolean isFlip;
 	
 	private void kill() {
 		this.life = 0;
