@@ -2,6 +2,9 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
 
+import com.badlogic.gdx.scenes.scene2d.actions.Forever;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateBy;
+
 public class Meteor extends Shoot {
 
 	private static final float METEOR_SIZE = 6f;
@@ -22,6 +25,10 @@ public class Meteor extends Shoot {
 		if (TinyWorld.get().isTier2()) {
 			this.life++;
 		}
+		
+		RotateBy rb = RotateBy.$(360, 5f);
+		Forever forever = Forever.$(rb);
+		this.action(forever);
 	}
 	
 	@Override

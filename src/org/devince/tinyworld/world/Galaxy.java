@@ -39,10 +39,14 @@ public class Galaxy {
 
 	public void initWorld() {
 		this.startPlanet = this.addPlanet(-5, -5, true);
-		this.addPlanet(new Sun(0, 0));
-		this.addPlanet(new Sun(1, 0));
-		this.addPlanet(new Sun(0, 1));
-		this.addPlanet(new Sun(1, 1));
+		Planet p = this.addPlanet(new Sun(0, 0));
+		p.rotation = 0f;
+		p = this.addPlanet(new Sun(1, 0));
+		p.rotation = 180f;
+		p = this.addPlanet(new Sun(0, 1));
+		p.rotation = 0f;
+		p = this.addPlanet(new Sun(1, 1));
+		p.rotation = 180f;
 	}
 	
 	public Planet addPlanet(int x, int y) {
