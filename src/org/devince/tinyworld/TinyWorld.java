@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TinyWorld extends Game {
+	private static final int LEVEL_SCORE = 5;
 	private static final float DEFAULT_ZOOM = 0.3f;
 	private static TinyWorld game;
 	public static final String TITLE = "Tiny World";
@@ -238,7 +239,7 @@ public class TinyWorld extends Game {
 	public void addScore(int score) {
 		this.score += score;
 		
-		if (this.score % 1 == 0) {
+		if (this.score % LEVEL_SCORE == 0) {
 			this.level++;
 		}
 	}
