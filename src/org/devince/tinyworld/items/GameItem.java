@@ -25,7 +25,9 @@ public abstract class GameItem extends Actor {
 		batch.setProjectionMatrix(TinyWorld.get().getCamera().combined);
 		
 		if (this.sprite != null) {
-			this.sprite.setPosition(this.x - this.getRefereceWidth() / 2f, this.y - this.getReferenceHeight() / 2f);	
+			this.sprite.setPosition(this.x - this.getRefereceWidth() / 2f, this.y - this.getReferenceHeight() / 2f);
+			this.sprite.setRotation(this.rotation);
+			this.sprite.setScale(this.scaleX, this.scaleY);
 			this.sprite.draw(batch);
 		}
 	}

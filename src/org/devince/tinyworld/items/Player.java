@@ -10,20 +10,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Player extends GameItem {
-	
+	private final static float EPSILON = 0.05f;
 	private static final int RIGHT = 1;
 	private static final int LEFT = -1;
 	private static final int NONE = 0;
-	private static final int Acceleration_Base = 20;
+	private static final int Acceleration_Base = 5;
 	private static final float DAMP = 0.9f;
-	private static final float MAX_VELOCITY = 6f;
+	private static final float MAX_VELOCITY = 2f;
+	private static final float SCALE_VELOCITY = 0.02f;
+	private static final int UP = 1;
+	private static final int DOWN = -1;
+	private static final float MAX_SCALE = 1.1f;
+	private static final float MIN_SCALE = 0.9f;
 	private int direction;
+	private float scale;
 	
 	private Vector2 acceleration;
 	private Vector2 velocity;
 	private Vector2 normal;
 	private boolean createBlock ;
 	private int facing;
+	private int scaleDirection;
 
 	public Player(float x, float y) {
 		this.setSprite("data/player.png");
@@ -33,6 +40,8 @@ public class Player extends GameItem {
 		this.acceleration = new Vector2();
 		this.velocity = new Vector2();
 		this.normal = new Vector2(0, 1);
+		this.scaleDirection = UP;
+		this.scale = 1;
 	}
 	
 	@Override
@@ -152,15 +161,47 @@ public class Player extends GameItem {
 		this.x += this.getTX(this.velocity.x);
 		this.y += this.getTY(this.velocity.x);
 		
-		if (this.velocity.x != 0) {
+		if (this.velocity.x > EPSILON || this.velocity.x < - EPSILON) {
 			if (this.velocity.x > 0) {
 				this.facing = RIGHT;
 			} else {
 				this.facing = LEFT;
 			}
+			
+			this.scale += this.scaleDirection * SCALE_VELOCITY;
+			
+			if (this.scale > MAX_SCALE) {
+				this.scale = MAX_SCALE;
+				this.scaleDirection *= -1;
+			}
+			
+			if (this.scale < MIN_SCALE) {
+				this.scale = MIN_SCALE;
+				this.scaleDirection *= -1;
+			}
+			
+			if (this.normal.y == 1) {
+				this.sprite.setOrigin(0.5f * this.width, 0);
+			}
+			
+			if (this.normal.x == 1) {
+				this.sprite.setOrigin(0f, 0.5f * this.height);
+			}
+			
+			if (this.normal.y == -1) {
+				this.sprite.setOrigin(0.5f * this.width, 1 * this.height);
+			}
+			
+			if (this.normal.x == - 1) {
+				this.sprite.setOrigin(1f * this.width, 0.5f * this.height);
+			}
+			
+		} else {
+			this.scale = 1;
 		}
 		
-		
+		this.scaleX = this.scale;
+		this.scaleY = this.scale;
 	}
 	
 	private void createBlock(Planet[] around) {
@@ -309,6 +350,8 @@ public class Player extends GameItem {
 			this.normal.y = vel;
 			return;
 		}
+		
+		this.scale = 1;
 	}
 	
 	private void changeNormal() {
