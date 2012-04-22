@@ -43,6 +43,23 @@ public class Planet extends GameItem implements IHurtable {
 		if (this.isPrimary()) {
 			this.backSprite	 = new Sprite(new Texture(Gdx.files.internal(this.getBackSpritePath())));
 		}
+		
+		int rot = (int) Math.floor(Math.random() * 4);
+		switch(rot) {
+		default:
+		case 0:
+			this.rotation = 0;
+			break;
+		case 1:
+			this.rotation = 90f;
+			break;
+		case 2:
+			this.rotation = 180f;
+			break;
+		case 3:
+			this.rotation = 270f;
+			break;
+		}
 	}
 	
 	protected boolean getPrimary() {
@@ -108,6 +125,7 @@ public class Planet extends GameItem implements IHurtable {
 	public void drawBack(SpriteBatch batch) {
 		if (this.backSprite != null) {
 			this.backSprite.setPosition(this.x - this.getAirRefereceWidth() / 2f, this.y - this.getAirReferenceHeight() / 2f);
+			this.backSprite.setRotation(this.rotation);
 			this.backSprite.draw(batch);
 		}
 	}
