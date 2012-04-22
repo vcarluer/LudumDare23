@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.devince.tinyworld.items.Alien;
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
@@ -37,6 +38,7 @@ public class TinyWorld extends Game {
 	private List<GameItem> items;
 	private List<GameItem> itemsToRemove;
 	private HashMap<UUID, GameItem> handled;
+	private int level;
 	
 	
 	public static TinyWorld get() {
@@ -75,6 +77,8 @@ public class TinyWorld extends Game {
 		
 		this.shootGenerator = new ShootGenerator();
 		this.stage.addActor(this.shootGenerator);
+		
+		this.level = 1;
 	}
 	
 	public void render() {
@@ -164,5 +168,20 @@ public class TinyWorld extends Game {
 
 	public void addItemToRemove(GameItem item) {
 		this.itemsToRemove.add(item);
+	}
+
+	public int getAlienCount() {
+		int total = 0;
+		for(GameItem item : this.items) {
+			if (item instanceof Alien) {
+				total++;
+			}
+		}
+		
+		return total;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 }

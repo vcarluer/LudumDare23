@@ -2,6 +2,7 @@ package org.devince.tinyworld.world;
 
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.items.Alien;
+import org.devince.tinyworld.items.AlienShooter;
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class PlanetGenerator extends GameItem {
 	private static final int SPAWN_RADIUS = 5;
+	private static final int MAX_ALIEN = 10;
 	private float spawnDelta;
 	private float spawnTime;
 	
@@ -42,10 +44,36 @@ public class PlanetGenerator extends GameItem {
 			Player p = TinyWorld.get().getPlayer();
 			x += p.getGalaxyPoint().x;
 			y += p.getGalaxyPoint().y;
-			Planet planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
+			
+			Planet[] planets = TinyWorld.get().getGalaxy().getAroundPlanets(x, y);
+			Planet free = null;
+			for(Planet planet : planets) {
+				if (planet != null && planet.isPrimary()) {
+					free = planet;
+					break;
+				}
+			}
+			
+			Planet planet = null;
+			if (free == null) {
+				planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
+			} else {
+				planet = free;
+			}
+			
 			if (planet != null) {
-				Alien alien = new Alien(0, 0);
-				TinyWorld.get().addGameItemOnPlanet(alien, planet);
+				if (TinyWorld.get().getAlienCount() < TinyWorld.get().getLevel() * MAX_ALIEN) {
+					double rand = Math.random();
+					Alien alien = null;
+					if (rand < 0.5f) {
+						alien = new Alien(0, 0);
+					} else {
+						alien = new AlienShooter(0, 0);
+					}
+					
+					TinyWorld.get().addGameItemOnPlanet(alien, planet);
+				}
+				
 				this.spawnTime = 0;
 			}
 		}

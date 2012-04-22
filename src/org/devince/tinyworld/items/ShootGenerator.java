@@ -9,6 +9,7 @@ public class ShootGenerator extends Shooter {
 	
 	public ShootGenerator() {
 		this(TinyWorld.get().getPlayer());
+		this.ignoreBlock = true;
 	}
 	
 	public ShootGenerator(GameItem target) {
@@ -19,8 +20,10 @@ public class ShootGenerator extends Shooter {
 	@Override
 	public void act(float delta) {
 		// Always place upper corner
-		this.x = this.target.x - (TinyWorld.WIDTH / 2f * TinyWorld.get().getZoom());
-		this.y = this.target.y + (TinyWorld.HEIGHT / 2f * TinyWorld.get().getZoom());
+		
+		float x = this.target.x - (TinyWorld.WIDTH / 2f * TinyWorld.get().getZoom());
+		float y = this.target.y + (TinyWorld.HEIGHT / 2f * TinyWorld.get().getZoom());
+		this.setPosition(x, y);
 		
 		this.shootElapsed += delta;
 		if (this.shootElapsed > this.shootDelta) {

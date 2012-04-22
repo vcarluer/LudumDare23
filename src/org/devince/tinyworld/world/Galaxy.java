@@ -96,10 +96,14 @@ public class Galaxy {
 		return aroundPlanets;
 	}
 	
-	private boolean contains(int x, int y) {
+	public boolean contains(int x, int y) {
 		this.comparePoint.setX(x);
 		this.comparePoint.setY(y);
 		return this.planets.containsKey(this.comparePoint);
+	}
+	
+	public boolean contains(Point galaxyPoint) {
+		return this.planets.containsKey(galaxyPoint);
 	}
 	
 	private Planet getPlanet(int x, int y) {

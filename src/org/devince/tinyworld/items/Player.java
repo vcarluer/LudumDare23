@@ -113,8 +113,9 @@ public class Player extends GameItem implements IHurtable {
 			this.createBlock(currentAround);
 		}
 		
-		if (currentAround[Galaxy.CENTER] != null) {
-			this.hurt(bottom);
+		// kill Alien
+		if (currentAround[Galaxy.CENTER] != null && this != TinyWorld.get().getPlayer()) {
+			this.hurt(currentAround[Galaxy.CENTER]);
 		}
 		
 		// Move
@@ -143,8 +144,13 @@ public class Player extends GameItem implements IHurtable {
 		bottom = this.getBottom(nextAround);
 		if (bottom == null) {
 			bottom = this.getBottom(currentAround);
-			this.changeNormal();
-			this.changeFace(bottom);
+			if (bottom != null) {
+				this.changeNormal();
+				this.changeFace(bottom);
+			} else {
+				// Block has been destroyed under player...
+				this.kill();
+			}
 		} else {
 			// case planet block
 			Planet nextPlanet = null;
@@ -218,13 +224,16 @@ public class Player extends GameItem implements IHurtable {
 		this.scaleY = this.scale;
 	}
 	
+	private void kill() {
+		this.life = 1;
+		this.hurt(null);
+	}
+
 	protected float getMaxVelocity() {
 		return MAX_VELOCITY;
 	}
 
 	private void createBlock(Planet[] around) {
-		float xPlanet = 0;
-		float yPlanet = 0;
 		boolean createPlanete = false;
 		Vector2 vct = new Vector2();
 		if (this.facing == RIGHT) {

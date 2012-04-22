@@ -72,4 +72,8 @@ public class Planet extends GameItem implements IHurtable {
 			}
 		}
 	}
+
+	public boolean isPrimary() {
+		return this.primary;
+	}
 }
