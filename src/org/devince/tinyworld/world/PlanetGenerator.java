@@ -85,13 +85,16 @@ public class PlanetGenerator extends GameItem {
 	}
 
 	private void randomItem(Planet planet) {
-//		Life life = new Life();
-//		TinyWorld.get().addGameItemOnPlanet(life, planet);
-		
-//		Invincibility inv = new Invincibility();
-//		TinyWorld.get().addGameItemOnPlanet(inv, planet);
-		
-		Score item = new Score();
+		int sel = (int) Math.floor(Math.random() * 10);
+		GameItem item = null;
+		if (sel < 7) {
+			item = new Score();
+		} else if (sel < 9) {
+			item = new Life();
+		} else {
+			item = new Invincibility();
+		}
+
 		TinyWorld.get().addGameItemOnPlanet(item, planet);
 	}
 
