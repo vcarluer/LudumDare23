@@ -9,25 +9,43 @@ import org.devince.tinyworld.items.Life;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
+import org.devince.tinyworld.items.Sun;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class PlanetGenerator extends GameItem {
 	private static final int SPAWN_RADIUS = 5;
 	private static final int MAX_ALIEN = 10;
+	private static final int MAX_ITEMS = 20;
 	private static float SPAWN_MAX = 2f; 
-	private static float SPAWN_BASE = 6f;
+	private static float SPAWN_BASE = 12f;
+	private static float SPAWN_MAX_ITEM = 2f; 
+	private static float SPAWN_BASE_ITEM = 6f;
+	
 	private float spawnDelta;
 	private float spawnTime;
 	
+	private float spawnDeltaItem;
+	private float spawnTimeItem;
+	
 	public PlanetGenerator() {
-		this.spawnDelta = this.getSpawnDelta();
+		this.spawnDelta = SPAWN_MAX;
+		this.spawnDeltaItem = SPAWN_MAX_ITEM;
 	}
 	
 	private float getSpawnDelta() {
-		float delta = SPAWN_BASE - (TinyWorld.get().getLevel() / 3f);
-		if (delta > SPAWN_MAX) {
+		float delta = SPAWN_BASE - (TinyWorld.get().getLevel());
+		if (delta < SPAWN_MAX) {
 			delta = SPAWN_MAX;
+		}
+		
+		return delta;
+	}
+	
+	private float getSpawnDeltaItem() {
+		float delta = SPAWN_BASE_ITEM - (TinyWorld.get().getLevel());
+		if (delta < SPAWN_MAX_ITEM) {
+			delta = SPAWN_MAX_ITEM;
 		}
 		
 		return delta;
@@ -52,23 +70,26 @@ public class PlanetGenerator extends GameItem {
 	public void act(float delta) {
 		super.act(delta);
 		this.spawnTime += delta;
-		if (this.spawnTime > this.spawnDelta) {
-			int x = - SPAWN_RADIUS + (int)(Math.random() * SPAWN_RADIUS); 
-			int y = - SPAWN_RADIUS + (int)(Math.random() * SPAWN_RADIUS);
+		this.spawnTimeItem += delta;
+		Planet planet = null;
+		Planet free = null;
+		int x = (- SPAWN_RADIUS) + (int)(Math.random() * (SPAWN_RADIUS * 2)); 
+		int y = (- SPAWN_RADIUS) + (int)(Math.random() * (SPAWN_RADIUS * 2));
+		
+		if (this.spawnTime > this.spawnDelta || this.spawnTimeItem > this.spawnDeltaItem) {
 			Player p = TinyWorld.get().getPlayer();
 			x += p.getGalaxyPoint().x;
 			y += p.getGalaxyPoint().y;
 			
 			Planet[] planets = TinyWorld.get().getGalaxy().getAroundPlanets(x, y);
-			Planet free = null;
-			for(Planet planet : planets) {
-				if (planet != null && planet.isPrimary()) {
-					free = planet;
+			for(Planet pla : planets) {
+				if (pla != null && pla.isPrimary() && !(pla instanceof Sun)) {
+					free = pla;
 					break;
 				}
 			}
-			
-			Planet planet = null;
+		}
+		if (this.spawnTime > this.spawnDelta) {
 			if (free == null) {
 				planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
 			} else {
@@ -88,10 +109,23 @@ public class PlanetGenerator extends GameItem {
 					TinyWorld.get().addGameItemOnPlanet(alien, planet);
 				}
 				
-				this.randomItem(planet);
-				
 				this.spawnTime = 0;
 				this.spawnDelta = this.getSpawnDelta();
+			}
+		}
+		
+		if (this.spawnTimeItem > this.spawnDeltaItem) {
+			if (planet == null && free != null) {
+				planet = free;
+			}
+			
+			if (planet != null) {
+				if (TinyWorld.get().getItemsCount() < TinyWorld.get().getLevel() * MAX_ITEMS) {
+					this.randomItem(planet);
+				}
+				
+				this.spawnTimeItem = 0;
+				this.spawnDeltaItem = this.getSpawnDeltaItem();
 			}
 		}
 	}

@@ -30,10 +30,6 @@ public class ShootGenerator extends Shooter {
 	public void act(float delta) {
 		// Always place upper corner
 		
-		float x = TinyWorld.get().getViewPort().x;
-		float y = TinyWorld.get().getViewPort().y + TinyWorld.get().getViewPort().height;
-		this.setPosition(x, y);
-		
 		this.shootElapsed += delta;
 		if (this.shootElapsed > this.shootDelta) {
 			this.shoot();
@@ -44,6 +40,20 @@ public class ShootGenerator extends Shooter {
 		super.act(delta);
 	}
 	
+	@Override
+	public void shoot() {
+		double sel = Math.random();
+		int randCorner = 0;
+		if (sel > 0.5f) {
+			randCorner = 1;
+		}
+		
+		float x = TinyWorld.get().getViewPort().x + randCorner * TinyWorld.get().getViewPort().width;
+		float y = TinyWorld.get().getViewPort().y + TinyWorld.get().getViewPort().height;
+		this.setPosition(x, y);
+		super.shoot();
+	}
+
 	@Override
 	protected Shoot createShoot() {
 		return new Meteor(this.x, this.y, this.target.x, this.target.y);

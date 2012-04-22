@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.devince.tinyworld.items.Alien;
 import org.devince.tinyworld.items.GameItem;
+import org.devince.tinyworld.items.Invincibility;
+import org.devince.tinyworld.items.Life;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
@@ -24,7 +26,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TinyWorld extends Game {
-	private static final int LEVEL_SCORE = 5;
+	private static final int LEVEL_SCORE = 10;
 	private static final float DEFAULT_ZOOM = 0.3f;
 	private static TinyWorld game;
 	public static final String TITLE = "Tiny World";
@@ -159,7 +161,9 @@ public class TinyWorld extends Game {
 		// to add in render
 		this.setItemOnPlanet(planet, item);
 		if (!this.galaxy.contains(item.getGalaxyPoint())) {
-			this.addGameItem(item);
+			if (item.getGalaxyPoint() != this.player.getGalaxyPoint()) {
+				this.addGameItem(item);
+			}
 		}
 	}
 	
@@ -297,5 +301,16 @@ public class TinyWorld extends Game {
 		
 		this.shootGenerator = new ShootGenerator();
 		this.stage.addActor(this.shootGenerator);
+	}
+
+	public int getItemsCount() {
+		int total = 0;
+		for(GameItem item : this.items) {
+			if (item instanceof Score || item instanceof Life ||  item instanceof Invincibility) {
+				total++;
+			}
+		}
+		
+		return total;
 	}
 }
