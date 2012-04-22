@@ -293,6 +293,7 @@ public class TinyWorld extends Game {
 		this.galaxy.initWorld();
 		
 		this.player = new Player(0, 0);
+		this.player.setPlayer(true);
 		this.addGameItem(this.player);
 		
 		this.setPlayerOnPlanet(this.galaxy.getStartPlanet());

@@ -46,6 +46,7 @@ public class Player extends GameItem implements IHurtable {
 	private boolean isInvincible;
 	private float invincibleElapsed;
 	private Texture invTexture;
+	private boolean isPlayer;
 
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
@@ -68,57 +69,39 @@ public class Player extends GameItem implements IHurtable {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		switch(keycode) {
-		case Keys.RIGHT:
+		if (keycode == Keys.SPACE) {
+			this.createBlock = true;	
+		}
+		
+		if (keycode == Keys.ESCAPE) {
+			TinyWorld.get().restart();	
+		}
+
+		return true;
+	}
+	
+	private void handleKeys() {
+		this.direction = NONE;
+		this.acceleration.x = 0;
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			this.direction = RIGHT;
-			break;
-		case Keys.LEFT:
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			this.direction = LEFT;
-			break;
-		case Keys.SPACE:
-			this.createBlock = true;
-			break;
-		default:
-			return false;
 		}
 		
 		this.acceleration.x = this.direction * ACCELERATION_BASE;
-		
-		return true;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		boolean cancelMove = false;
-		switch(keycode) {
-		case Keys.RIGHT:
-			if (this.direction == RIGHT) {
-				cancelMove = true;
-			}
-			
-			break;
-		case Keys.LEFT:
-			if (this.direction == LEFT) {
-				cancelMove = true;
-			}
-			
-			break;
-		default:
-			return false;
-		}
-		
-		if (cancelMove) {
-			this.direction = NONE;
-			this.acceleration.x = 0;
-		}
-		
-		return true;
 	}
 
 	@Override
 	public void act(float delta) {
 		super.act(delta);
 		if (!this.getEnable()) return;
+		
+		if (this.isPlayer) {
+			this.handleKeys();
+		}
 		
 		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
 		Planet bottom = this.getBottom(currentAround);
@@ -264,7 +247,7 @@ public class Player extends GameItem implements IHurtable {
 	
 	private void kill() {
 		this.life = 0;
-		TinyWorld.get().addItemToRemove(this);
+		this.destroy();
 	}
 
 	protected float getMaxVelocity() {
@@ -624,12 +607,9 @@ public class Player extends GameItem implements IHurtable {
 			Sequence seq = Sequence.$(fo, fi);
 			Repeat rep = Repeat.$(seq, 3);
 			this.action(rep);
-			
-			if (from != null) {
-				this.acceleration.x *= -1;
-				this.velocity.x *= -1 * MAX_VELOCITY;
-			}
-			
+						
+			this.velocity.x = -1 * this.facing * MAX_VELOCITY;
+			this.direction = NONE;
 			if (this.life <= 0) {
 				this.destroy();
 			}
@@ -658,5 +638,13 @@ public class Player extends GameItem implements IHurtable {
 		this.isInvincible = true;
 		this.invincibleElapsed = 0f;
 		this.sprite.setTexture(this.invTexture);
+	}
+
+	public boolean isPlayer() {
+		return isPlayer;
+	}
+
+	public void setPlayer(boolean isPlayer) {
+		this.isPlayer = isPlayer;
 	}
 }
