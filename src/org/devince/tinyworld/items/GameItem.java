@@ -62,13 +62,17 @@ public abstract class GameItem extends Actor {
 			this.sprite.setPosition(this.x - this.getRefereceWidth() / 2f, this.y - this.getReferenceHeight() / 2f);
 			this.sprite.setRotation(this.rotation);
 			this.sprite.setScale(this.scaleX, this.scaleY);
+			this.sprite.setColor(this.color);
 			this.sprite.draw(batch);
 		}
 	}
 	
 	protected void setSprite(String path) {
-		this.sprite = new Sprite(new Texture(Gdx.files.internal(path)));
+		this.baseTexture = new Texture(Gdx.files.internal(path));
+		this.sprite = new Sprite(baseTexture);
 	}
+	
+	protected Texture baseTexture;
 	
 	protected abstract float getRefereceWidth();
 	protected abstract float getReferenceHeight();

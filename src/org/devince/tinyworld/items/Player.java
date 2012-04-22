@@ -5,12 +5,17 @@ import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
+import com.badlogic.gdx.scenes.scene2d.actions.Repeat;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
+import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 public class Player extends GameItem implements IHurtable {
 	private final static float EPSILON = 0.05f;
@@ -40,6 +45,7 @@ public class Player extends GameItem implements IHurtable {
 	protected int life;
 	private boolean isInvincible;
 	private float invincibleElapsed;
+	private Texture invTexture;
 
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
@@ -53,6 +59,7 @@ public class Player extends GameItem implements IHurtable {
 		this.scale = 1;
 		
 		this.life = START_LIFE;
+		this.invTexture = new Texture(Gdx.files.internal("data/playerinv.png"));
 	}
 	
 	protected String getSpritePath() {
@@ -125,6 +132,7 @@ public class Player extends GameItem implements IHurtable {
 			this.invincibleElapsed += delta;
 			if (this.invincibleElapsed > INVINCIBLE_TIME) {
 				this.isInvincible = false;
+				this.sprite.setTexture(this.baseTexture);
 			}
 		}
 		
@@ -611,6 +619,12 @@ public class Player extends GameItem implements IHurtable {
 	public void hurt(GameItem from) {
 		if (!this.isInvincible) {
 			this.life--;
+			FadeOut fo = FadeOut.$(0.1f);
+			FadeIn fi = FadeIn.$(0.1f);
+			Sequence seq = Sequence.$(fo, fi);
+			Repeat rep = Repeat.$(seq, 3);
+			this.action(rep);
+			
 			if (from != null) {
 				this.acceleration.x *= -1;
 				this.velocity.x *= -1 * MAX_VELOCITY;
@@ -643,5 +657,6 @@ public class Player extends GameItem implements IHurtable {
 	public void startInvincible() {
 		this.isInvincible = true;
 		this.invincibleElapsed = 0f;
+		this.sprite.setTexture(this.invTexture);
 	}
 }

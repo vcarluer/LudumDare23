@@ -140,7 +140,7 @@ public class PlanetGenerator extends GameItem {
 		} else {
 			item = new Invincibility();
 		}
-
+		item = new Invincibility();
 		TinyWorld.get().addGameItemOnPlanet(item, planet);
 	}
 
