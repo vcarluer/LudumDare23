@@ -39,6 +39,7 @@ public class TinyWorld extends Game {
 	private List<GameItem> itemsToRemove;
 	private HashMap<UUID, GameItem> handled;
 	private int level;
+	private int score;
 	
 	
 	public static TinyWorld get() {
@@ -186,5 +187,9 @@ public class TinyWorld extends Game {
 
 	public int getLevel() {
 		return this.level;
+	}
+
+	public void addScore(int score) {
+		this.score += score;
 	}
 }

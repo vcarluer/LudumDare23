@@ -8,6 +8,7 @@ import org.devince.tinyworld.items.Invincibility;
 import org.devince.tinyworld.items.Life;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
+import org.devince.tinyworld.items.Score;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -87,8 +88,11 @@ public class PlanetGenerator extends GameItem {
 //		Life life = new Life();
 //		TinyWorld.get().addGameItemOnPlanet(life, planet);
 		
-		Invincibility inv = new Invincibility();
-		TinyWorld.get().addGameItemOnPlanet(inv, planet);
+//		Invincibility inv = new Invincibility();
+//		TinyWorld.get().addGameItemOnPlanet(inv, planet);
+		
+		Score item = new Score();
+		TinyWorld.get().addGameItemOnPlanet(item, planet);
 	}
 
 }

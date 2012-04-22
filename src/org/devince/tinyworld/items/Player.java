@@ -24,6 +24,7 @@ public class Player extends GameItem implements IHurtable {
 	private static final float MIN_SCALE = 0.9f;
 	private static final int START_LIFE = 3;
 	private static final float INVINCIBLE_TIME = 5f;
+	private static final int SCORE = 1;
 	private int direction;
 	private float scale;
 	
@@ -126,6 +127,9 @@ public class Player extends GameItem implements IHurtable {
 		// kill Alien
 		if (currentAround[Galaxy.CENTER] != null && this != TinyWorld.get().getPlayer()) {
 			this.hurt(currentAround[Galaxy.CENTER]);
+			if (this.life <= 0) {
+				TinyWorld.get().addScore(SCORE);
+			}
 		}
 		
 		// Move
