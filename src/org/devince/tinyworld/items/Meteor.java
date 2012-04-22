@@ -54,7 +54,7 @@ public class Meteor extends Shoot {
 			h.hurt(this);
 			this.life--;
 			if (this.life <= 0) {
-				TinyWorld.get().addItemToRemove(this);
+				this.destroy();
 			}
 		}
 	}

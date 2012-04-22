@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Planet extends GameItem implements IHurtable {
 	
@@ -32,13 +33,6 @@ public class Planet extends GameItem implements IHurtable {
 		this.y = this.galaxyPoint.getY() * Galaxy.TILESIZE;
 		
 		this.life = this.getMaxLife();
-		if (TinyWorld.get().isTier1()) {
-			this.life--;
-		}
-		
-		if (TinyWorld.get().isTier2()) {
-			this.life--;
-		}
 		
 		if (this.isPrimary()) {
 			this.backSprite	 = new Sprite(new Texture(Gdx.files.internal(this.getBackSpritePath())));
@@ -71,7 +65,11 @@ public class Planet extends GameItem implements IHurtable {
 	}
 
 	protected int getMaxLife() {
-		return MAX_LIFE;
+		if (this.primary) {
+			return MAX_LIFE * 2;
+		} else {
+			return MAX_LIFE;
+		}
 	}
 
 	public Planet(int x, int y) {
@@ -110,8 +108,27 @@ public class Planet extends GameItem implements IHurtable {
 
 	@Override
 	public void hurt(GameItem from) {
-		if (!this.primary) {
+		if (!(this instanceof Sun)) {
 			this.life--;
+			if (!this.primary) {
+				if (this.life == 2) {
+					this.sprite.setTexture(new Texture("data/planetext2.png"));
+				}
+				
+				if (this.life == 1) {
+					this.sprite.setTexture(new Texture("data/planetext3.png"));
+				}
+			} else {
+				if (this.life == 4) {
+					this.sprite.setTexture(new Texture("data/planet2.png"));
+				}
+				
+				if (this.life == 2) {
+					this.sprite.setTexture(new Texture("data/planet3.png"));
+				}
+			}
+			
+			
 			if (this.life <= 0) {
 				TinyWorld.get().getGalaxy().removePlanet(this);
 			}

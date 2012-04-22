@@ -30,7 +30,7 @@ public class Life extends GameItem {
 	public void handleContact(GameItem item) {
 		if (item == TinyWorld.get().getPlayer()) {
 			TinyWorld.get().getPlayer().addLife();
-			TinyWorld.get().addItemToRemove(this);
+			this.destroy();
 		}
 	}
 

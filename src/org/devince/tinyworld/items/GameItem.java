@@ -11,7 +11,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public abstract class GameItem extends Actor {
 	protected Sprite sprite;
@@ -19,6 +22,8 @@ public abstract class GameItem extends Actor {
 	protected Rectangle boundingBox;
 	private UUID uid;
 	protected Vector2 normal;
+	private GameItem me;
+	private boolean enable;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
@@ -27,6 +32,27 @@ public abstract class GameItem extends Actor {
 		this.boundingBox = new Rectangle();
 		this.setUid(UUID.randomUUID());
 		this.normal = new Vector2(0, 1);
+		this.me = this;
+		
+		this.scaleX = 0;
+		this.scaleY = 0;
+		ScaleTo st = ScaleTo.$(1, 1, 0.1f);
+		this.action(st);
+		
+		this.enable = true;
+	}
+	
+	public void destroy() {
+		this.enable = false;
+		ScaleTo st = ScaleTo.$(0, 0, 0.3f);
+		this.action(st);
+		st.setCompletionListener(new OnActionCompleted() {
+			
+			@Override
+			public void completed(Action action) {
+				TinyWorld.get().addItemToRemove(me);
+			}
+		});
 	}
 
 	public void draw(SpriteBatch batch, float parentAlpha) {
@@ -138,5 +164,9 @@ public abstract class GameItem extends Actor {
 			this.normal.y = 0;
 			break;
 		}
+	}
+	
+	public boolean getEnable() {
+		return this.enable;
 	}
 }

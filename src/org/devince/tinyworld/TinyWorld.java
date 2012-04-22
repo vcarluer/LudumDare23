@@ -132,12 +132,14 @@ public class TinyWorld extends Game {
 	private void handleContacts() {
 		this.handled.clear();
 		for(GameItem item : this.items) {
-			for(GameItem item2 : this.items) {
-				if (!this.handled.containsKey(item2.getUid())) {
-					if (item != item2) {
-						if (item.getBoundingBox().overlaps(item2.getBoundingBox())) {
-							item.handleContact(item2);
-							item2.handleContact(item);
+			if (item.getEnable()) {
+				for(GameItem item2 : this.items) {
+					if (item2.getEnable() && !this.handled.containsKey(item2.getUid())) {
+						if (item != item2) {
+							if (item.getBoundingBox().overlaps(item2.getBoundingBox())) {
+								item.handleContact(item2);
+								item2.handleContact(item);
+							}
 						}
 					}
 				}
@@ -280,6 +282,7 @@ public class TinyWorld extends Game {
 	private void init() {
 		this.level = 1;
 		this.gameOver = false;
+		this.score = 0;
 		
 		this.items.clear();
 		this.itemsToRemove.clear();

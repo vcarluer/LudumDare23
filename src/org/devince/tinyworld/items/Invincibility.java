@@ -24,7 +24,7 @@ public class Invincibility extends GameItem {
 	public void handleContact(GameItem item) {
 		if (item == TinyWorld.get().getPlayer()) {
 			TinyWorld.get().getPlayer().startInvincible();
-			TinyWorld.get().addItemToRemove(this);
+			this.destroy();
 		}
 	}
 

@@ -7,7 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Player extends GameItem implements IHurtable {
 	private final static float EPSILON = 0.05f;
@@ -108,6 +111,7 @@ public class Player extends GameItem implements IHurtable {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		if (!this.getEnable()) return;
 		
 		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
 		Planet bottom = this.getBottom(currentAround);
@@ -239,11 +243,11 @@ public class Player extends GameItem implements IHurtable {
 //			}
 			
 		} else {
-			this.scale = 1;
+//			this.scale = 1;
 		}
 		
-		this.scaleX = this.scale;
-		this.scaleY = this.scale;
+//		this.scaleX = this.scale;
+//		this.scaleY = this.scale;
 		
 		this.rotation = - this.getNormalAngle();
 	}
@@ -613,7 +617,7 @@ public class Player extends GameItem implements IHurtable {
 			}
 			
 			if (this.life <= 0) {
-				TinyWorld.get().addItemToRemove(this);
+				this.destroy();
 			}
 		}
 	}

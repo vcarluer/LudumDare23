@@ -32,7 +32,7 @@ public class Score extends GameItem {
 	public void handleContact(GameItem item) {
 		if (item == TinyWorld.get().getPlayer()) {
 			TinyWorld.get().addScore(SCORE);
-			TinyWorld.get().addItemToRemove(this);
+			this.destroy();
 		}
 	}	
 }
