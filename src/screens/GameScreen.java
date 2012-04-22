@@ -19,9 +19,9 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {				
 		this.font = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
-		this.font.setColor(Color.YELLOW);
+		this.font.setColor(Color.GREEN);
 		this.fontGO = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
-		this.fontGO.setColor(Color.YELLOW);
+		this.fontGO.setColor(Color.GREEN);
 		this.fontGO.setScale(2f);
 		this.batch = new SpriteBatch();
 	}
@@ -52,14 +52,14 @@ public class GameScreen implements Screen {
 		if (TinyWorld.get().isGameOver()) {
 			cumDelta += delta;
 			if (cumDelta > 1f) {
-				fontGO.draw(this.batch, "RECREATE UNIVERSE", 50, TinyWorld.HEIGHT / 2f - 150f);
+				fontGO.draw(this.batch, "PRESS ANY KEY", 50, TinyWorld.HEIGHT / 2f - 75f);
 				if (Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
 					this.cumDelta = 0;
 					TinyWorld.get().restart();
 				}
 			}
-			fontGO.draw(this.batch, "GAME OVER", 50, TinyWorld.HEIGHT / 2f);
-			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, TinyWorld.HEIGHT / 2f - 75f);
+			fontGO.draw(this.batch, "GAME OVER", 50, TinyWorld.HEIGHT / 2f + 75f);
+			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, TinyWorld.HEIGHT / 2f);
 		} else {
 			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), 0 + PADDING, TinyWorld.HEIGHT - PADDING);
 			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), 0 + PADDING, TinyWorld.HEIGHT - PADDING - 30);

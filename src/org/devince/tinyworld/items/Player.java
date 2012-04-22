@@ -144,7 +144,6 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		
-		
 		float nextX = this.x + this.getTX(this.velocity.x);
 		float nextY = this.y + this.getTY(this.velocity.x);
 		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY);
@@ -170,6 +169,10 @@ public class Player extends GameItem implements IHurtable {
 			
 			if (nextPlanet == null && this.velocity.x < 0) {
 				nextPlanet = this.getLeft(currentAround);
+			}
+			
+			if (nextPlanet == null && this.isPlayer) {
+				nextPlanet = currentAround[Galaxy.CENTER];
 			}
 			
 			if (nextPlanet != null) {
