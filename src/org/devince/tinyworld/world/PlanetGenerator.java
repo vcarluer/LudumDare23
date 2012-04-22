@@ -1,7 +1,9 @@
 package org.devince.tinyworld.world;
 
 import org.devince.tinyworld.TinyWorld;
+import org.devince.tinyworld.items.Alien;
 import org.devince.tinyworld.items.GameItem;
+import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -40,7 +42,9 @@ public class PlanetGenerator extends GameItem {
 			Player p = TinyWorld.get().getPlayer();
 			x += p.getGalaxyPoint().x;
 			y += p.getGalaxyPoint().y;
-			TinyWorld.get().getGalaxy().addPlanet(x, y);
+			Planet planet = TinyWorld.get().getGalaxy().addPlanet(x, y);
+			Alien alien = new Alien(0, 0);
+			TinyWorld.get().addGameItemOnPlanet(alien, planet);
 			this.spawnTime = 0;
 		}
 	}

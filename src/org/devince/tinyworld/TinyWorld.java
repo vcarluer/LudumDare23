@@ -78,13 +78,23 @@ public class TinyWorld extends Game {
 		this.stage.addActor(item);
 	}
 	
+	public void addGameItemOnPlanet(GameItem item, Planet planet) {
+		// to add in render
+		this.stage.addActor(item);
+		this.setItemOnPlanet(planet, item);
+	}
+	
 	public OrthographicCamera getCamera() {
 		return this.cam;
 	}
 	
 	private void setPlayerOnPlanet(Planet planet) {
-		this.player.x = planet.x;
-		this.player.y = planet.y + planet.height / 2f + this.player.height / 2f;
+		this.setItemOnPlanet(planet, this.player);
+	}
+	
+	private void setItemOnPlanet(Planet planet, GameItem item) {
+		item.x = planet.x;
+		item.y = planet.y + planet.height / 2f + item.height / 2f;
 	}
 	
 	public Galaxy getGalaxy() {

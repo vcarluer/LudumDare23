@@ -14,7 +14,7 @@ public class Player extends GameItem {
 	private static final int RIGHT = 1;
 	private static final int LEFT = -1;
 	private static final int NONE = 0;
-	private static final int Acceleration_Base = 5;
+	protected static final int ACCELERATION_BASE = 5;
 	private static final float DAMP = 0.9f;
 	private static final float MAX_VELOCITY = 2f;
 	private static final float SCALE_VELOCITY = 0.02f;
@@ -26,13 +26,13 @@ public class Player extends GameItem {
 	private int direction;
 	private float scale;
 	
-	private Vector2 acceleration;
+	protected Vector2 acceleration;
 	private Vector2 velocity;
 	private Vector2 normal;
 	private boolean createBlock ;
 	private int facing;
 	private int scaleDirection;
-	private int life;
+	protected int life;
 
 	public Player(float x, float y) {
 		this.setSprite("data/player.png");
@@ -64,7 +64,7 @@ public class Player extends GameItem {
 			return false;
 		}
 		
-		this.acceleration.x = this.direction * Acceleration_Base;
+		this.acceleration.x = this.direction * ACCELERATION_BASE;
 		
 		return true;
 	}
@@ -125,12 +125,12 @@ public class Player extends GameItem {
 			this.velocity.x *= DAMP; // not based on delta here...
 		}
 		
-		if (this.velocity.x > MAX_VELOCITY) {
-			this.velocity.x = MAX_VELOCITY;
+		if (this.velocity.x > this.getMaxVelocity()) {
+			this.velocity.x = this.getMaxVelocity();
 		}
 		
-		if (this.velocity.x < - MAX_VELOCITY) {
-			this.velocity.x = - MAX_VELOCITY;
+		if (this.velocity.x < - this.getMaxVelocity()) {
+			this.velocity.x = - this.getMaxVelocity();
 		}
 		
 		
@@ -218,6 +218,10 @@ public class Player extends GameItem {
 		this.scaleY = this.scale;
 	}
 	
+	protected float getMaxVelocity() {
+		return MAX_VELOCITY;
+	}
+
 	private void createBlock(Planet[] around) {
 		float xPlanet = 0;
 		float yPlanet = 0;
