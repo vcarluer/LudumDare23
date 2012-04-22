@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
+import org.devince.tinyworld.items.ShootGenerator;
 import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
 
@@ -29,12 +30,14 @@ public class TinyWorld extends Game {
 	private Galaxy galaxy;
 	private Player player;
 	private PlanetGenerator planetGenerator;
+	private ShootGenerator shootGenerator;
 	
 	private OrthographicCamera cam;
 	
 	private List<GameItem> items;
 	private List<GameItem> itemsToRemove;
 	private HashMap<UUID, GameItem> handled;
+	
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -44,6 +47,10 @@ public class TinyWorld extends Game {
 		return game;
 	}
 	
+	public float getZoom() {
+		return DEFAULT_ZOOM;
+	}
+	
 	public void create() {
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
@@ -51,7 +58,7 @@ public class TinyWorld extends Game {
 		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
-		this.cam.zoom = DEFAULT_ZOOM;
+		this.cam.zoom = this.getZoom();
 		
 		this.stage = new Stage(WIDTH, HEIGHT, true);
 		Gdx.input.setInputProcessor(this.stage);
@@ -66,6 +73,8 @@ public class TinyWorld extends Game {
 		this.planetGenerator = new PlanetGenerator();
 		this.stage.addActor(this.planetGenerator);
 		
+		this.shootGenerator = new ShootGenerator();
+		this.stage.addActor(this.shootGenerator);
 	}
 	
 	public void render() {

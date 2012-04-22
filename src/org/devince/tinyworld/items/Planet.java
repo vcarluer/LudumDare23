@@ -65,9 +65,11 @@ public class Planet extends GameItem implements IHurtable {
 
 	@Override
 	public void hurt(GameItem from) {
-		this.life--;
-		if (this.life <= 0) {
-			TinyWorld.get().getGalaxy().removePlanet(this);
+		if (!this.primary) {
+			this.life--;
+			if (this.life <= 0) {
+				TinyWorld.get().getGalaxy().removePlanet(this);
+			}
 		}
 	}
 }
