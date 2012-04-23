@@ -83,6 +83,10 @@ public class Player extends GameItem implements IHurtable {
 		if (keycode == Keys.ESCAPE) {
 			TinyWorld.get().restart();	
 		}
+		
+		if (keycode == Keys.H) {
+			TinyWorld.get().showHelp();
+		}
 
 		return true;
 	}

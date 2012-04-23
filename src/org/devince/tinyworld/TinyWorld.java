@@ -18,6 +18,7 @@ import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
 
 import screens.GameScreen;
+import screens.Help;
 import screens.Title;
 
 import com.badlogic.gdx.Game;
@@ -362,5 +363,9 @@ public class TinyWorld extends Game {
 	public void start() {
 		this.gameStarted = true;
 		this.setScreen(new GameScreen());
+	}
+
+	public void showHelp() {
+		this.setScreen(new Help());
 	}
 }
