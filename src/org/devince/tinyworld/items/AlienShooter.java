@@ -48,7 +48,7 @@ public class AlienShooter extends Alien {
 	}
 	
 	private float getShootDelta() {
-		float d = (float) (1 + SHOOT_DELTA * Math.random()) * (5 / TinyWorld.get().getLevel());
+		float d = (float) (1 + SHOOT_DELTA * Math.random()) * (10 / TinyWorld.get().getLevel());
 		if (d < MIN_DELTA) {
 			d = MIN_DELTA;
 		}

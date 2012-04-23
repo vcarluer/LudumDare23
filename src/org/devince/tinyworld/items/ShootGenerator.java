@@ -3,8 +3,8 @@ package org.devince.tinyworld.items;
 import org.devince.tinyworld.TinyWorld;
 
 public class ShootGenerator extends Shooter {
-	private static final float SHOOT_DELTA = 2f;
-	private static final float MIN_DELTA = 1f;
+	private static final float SHOOT_DELTA = 6f;
+	private static final float MIN_DELTA = 10f;
 	private float shootDelta;
 	private float shootElapsed;
 	
