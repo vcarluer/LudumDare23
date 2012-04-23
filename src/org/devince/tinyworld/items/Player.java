@@ -159,45 +159,54 @@ public class Player extends GameItem implements IHurtable {
 		float nextY = this.y + this.getTY(this.velocity.x);
 		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY);
 		
-		// Case no bottom
-		bottom = this.getBottom(nextAround);
-		if (bottom == null) {
-			bottom = this.getBottom(currentAround);
-			if (bottom != null) {
-				this.changeNormal();
-				this.changeFace(bottom);
-			} else {
-				// Block has been destroyed under player...
-				this.kill();
-			}
+		Planet nextPlanet = null;
+		if (this.isPlayer) {
+			nextPlanet = currentAround[Galaxy.CENTER];
+		}
+		
+		if (nextPlanet != null) {
+			this.changeNormalCC();
+			this.changeFacePlain(nextPlanet);
 		} else {
-			// case planet block
-			Planet nextPlanet = null;
-			boolean switchPlanet = false;
-			if (this.velocity.x > 0) {
-				nextPlanet = this.getRight(currentAround);
-			}
-			
-			if (nextPlanet == null && this.velocity.x < 0) {
-				nextPlanet = this.getLeft(currentAround);
-			}
-			
-			if (nextPlanet == null && this.isPlayer) {
-				nextPlanet = currentAround[Galaxy.CENTER];
-			}
-			
-			if (nextPlanet != null) {
-				Rectangle bb = this.createBoundingBox(nextX, nextY);
-				Rectangle pBB = nextPlanet.getBoundingBox();
-				
-				if (bb.overlaps(pBB)) {
-					switchPlanet = true;
+			// Case no bottom
+			bottom = this.getBottom(nextAround);
+			if (bottom == null) {
+				bottom = this.getBottom(currentAround);
+				if (bottom != null) {
+					this.changeNormal();
+					this.changeFace(bottom);
+				} else {
+					// Block has been destroyed under player...
+					this.kill();
 				}
-			}
+			} else {
+				// case planet block
+				boolean switchPlanet = false;
+				if (this.velocity.x > 0) {
+					nextPlanet = this.getRight(currentAround);
+				}
 				
-			if (switchPlanet) {
-				this.changeNormalCC();
-				this.changeFacePlain(nextPlanet);
+				if (nextPlanet == null && this.velocity.x < 0) {
+					nextPlanet = this.getLeft(currentAround);
+				}
+				
+				if (nextPlanet == null && this.isPlayer) {
+					nextPlanet = currentAround[Galaxy.CENTER];
+				}
+				
+				if (nextPlanet != null) {
+					Rectangle bb = this.createBoundingBox(nextX, nextY);
+					Rectangle pBB = nextPlanet.getBoundingBox();
+					
+					if (bb.overlaps(pBB)) {
+						switchPlanet = true;
+					}
+				}
+					
+				if (switchPlanet) {
+					this.changeNormalCC();
+					this.changeFacePlain(nextPlanet);
+				}
 			}
 		}
 		
