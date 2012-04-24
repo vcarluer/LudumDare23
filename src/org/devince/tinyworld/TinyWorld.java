@@ -31,6 +31,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TinyWorld extends Game {
+	private static final float MUSIC_LENGTH = 52.62f;
 	private static final int LEVEL_SCORE = 10;
 	private static final float DEFAULT_ZOOM = 0.3f;
 	private static TinyWorld game;
@@ -80,10 +81,11 @@ public class TinyWorld extends Game {
 		return DEFAULT_ZOOM;
 	}
 	
+	@Override
 	public void create() {
 		Assets.load();
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
-		// music.setLooping(true); // can not loop on gwt
+		music.setLooping(!this.isGWT); // can not loop on gwt
 		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
@@ -126,10 +128,12 @@ public class TinyWorld extends Game {
 
 	public void render() {
 		this.musicDelta += Gdx.graphics.getDeltaTime();
-		if (this.musicDelta > 52.62f) {
-			this.music.stop();
-			this.music.play();
-			this.musicDelta = 0f;
+		if (this.isGWT) {
+			if (this.musicDelta > MUSIC_LENGTH) {
+				this.music.stop();
+				this.music.play();
+				this.musicDelta = 0f;
+			}
 		}
 		
 		if (this.gameStarted) {
@@ -386,5 +390,13 @@ public class TinyWorld extends Game {
 	
 	public long getNextID() {
 		return this.nextId++;
+	}
+
+	public boolean isGWT() {
+		return isGWT;
+	}
+
+	public void setGWT(boolean isGWT) {
+		this.isGWT = isGWT;
 	}
 }
