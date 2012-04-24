@@ -4,6 +4,7 @@ package org.devince.tinyworld.screens;
 import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,7 +35,7 @@ public class OnScreenController {
 	}
 
 	public void render (SpriteBatch batch) {
-		//if (Gdx.app.getType() != ApplicationType.Android) return;
+		if (Gdx.app.getType() != ApplicationType.Android) return;
 		batch.draw(left, SCREEN_PADDING, SCREEN_PADDING);
 		batch.draw(right, X_LEFT + PADDING, SCREEN_PADDING);
 		batch.draw(cubeControl, X_CREATE, SCREEN_PADDING);
