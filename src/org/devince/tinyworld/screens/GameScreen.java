@@ -1,4 +1,4 @@
-package screens;
+package org.devince.tinyworld.screens;
 
 import org.devince.tinyworld.TinyWorld;
 

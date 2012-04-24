@@ -14,12 +14,11 @@ import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
 import org.devince.tinyworld.items.ShootGenerator;
 import org.devince.tinyworld.items.Star;
+import org.devince.tinyworld.screens.GameScreen;
+import org.devince.tinyworld.screens.Help;
+import org.devince.tinyworld.screens.Title;
 import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
-
-import screens.GameScreen;
-import screens.Help;
-import screens.Title;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -50,7 +49,7 @@ public class TinyWorld extends Game {
 	
 	private List<GameItem> items;
 	private List<GameItem> itemsToRemove;
-	private HashMap<UUID, GameItem> handled;
+	private HashMap<Long, GameItem> handled;
 	private int level;
 	private int score;
 	private Rectangle viewPort;
@@ -63,6 +62,7 @@ public class TinyWorld extends Game {
 	private List<Star> stars;
 	private SpriteBatch batch;
 	private boolean gameStarted;
+	private long nextId;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -83,7 +83,7 @@ public class TinyWorld extends Game {
 		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
-		this.handled = new HashMap<UUID, GameItem>();
+		this.handled = new HashMap<Long, GameItem>();
 		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
@@ -137,7 +137,7 @@ public class TinyWorld extends Game {
 			this.constructGamePort();
 			this.cam.position.set(this.player.x, this.player.y, 0);
 			this.cam.update();
-			this.cam.apply(Gdx.gl10);
+			// this.cam.apply(Gdx.gl10); // does not work for gwt
 			
 			this.stage.setKeyboardFocus(this.player);
 			this.handleContacts();
@@ -367,5 +367,9 @@ public class TinyWorld extends Game {
 
 	public void showHelp() {
 		this.setScreen(new Help());
+	}
+	
+	public long getNextID() {
+		return this.nextId++;
 	}
 }

@@ -1,4 +1,4 @@
-package screens;
+package org.devince.tinyworld.screens;
 
 import org.devince.tinyworld.TinyWorld;
 
@@ -11,14 +11,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Title implements Screen {
+public class Help implements Screen {
 	private SpriteBatch batch;
 	private Sprite sprite;
 	private Sound sndSelect;
+	private float cumDelta;
 	
-	public Title() {
+	public Help() {
 		this.batch = new SpriteBatch();
-		this.sprite = new Sprite(new TextureRegion(new Texture(Gdx.files.internal("data/title.png")), 0, 0, 800, 600));
+		this.sprite = new Sprite(new TextureRegion(new Texture(Gdx.files.internal("data/help.png")), 0, 0, 800, 600));
 		this.sprite.setSize(TinyWorld.WIDTH, TinyWorld.HEIGHT);
 		this.sndSelect = Gdx.audio.newSound(Gdx.files.internal("data/select.wav"));
 	}
@@ -27,10 +28,14 @@ public class Title implements Screen {
 		this.batch.begin();
 		this.sprite.draw(this.batch);
 		this.batch.end();
-		if (Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
-			this.sndSelect.play();
-			TinyWorld.get().showHelp();
+		cumDelta += delta;
+		if (cumDelta > 1f) {
+			if (Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
+				this.sndSelect.play();
+				TinyWorld.get().start();
+			}
 		}
+		
 	}
 
 	@Override

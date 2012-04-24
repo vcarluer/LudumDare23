@@ -22,7 +22,7 @@ public abstract class GameItem extends Actor {
 	protected Sprite sprite;
 	protected Point galaxyPoint;
 	protected Rectangle boundingBox;
-	private UUID uid;
+	private Long uid;
 	protected Vector2 normal;
 	private GameItem me;
 	private boolean enable;
@@ -32,7 +32,7 @@ public abstract class GameItem extends Actor {
 		this.height = this.getReferenceHeight();
 		this.galaxyPoint = new Point();
 		this.boundingBox = new Rectangle();
-		this.setUid(UUID.randomUUID());
+		this.setUid(TinyWorld.get().getNextID());
 		this.normal = new Vector2(0, 1);
 		this.me = this;
 		
@@ -103,11 +103,11 @@ public abstract class GameItem extends Actor {
 	public void handleContact(GameItem item) {
 	}
 
-	public UUID getUid() {
+	public Long getUid() {
 		return uid;
 	}
 
-	protected void setUid(UUID uid) {
+	protected void setUid(Long uid) {
 		this.uid = uid;
 	}
 	

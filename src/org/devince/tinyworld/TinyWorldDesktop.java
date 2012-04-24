@@ -10,7 +10,7 @@ public class TinyWorldDesktop {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new LwjglApplication(TinyWorld.get(), TinyWorld.TITLE, TinyWorld.WIDTH, TinyWorld.HEIGHT, false);
+		new LwjglApplication(TinyWorld.get(), TinyWorld.TITLE, TinyWorld.WIDTH, TinyWorld.HEIGHT, true);
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 	}
 
