@@ -63,6 +63,8 @@ public class TinyWorld extends Game {
 	private SpriteBatch batch;
 	private boolean gameStarted;
 	private long nextId;
+	private float musicDelta;
+	private Music music;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -78,8 +80,8 @@ public class TinyWorld extends Game {
 	
 	public void create() {
 		this.setScreen(new Title());
-		Music music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
-		music.setLooping(true);
+		music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
+		// music.setLooping(true); // can not loop on gwt
 		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
@@ -119,6 +121,13 @@ public class TinyWorld extends Game {
 	}
 
 	public void render() {
+		this.musicDelta += Gdx.graphics.getDeltaTime();
+		if (this.musicDelta > 52.5f) {
+			this.music.stop();
+			this.music.play();
+			this.musicDelta = 0f;
+		}
+		
 		if (this.gameStarted) {
 			if (this.player.getLife() <= 0) {
 				this.setGameOver();
