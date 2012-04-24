@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
 		this.font.setColor(Color.GREEN);
 		this.fontGO = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
 		this.fontGO.setColor(Color.GREEN);
-		this.fontGO.setScale(2f);
+		this.fontGO.setScale(2f * (Gdx.graphics.getHeight() / TinyWorld.HEIGHT));
 		this.batch = new SpriteBatch();
 		this.sndSelect = Gdx.audio.newSound(Gdx.files.internal("data/select.wav"));
 		this.controller = new OnScreenController();
@@ -57,7 +57,7 @@ public class GameScreen implements Screen {
 			cumDelta += delta;
 			if (cumDelta > 1f) {
 				fontGO.draw(this.batch, "PRESS ANY KEY", 50, TinyWorld.HEIGHT / 2f - 75f);
-				if (Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
+				if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
 					this.cumDelta = 0;
 					this.sndSelect.play();
 					TinyWorld.get().restart();

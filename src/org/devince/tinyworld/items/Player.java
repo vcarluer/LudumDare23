@@ -1,6 +1,7 @@
 package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.TinyWorld;
+import org.devince.tinyworld.screens.OnScreenController;
 import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
@@ -91,14 +92,34 @@ public class Player extends GameItem implements IHurtable {
 		return true;
 	}
 	
+	private boolean createHandled;
+	
 	private void handleKeys() {
+		float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
+		float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
+		// float y0 = TinyWorld.HEIGHT - (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
+		
+		boolean leftButton = (Gdx.input.isTouched(0) && x0 < OnScreenController.X_LEFT + OnScreenController.PADDINGMID) || (Gdx.input.isTouched(1) && x1 < OnScreenController.X_LEFT + OnScreenController.PADDINGMID);
+		boolean rightButton = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x0 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID) || (Gdx.input.isTouched(1) && x1 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x1 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID);
+		boolean isCreatePressed = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_CREATE && x0 < TinyWorld.WIDTH)
+			|| (Gdx.input.isTouched(1) && x1 > OnScreenController.X_CREATE && x1 < TinyWorld.WIDTH);
+		if (isCreatePressed) {
+			if (!this.createHandled) {
+				this.createBlock = true;;
+			}
+		} else {
+			if (this.createHandled) {
+				this.createHandled = false;
+			}
+		}
+		
 		this.direction = NONE;
 		this.acceleration.x = 0;
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		if (Gdx.input.isKeyPressed(Keys.RIGHT) || rightButton) {
 			this.direction = RIGHT;
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+		if (Gdx.input.isKeyPressed(Keys.LEFT) || leftButton) {
 			this.direction = LEFT;
 		}
 		
@@ -330,6 +351,7 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		this.createBlock = false;
+		this.createHandled = true;
 	}
 
 	public void changeFace(Planet planet) {

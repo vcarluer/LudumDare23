@@ -66,6 +66,8 @@ public class TinyWorld extends Game {
 	private float musicDelta;
 	private Music music;
 	
+	private boolean isGWT;
+	
 	public static TinyWorld get() {
 		if (game == null) {
 			game = new TinyWorld();
@@ -79,7 +81,6 @@ public class TinyWorld extends Game {
 	}
 	
 	public void create() {
-		this.setScreen(new Title());
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
 		// music.setLooping(true); // can not loop on gwt
 		music.play();
@@ -91,7 +92,7 @@ public class TinyWorld extends Game {
 		this.cam.position.set(0, 0, 0);
 		this.cam.zoom = this.getZoom();
 		
-		this.stage = new Stage(WIDTH, HEIGHT, true);
+		this.stage = new Stage(WIDTH, HEIGHT, false);
 		Gdx.input.setInputProcessor(this.stage);
 		
 		this.galaxy = new Galaxy();
@@ -103,6 +104,8 @@ public class TinyWorld extends Game {
 		this.batch = new SpriteBatch();
 		
 		this.init();
+		
+		this.setScreen(new Title());
 	}
 	
 	private void constructViewPort() {
@@ -181,7 +184,9 @@ public class TinyWorld extends Game {
 	}
 
 	public void resize(int width, int height) {
-		this.stage.setViewport(width, height, true);
+		this.cam.viewportWidth = width;
+		this.cam.viewportHeight = height;
+		this.stage.setViewport(width, height, false);
 		super.resize(width, height);
 	}
 
