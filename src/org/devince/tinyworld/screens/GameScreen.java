@@ -1,5 +1,6 @@
 package org.devince.tinyworld.screens;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 
 import com.badlogic.gdx.Gdx;
@@ -21,13 +22,13 @@ public class GameScreen implements Screen {
 	private OnScreenController controller;
 	
 	public GameScreen() {				
-		this.font = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
+		this.font = Assets.getNewFont();
 		this.font.setColor(Color.GREEN);
-		this.fontGO = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
+		this.fontGO = Assets.getNewFont();
 		this.fontGO.setColor(Color.GREEN);
-		this.fontGO.setScale(2f * (Gdx.graphics.getHeight() / TinyWorld.HEIGHT));
+		this.fontGO.setScale(2f);
 		this.batch = new SpriteBatch();
-		this.sndSelect = Gdx.audio.newSound(Gdx.files.internal("data/select.wav"));
+		this.sndSelect = Assets.getSound("data/select.wav");
 		this.controller = new OnScreenController();
 	}
 	
@@ -56,19 +57,19 @@ public class GameScreen implements Screen {
 		if (TinyWorld.get().isGameOver()) {
 			cumDelta += delta;
 			if (cumDelta > 1f) {
-				fontGO.draw(this.batch, "PRESS ANY KEY", 50, TinyWorld.HEIGHT / 2f - 75f);
+				fontGO.draw(this.batch, "PRESS ANY KEY", 50, Gdx.graphics.getHeight() / 2f - 75f);
 				if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
 					this.cumDelta = 0;
 					this.sndSelect.play();
 					TinyWorld.get().restart();
 				}
 			}
-			fontGO.draw(this.batch, "GAME OVER", 50, TinyWorld.HEIGHT / 2f + 75f);
-			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, TinyWorld.HEIGHT / 2f);
+			fontGO.draw(this.batch, "GAME OVER", 50, Gdx.graphics.getHeight() / 2f + 75f);
+			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, Gdx.graphics.getHeight() / 2f);
 		} else {
-			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), 0 + PADDING, TinyWorld.HEIGHT - PADDING);
-			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), 0 + PADDING, TinyWorld.HEIGHT - PADDING - 30);
-			font.draw(this.batch, "Life: " + String.valueOf(TinyWorld.get().getPlayer().getLife()), 0 + PADDING, TinyWorld.HEIGHT - PADDING - 60);
+			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), 0 + PADDING, Gdx.graphics.getHeight() - PADDING);
+			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), 0 + PADDING, Gdx.graphics.getHeight() - PADDING - 30);
+			font.draw(this.batch, "Life: " + String.valueOf(TinyWorld.get().getPlayer().getLife()), 0 + PADDING, Gdx.graphics.getHeight() - PADDING - 60);
 			this.controller.render(this.batch);
 		}
 		

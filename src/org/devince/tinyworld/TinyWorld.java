@@ -81,6 +81,7 @@ public class TinyWorld extends Game {
 	}
 	
 	public void create() {
+		Assets.load();
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
 		// music.setLooping(true); // can not loop on gwt
 		music.play();
@@ -347,7 +348,7 @@ public class TinyWorld extends Game {
 		for (int i = 0; i < 150; i++) {
 			float x = (- WIDTH) + (int)(Math.random() * WIDTH * 2) + this.player.x; 
 			float y = (- HEIGHT) + (int)(Math.random() * HEIGHT * 2) + this.player.y;
-			Star s = new Star(x, y, new Texture("data/star.png"));
+			Star s = new Star(x, y, Assets.getTexture("data/star.png"));
 			this.stars.add(s);
 		}
 	}

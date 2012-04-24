@@ -1,6 +1,7 @@
 
 package org.devince.tinyworld.screens;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 
 import com.badlogic.gdx.Gdx;
@@ -25,7 +26,7 @@ public class OnScreenController {
 	}
 
 	private void loadAssets () {
-		Texture texture = new Texture(Gdx.files.internal("data/controls.png"));
+		Texture texture = Assets.getTexture("data/controls.png");
 		TextureRegion[] buttons = TextureRegion.split(texture, 64, 64)[0];
 		left = buttons[0];
 		right = buttons[1];

@@ -2,6 +2,7 @@ package org.devince.tinyworld.items;
 
 import java.util.UUID;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.world.Galaxy;
 
@@ -70,7 +71,7 @@ public abstract class GameItem extends Actor {
 	}
 	
 	protected void setSprite(String path) {
-		this.baseTexture = new Texture(Gdx.files.internal(path));
+		this.baseTexture = Assets.getTexture(path);
 		this.sprite = new Sprite(baseTexture);
 	}
 	
@@ -181,6 +182,6 @@ public abstract class GameItem extends Actor {
 	}
 	
 	protected Sound sndLoad(String path) {
-		return Gdx.audio.newSound(Gdx.files.internal(path));
+		return Assets.getSound(path);
 	}
 }

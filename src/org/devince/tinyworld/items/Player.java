@@ -1,5 +1,6 @@
 package org.devince.tinyworld.items;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.screens.OnScreenController;
 import org.devince.tinyworld.world.Galaxy;
@@ -10,13 +11,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
 import com.badlogic.gdx.scenes.scene2d.actions.Repeat;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 public class Player extends GameItem implements IHurtable {
@@ -66,7 +64,7 @@ public class Player extends GameItem implements IHurtable {
 		this.scale = 1;
 		
 		this.life = START_LIFE;
-		this.invTexture = new Texture(Gdx.files.internal("data/playerinv.png"));
+		this.invTexture = Assets.getTexture("data/playerinv.png");
 		this.sndCreate = this.sndLoad("data/createplan.wav");
 		this.sndHurt = this.sndLoad("data/hurt.wav");
 	}

@@ -1,5 +1,6 @@
 package org.devince.tinyworld.items;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 
 import com.badlogic.gdx.Gdx;
@@ -13,7 +14,7 @@ public class Score extends GameItem {
 
 	public Score() {
 		this.setSprite("data/score.png");
-		this.sndPick = this.sndLoad("data/coin.wav");
+		this.sndPick =this.sndLoad(Assets.DATA_COIN_WAV);
 	}
 	
 	@Override

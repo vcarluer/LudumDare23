@@ -1,5 +1,6 @@
 package org.devince.tinyworld.items;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.world.Galaxy;
 
@@ -41,7 +42,7 @@ public class Planet extends GameItem implements IHurtable {
 		this.life = this.getMaxLife();
 		
 		if (this.isPrimary()) {
-			this.backSprite	 = new Sprite(new Texture(Gdx.files.internal(this.getBackSpritePath())));
+			this.backSprite	 = new Sprite(Assets.getTexture(this.getBackSpritePath()));
 		}
 		
 		int rot = (int) Math.floor(Math.random() * 4);
@@ -122,19 +123,19 @@ public class Planet extends GameItem implements IHurtable {
 			this.life--;
 			if (!this.primary) {
 				if (this.life == 2) {
-					this.sprite.setTexture(new Texture("data/planetext2.png"));
+					this.sprite.setTexture(Assets.getTexture("data/planetext2.png"));
 				}
 				
 				if (this.life == 1) {
-					this.sprite.setTexture(new Texture("data/planetext3.png"));
+					this.sprite.setTexture(Assets.getTexture("data/planetext3.png"));
 				}
 			} else {
 				if (this.life == 4) {
-					this.sprite.setTexture(new Texture("data/planet2.png"));
+					this.sprite.setTexture(Assets.getTexture("data/planet2.png"));
 				}
 				
 				if (this.life == 2) {
-					this.sprite.setTexture(new Texture("data/planet3.png"));
+					this.sprite.setTexture(Assets.getTexture("data/planet3.png"));
 				}
 			}
 			

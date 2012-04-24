@@ -1,5 +1,6 @@
 package org.devince.tinyworld.screens;
 
+import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 
 import com.badlogic.gdx.Gdx;
@@ -19,9 +20,9 @@ public class Help implements Screen {
 	
 	public Help() {
 		this.batch = new SpriteBatch();
-		this.sprite = new Sprite(new TextureRegion(new Texture(Gdx.files.internal("data/help.png")), 0, 0, 800, 600));
+		this.sprite = new Sprite(new TextureRegion(Assets.getTexture("data/help.png"), 0, 0, 800, 600));
 		this.sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		this.sndSelect = Gdx.audio.newSound(Gdx.files.internal("data/select.wav"));
+		this.sndSelect = Assets.getSound("data/select.wav");
 	}
 	@Override
 	public void render(float delta) {
