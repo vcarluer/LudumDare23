@@ -122,7 +122,7 @@ public class TinyWorld extends Game {
 
 	public void render() {
 		this.musicDelta += Gdx.graphics.getDeltaTime();
-		if (this.musicDelta > 52.5f) {
+		if (this.musicDelta > 52.62f) {
 			this.music.stop();
 			this.music.play();
 			this.musicDelta = 0f;

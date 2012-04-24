@@ -18,6 +18,7 @@ public class GameScreen implements Screen {
 	private BitmapFont fontGO;
 	private SpriteBatch batch;
 	private Sound sndSelect;
+	private OnScreenController controller;
 	
 	public GameScreen() {				
 		this.font = new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
@@ -27,6 +28,7 @@ public class GameScreen implements Screen {
 		this.fontGO.setScale(2f);
 		this.batch = new SpriteBatch();
 		this.sndSelect = Gdx.audio.newSound(Gdx.files.internal("data/select.wav"));
+		this.controller = new OnScreenController();
 	}
 	
 	@Override
@@ -67,6 +69,7 @@ public class GameScreen implements Screen {
 			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), 0 + PADDING, TinyWorld.HEIGHT - PADDING);
 			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), 0 + PADDING, TinyWorld.HEIGHT - PADDING - 30);
 			font.draw(this.batch, "Life: " + String.valueOf(TinyWorld.get().getPlayer().getLife()), 0 + PADDING, TinyWorld.HEIGHT - PADDING - 60);
+			this.controller.render(this.batch);
 		}
 		
 		this.batch.end();
