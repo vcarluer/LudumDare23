@@ -3,7 +3,6 @@ package org.devince.tinyworld.items;
 import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 

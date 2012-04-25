@@ -1,13 +1,9 @@
 package org.devince.tinyworld.items;
 
-import java.util.UUID;
-
 import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.world.Galaxy;
 
-import com.badlogic.gdx.Audio;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

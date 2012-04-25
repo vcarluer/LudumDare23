@@ -1,7 +1,5 @@
 package org.devince.tinyworld.world;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.items.Planet;

@@ -4,13 +4,10 @@ import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
 import org.devince.tinyworld.world.Galaxy;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Planet extends GameItem implements IHurtable {
 	
@@ -93,7 +90,6 @@ public class Planet extends GameItem implements IHurtable {
 		} else {
 			return "data/planetext.png";
 		}
-		
 	}
 
 

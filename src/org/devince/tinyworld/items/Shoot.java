@@ -9,8 +9,6 @@ public class Shoot extends GameItem {
 	public static float SIZE = 4f;
 	private static final float MAX_VELOCITY = 100f;
 	private static final float BASE_VELOCITY = 10f;
-	private static float LIFE_TIME = 3f;
-	private float elapasedTime;
 	// Normalized target
 	private Vector2 norTarget;
 

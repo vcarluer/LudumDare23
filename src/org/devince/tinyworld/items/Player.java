@@ -25,23 +25,23 @@ public class Player extends GameItem implements IHurtable {
 	protected static final int ACCELERATION_BASE = 5;
 	private static final float DAMP = 0.9f;
 	private static final float MAX_VELOCITY = 1.1f;
-	private static final float SCALE_VELOCITY = 0.02f;
-	private static final int UP = 1;
-	private static final int DOWN = -1;
-	private static final float MAX_SCALE = 1.1f;
-	private static final float MIN_SCALE = 0.9f;
+//	private static final float SCALE_VELOCITY = 0.02f;
+//	private static final int UP = 1;
+//	private static final int DOWN = -1;
+//	private static final float MAX_SCALE = 1.1f;
+//	private static final float MIN_SCALE = 0.9f;
 	private static final int START_LIFE = 3;
 	private static final float INVINCIBLE_TIME = 5f;
 	private static final int SCORE = 1;
 	protected int direction;
-	private float scale;
+//	private float scale;
 	
 	protected Vector2 acceleration;
 	private Vector2 velocity;
 	
 	private boolean createBlock ;
 	private int facing;
-	private int scaleDirection;
+//	private int scaleDirection;
 	protected int life;
 	private boolean isInvincible;
 	private float invincibleElapsed;
@@ -51,6 +51,8 @@ public class Player extends GameItem implements IHurtable {
 	private Planet[] currentAround;
 	private Planet[] nextAround;
 	private Rectangle nextBB;
+	
+	private Vector2 tmpVect;
 	
 	// sounds
 	private Sound sndCreate;
@@ -64,8 +66,8 @@ public class Player extends GameItem implements IHurtable {
 		this.acceleration = new Vector2();
 		this.velocity = new Vector2();
 		
-		this.scaleDirection = UP;
-		this.scale = 1;
+//		this.scaleDirection = UP;
+//		this.scale = 1;
 		
 		this.life = START_LIFE;
 		this.invTexture = Assets.getTexture("data/playerinv.png");
@@ -75,6 +77,8 @@ public class Player extends GameItem implements IHurtable {
 		this.currentAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
 		this.nextAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
 		this.nextBB = new Rectangle();
+		
+		this.tmpVect = new Vector2();
 	}
 	
 	protected String getSpritePath() {
@@ -311,46 +315,45 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		return max;
-	}
+	}	
 
 	private void createBlock(Planet[] around) {
 		boolean createPlanete = false;
-		Vector2 vct = new Vector2();
 		if (this.facing == RIGHT) {
 			if (this.getBottomRight(around) == null) {
-				vct.x = Galaxy.TILESIZE;
-				vct.y = - Galaxy.TILESIZE;
+				this.tmpVect.x = Galaxy.TILESIZE;
+				this.tmpVect.y = - Galaxy.TILESIZE;
 				createPlanete = true;
 			} else if (this.getRight(around) == null) {
-				vct.x = Galaxy.TILESIZE;
-				vct.y = 0;
+				this.tmpVect.x = Galaxy.TILESIZE;
+				this.tmpVect.y = 0;
 				createPlanete = true;
 			} else if (this.getTopRight(around) == null) {
-				vct.x = Galaxy.TILESIZE;
-				vct.y = Galaxy.TILESIZE;
+				this.tmpVect.x = Galaxy.TILESIZE;
+				this.tmpVect.y = Galaxy.TILESIZE;
 				createPlanete = true;
 			}
 		}
 		
 		if (this.facing == LEFT) {
 			if (this.getBottomLeft(around) == null) {
-				vct.x = - Galaxy.TILESIZE;
-				vct.y = - Galaxy.TILESIZE;
+				this.tmpVect.x = - Galaxy.TILESIZE;
+				this.tmpVect.y = - Galaxy.TILESIZE;
 				createPlanete = true;
 			} else if (this.getLeft(around) == null) {
-				vct.x = - Galaxy.TILESIZE;
-				vct.y = 0;
+				this.tmpVect.x = - Galaxy.TILESIZE;
+				this.tmpVect.y = 0;
 				createPlanete = true;
 			} else if (this.getTopLeft(around) == null) {
-				vct.x = - Galaxy.TILESIZE;
-				vct.y = Galaxy.TILESIZE;
+				this.tmpVect.x = - Galaxy.TILESIZE;
+				this.tmpVect.y = Galaxy.TILESIZE;
 				createPlanete = true;
 			}
 		}
 		
 		if (createPlanete) {
-			vct.rotate(- this.getNormalAngle());
-			Point pt = TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.x + vct.x, this.y + vct.y);
+			this.tmpVect.rotate(- this.getNormalAngle());
+			Point pt = TinyWorld.get().getGalaxy().getGalaxyCoordinate(this.x + this.tmpVect.x, this.y + this.tmpVect.y);
 			
 			TinyWorld.get().getGalaxy().addPlanet(pt.x, pt.y);
 			this.sndCreate.play();
@@ -420,7 +423,7 @@ public class Player extends GameItem implements IHurtable {
 			return;
 		}
 		
-		this.scale = 1;
+//		this.scale = 1;
 	}
 	
 	private void changeNormal() {
@@ -629,10 +632,6 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		return 0;
-	}
-	
-	private float getAngleRadian() {
-		return (float) Math.toRadians(this.getNormalAngle());
 	}
 	
 	@Override
