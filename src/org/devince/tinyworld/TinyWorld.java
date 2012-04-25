@@ -11,6 +11,7 @@ import org.devince.tinyworld.items.Life;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
+import org.devince.tinyworld.items.Shoot;
 import org.devince.tinyworld.items.ShootGenerator;
 import org.devince.tinyworld.items.Star;
 import org.devince.tinyworld.screens.GameScreen;
@@ -48,7 +49,6 @@ public class TinyWorld extends Game {
 	
 	private List<GameItem> items;
 	private List<GameItem> itemsToRemove;
-	private HashMap<Long, GameItem> handled;
 	private int level;
 	private int score;
 	private Rectangle viewPort;
@@ -69,6 +69,8 @@ public class TinyWorld extends Game {
 	
 	private List<GameItem> aliens;
 	private List<GameItem> bonuses;
+	private List<GameItem> shoots;
+	private List<GameItem> planets;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -90,7 +92,6 @@ public class TinyWorld extends Game {
 		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
-		this.handled = new HashMap<Long, GameItem>();
 		
 		this.cam = new OrthographicCamera(WIDTH, HEIGHT);
 		this.cam.position.set(0, 0, 0);
@@ -110,6 +111,8 @@ public class TinyWorld extends Game {
 		
 		this.aliens = new ArrayList<GameItem>();
 		this.bonuses = new ArrayList<GameItem>();
+		this.shoots = new ArrayList<GameItem>();
+		this.planets = new ArrayList<GameItem>();
 		
 		this.init();
 		
@@ -162,7 +165,6 @@ public class TinyWorld extends Game {
 			
 			this.renderStars();
 			this.galaxy.drawBack();
-			SpriteBatch stageBatch = this.stage.getSpriteBatch();
 			this.stage.draw();
 		}
 		
@@ -181,6 +183,14 @@ public class TinyWorld extends Game {
 				if (this.isBonus(item)) {
 					this.bonuses.remove(item);
 				}
+				
+				if (this.isShoot(item)) {
+					this.shoots.remove(item);
+				}
+				
+				if (this.isPlanet(item)) {
+					this.planets.remove(item);
+				}
 			}
 			
 			this.itemsToRemove.clear();
@@ -188,22 +198,29 @@ public class TinyWorld extends Game {
 	}
 
 	private void handleContacts() {
-		this.handled.clear();
-		for(GameItem item : this.items) {
-			if (item.getEnable()) {
-				for(GameItem item2 : this.items) {
-					if (item2.getEnable() && !this.handled.containsKey(item2.getUid())) {
-						if (item != item2) {
-							if (item.getBoundingBox().overlaps(item2.getBoundingBox())) {
-								item.handleContact(item2);
-								item2.handleContact(item);
-							}
-						}
-					}
+		this.handleContactWithPlayer(this.bonuses);
+		this.handleContactWithPlayer(this.aliens);
+		this.handleContactWithPlayer(this.shoots);
+		for(GameItem alien : this.aliens) {
+			this.handleContactWithItem(alien, this.shoots);
+		}
+		for(GameItem planet : this.planets) {
+			this.handleContactWithItem(planet, this.shoots);
+		}
+	}
+	
+	private void handleContactWithPlayer(List<GameItem> list) {
+		this.handleContactWithItem(this.player, list);
+	}
+	
+	private void handleContactWithItem(GameItem source, List<GameItem> list) {
+		if (source.getEnable()) {
+			for (GameItem item : list) {
+				if (item.getEnable() && source.getBoundingBox().overlaps(item.getBoundingBox())) {
+					item.handleContact(source);
+					source.handleContact(item);
 				}
 			}
-			
-			this.handled.put(item.getUid(), item);
 		}
 	}
 
@@ -225,6 +242,14 @@ public class TinyWorld extends Game {
 		if (this.isBonus(item)) {
 			this.bonuses.add(item);
 		}
+		
+		if (this.isShoot(item)) {
+			this.shoots.add(item);
+		}
+		
+		if (this.isPlanet(item)) {
+			this.planets.add(item);
+		}
 	}
 	
 	private boolean isAlien(GameItem item) {
@@ -233,6 +258,14 @@ public class TinyWorld extends Game {
 	
 	private boolean isBonus(GameItem item) {
 		return item instanceof Score || item instanceof Life ||  item instanceof Invincibility;
+	}
+	
+	private boolean isShoot(GameItem item) {
+		return item instanceof Shoot;
+	}
+	
+	private boolean isPlanet(GameItem item) {
+		return item instanceof Planet;
 	}
 	
 	public void addGameItemOnPlanet(GameItem item, Planet planet) {
@@ -355,6 +388,10 @@ public class TinyWorld extends Game {
 		
 		this.items.clear();
 		this.itemsToRemove.clear();
+		this.bonuses.clear();
+		this.aliens.clear();
+		this.shoots.clear();
+		this.planets.clear();
 				
 		this.stage.clear();
 		
@@ -383,9 +420,6 @@ public class TinyWorld extends Game {
 			Star s = new Star(x, y, Assets.getTexture("data/star.png"));
 			this.stars.add(s);
 		}
-		
-		this.aliens.clear();
-		this.bonuses.clear();
 	}
 	
 	private void renderStars() {

@@ -94,6 +94,7 @@ public class PlanetGenerator extends GameItem {
 				}
 			}
 		}
+		
 		if (this.spawnTime > this.spawnDelta) {
 			if (free == null) {
 				planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);

@@ -146,7 +146,7 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y, this.currentAround);
-		Planet bottom = this.getBottom(currentAround);
+		Planet bottom = this.getBottom(currentAround); 
 		
 		// Create block action
 		if (this.createBlock) {
@@ -193,6 +193,10 @@ public class Player extends GameItem implements IHurtable {
 		Planet nextPlanet = null;
 		if (this.isPlayer) {
 			nextPlanet = currentAround[Galaxy.CENTER];
+			// handle sun here because no more contacts on planets
+			if (bottom instanceof Sun) {
+				bottom.handleContact(this);
+			}
 		}
 		
 		if (nextPlanet != null) {
