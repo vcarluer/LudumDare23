@@ -69,6 +69,9 @@ public class TinyWorld extends Game {
 	
 	private boolean isGWT;
 	
+	private List<GameItem> aliens;
+	private List<GameItem> bonuses;
+	
 	public static TinyWorld get() {
 		if (game == null) {
 			game = new TinyWorld();
@@ -106,6 +109,9 @@ public class TinyWorld extends Game {
 		this.stars = new ArrayList<Star>();
 		this.batch = new SpriteBatch();
 		
+		this.aliens = new ArrayList<GameItem>();
+		this.bonuses = new ArrayList<GameItem>();
+		
 		this.init();
 		
 		this.setScreen(new Title());
@@ -141,12 +147,7 @@ public class TinyWorld extends Game {
 				this.setGameOver();
 			}
 			
-			for(GameItem item : this.itemsToRemove) {
-				this.items.remove(item);
-				this.stage.removeActor(item);
-			}
-			
-			this.itemsToRemove.clear();
+			this.handleRemove();			
 			
 			Gdx.gl.glClearColor(0, 0, 0, 1);
 			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -166,6 +167,24 @@ public class TinyWorld extends Game {
 		}
 		
 		super.render();
+	}
+
+	private void handleRemove() {
+		if (this.itemsToRemove.size() > 0) {
+			for(GameItem item : this.itemsToRemove) {
+				this.items.remove(item);
+				this.stage.removeActor(item);
+				if (this.isAlien(item)) {
+					this.aliens.remove(item);
+				}
+				
+				if (this.isBonus(item)) {
+					this.bonuses.remove(item);
+				}
+			}
+			
+			this.itemsToRemove.clear();
+		}		
 	}
 
 	private void handleContacts() {
@@ -199,6 +218,21 @@ public class TinyWorld extends Game {
 		// to add in render
 		this.stage.addActor(item);
 		this.items.add(item);
+		if (this.isAlien(item)) {
+			this.aliens.add(item);
+		}
+		
+		if (this.isBonus(item)) {
+			this.bonuses.add(item);
+		}
+	}
+	
+	private boolean isAlien(GameItem item) {
+		return item instanceof Alien;
+	}
+	
+	private boolean isBonus(GameItem item) {
+		return item instanceof Score || item instanceof Life ||  item instanceof Invincibility;
 	}
 	
 	public void addGameItemOnPlanet(GameItem item, Planet planet) {
@@ -270,14 +304,7 @@ public class TinyWorld extends Game {
 	}
 
 	public int getAlienCount() {
-		int total = 0;
-		for(GameItem item : this.items) {
-			if (item instanceof Alien) {
-				total++;
-			}
-		}
-		
-		return total;
+		return this.aliens.size();
 	}
 
 	public int getLevel() {
@@ -355,6 +382,9 @@ public class TinyWorld extends Game {
 			Star s = new Star(x, y, Assets.getTexture("data/star.png"));
 			this.stars.add(s);
 		}
+		
+		this.aliens.clear();
+		this.bonuses.clear();
 	}
 	
 	private void renderStars() {
@@ -368,15 +398,8 @@ public class TinyWorld extends Game {
 		this.batch.end();
 	}
 
-	public int getItemsCount() {
-		int total = 0;
-		for(GameItem item : this.items) {
-			if (item instanceof Score || item instanceof Life ||  item instanceof Invincibility) {
-				total++;
-			}
-		}
-		
-		return total;
+	public int getBonusesCount() {
+		return this.bonuses.size();
 	}
 
 	public void start() {

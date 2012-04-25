@@ -124,7 +124,7 @@ public class PlanetGenerator extends GameItem {
 			}
 			
 			if (planet != null) {
-				if (TinyWorld.get().getItemsCount() < TinyWorld.get().getLevel() * MAX_ITEMS) {
+				if (TinyWorld.get().getBonusesCount() < TinyWorld.get().getLevel() * MAX_ITEMS) {
 					this.randomItem(planet);
 				}
 				
