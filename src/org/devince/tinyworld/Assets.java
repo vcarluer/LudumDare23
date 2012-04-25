@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Assets {
 	public static final String DATA_COIN_WAV = "data/coin.wav";
 	public static final String DATA_CREATEPLAN_WAV = "data/createplan.wav";
@@ -103,5 +104,19 @@ public class Assets {
 	
 	public static BitmapFont getNewFont() {
 		return new BitmapFont(Gdx.files.internal("data/ar.fnt"), Gdx.files.internal("data/ar.png"), false);
+	}
+	
+	private static Map<String, Sprite> sprites = new HashMap<String, Sprite>();
+	
+	public static Sprite getSprite(String path) {
+		Sprite s = null;
+		if (!sprites.containsKey(path)) {
+			s = new Sprite(Assets.getTexture(path));
+			sprites.put(path, s);
+		} else {
+			s = sprites.get(path);
+		}
+		
+		return s;
 	}
 }

@@ -54,9 +54,7 @@ public abstract class GameItem extends Actor {
 		});
 	}
 
-	public void draw(SpriteBatch batch, float parentAlpha) {
-		batch.setProjectionMatrix(TinyWorld.get().getCamera().combined);
-		
+	public void draw(SpriteBatch batch, float parentAlpha) {		
 		if (this.sprite != null) {
 			this.sprite.setPosition(this.x - this.getRefereceWidth() / 2f, this.y - this.getReferenceHeight() / 2f);
 			this.sprite.setRotation(this.rotation);
@@ -68,7 +66,7 @@ public abstract class GameItem extends Actor {
 	
 	protected void setSprite(String path) {
 		this.baseTexture = Assets.getTexture(path);
-		this.sprite = new Sprite(baseTexture);
+		this.sprite =new Sprite(this.baseTexture);
 	}
 	
 	protected Texture baseTexture;

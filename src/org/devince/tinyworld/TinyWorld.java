@@ -97,6 +97,7 @@ public class TinyWorld extends Game {
 		this.cam.zoom = this.getZoom();
 		
 		this.stage = new Stage(WIDTH, HEIGHT, false);
+		this.stage.setCamera(this.cam);
 		Gdx.input.setInputProcessor(this.stage);
 		
 		this.galaxy = new Galaxy();
@@ -161,6 +162,7 @@ public class TinyWorld extends Game {
 			
 			this.renderStars();
 			this.galaxy.drawBack();
+			SpriteBatch stageBatch = this.stage.getSpriteBatch();
 			this.stage.draw();
 		}
 		
