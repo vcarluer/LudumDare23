@@ -85,25 +85,27 @@ public class Galaxy {
 		return point;
 	}
 	
-	public Planet[] getAroundPlanetsFromGamePosition(float x, float y) {
+	public void getAroundPlanetsFromGamePosition(float x, float y, Planet[] planetsHolder) {
 		float shiftX = x + TILESIZE / 2f;
 		float shiftY = y + TILESIZE / 2f;
 		// No point creation by calling getGalaxyCoordinate for optim
-		return this.getAroundPlanets((int)Math.floor(shiftX / TILESIZE), (int)Math.floor(shiftY / TILESIZE));
+		this.getAroundPlanets((int)Math.floor(shiftX / TILESIZE), (int)Math.floor(shiftY / TILESIZE), planetsHolder);
 	}
 	
-	public Planet[] getAroundPlanets(int x, int y) {
+	public void getAroundPlanets(int x, int y, Planet[] planetsHolder) {
+		// No clear for speed optimization
 		// always returns planets in same order
-		Planet[] aroundPlanets = new Planet[9];
 		int cpt = 0;
 		for (int cX = x - 1; cX < x + 2; cX++) {
 			for (int cY = y - 1; cY < y + 2; cY++) {
-				aroundPlanets[cpt] = this.getPlanet(cX, cY);
+				planetsHolder[cpt] = this.getPlanet(cX, cY);
 				cpt++;
 			}
 		}
-		
-		return aroundPlanets;
+	}
+	
+	public Planet[] createPlanetsStruc() {
+		return new Planet[9];
 	}
 	
 	public boolean contains(int x, int y) {

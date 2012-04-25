@@ -29,11 +29,13 @@ public class PlanetGenerator extends GameItem {
 	private float spawnDeltaItem;
 	private float spawnTimeItem;
 	private Sound sndCreate;
+	private Planet[] planetsHolder;
 	
 	public PlanetGenerator() {
 		this.spawnDelta = SPAWN_MAX;
 		this.spawnDeltaItem = SPAWN_MAX_ITEM;
 		this.sndCreate = this.sndLoad("data/spawn.wav");
+		this.planetsHolder = TinyWorld.get().getGalaxy().createPlanetsStruc();
 	}
 	
 	private float getSpawnDelta() {
@@ -67,8 +69,8 @@ public class PlanetGenerator extends GameItem {
 	@Override
 	public Actor hit(float x, float y) {
 		return null;
-	}
-
+	}	
+	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
@@ -84,8 +86,8 @@ public class PlanetGenerator extends GameItem {
 			x += p.getGalaxyPoint().x;
 			y += p.getGalaxyPoint().y;
 			
-			Planet[] planets = TinyWorld.get().getGalaxy().getAroundPlanets(x, y);
-			for(Planet pla : planets) {
+			TinyWorld.get().getGalaxy().getAroundPlanets(x, y, this.planetsHolder);
+			for(Planet pla : this.planetsHolder) {
 				if (pla != null && pla.isPrimary() && !(pla instanceof Sun)) {
 					free = pla;
 					break;

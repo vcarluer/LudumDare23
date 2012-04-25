@@ -48,9 +48,12 @@ public class Player extends GameItem implements IHurtable {
 	private Texture invTexture;
 	private boolean isPlayer;
 	
+	private Planet[] currentAround;
+	private Planet[] nextAround;
+	
 	// sounds
 	private Sound sndCreate;
-	private Sound sndHurt;
+	private Sound sndHurt;	
 	
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
@@ -67,6 +70,9 @@ public class Player extends GameItem implements IHurtable {
 		this.invTexture = Assets.getTexture("data/playerinv.png");
 		this.sndCreate = this.sndLoad("data/createplan.wav");
 		this.sndHurt = this.sndLoad("data/hurt.wav");
+		
+		this.currentAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
+		this.nextAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
 	}
 	
 	protected String getSpritePath() {
@@ -133,7 +139,7 @@ public class Player extends GameItem implements IHurtable {
 			this.handleKeys();
 		}
 		
-		Planet[] currentAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y);
+		TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(this.x, this.y, this.currentAround);
 		Planet bottom = this.getBottom(currentAround);
 		
 		// Create block action
@@ -176,7 +182,7 @@ public class Player extends GameItem implements IHurtable {
 		
 		float nextX = this.x + this.getTX(this.velocity.x);
 		float nextY = this.y + this.getTY(this.velocity.x);
-		Planet[] nextAround = TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY);
+		TinyWorld.get().getGalaxy().getAroundPlanetsFromGamePosition(nextX, nextY, this.nextAround);
 		
 		Planet nextPlanet = null;
 		if (this.isPlayer) {
