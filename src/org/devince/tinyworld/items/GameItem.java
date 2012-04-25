@@ -97,8 +97,8 @@ public abstract class GameItem extends Actor {
 		return this.boundingBox;
 	}
 	
-	public Rectangle createBoundingBox(float x, float y) {
-		return new Rectangle(x - this.width / 2f, y - this.height / 2f, this.width, this.height);
+	public void createBoundingBox(float x, float y, Rectangle r) {
+		r.set(x - this.width / 2f, y - this.height / 2f, this.width, this.height);
 	}
 	
 	public void handleContact(GameItem item) {

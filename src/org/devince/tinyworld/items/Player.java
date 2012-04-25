@@ -50,6 +50,7 @@ public class Player extends GameItem implements IHurtable {
 	
 	private Planet[] currentAround;
 	private Planet[] nextAround;
+	private Rectangle nextBB;
 	
 	// sounds
 	private Sound sndCreate;
@@ -73,6 +74,7 @@ public class Player extends GameItem implements IHurtable {
 		
 		this.currentAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
 		this.nextAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
+		this.nextBB = new Rectangle();
 	}
 	
 	protected String getSpritePath() {
@@ -220,10 +222,10 @@ public class Player extends GameItem implements IHurtable {
 				}
 				
 				if (nextPlanet != null) {
-					Rectangle bb = this.createBoundingBox(nextX, nextY);
+					this.createBoundingBox(nextX, nextY, this.nextBB);
 					Rectangle pBB = nextPlanet.getBoundingBox();
 					
-					if (bb.overlaps(pBB)) {
+					if (this.nextBB.overlaps(pBB)) {
 						switchPlanet = true;
 					}
 				}

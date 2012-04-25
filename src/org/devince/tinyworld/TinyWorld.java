@@ -351,6 +351,7 @@ public class TinyWorld extends Game {
 		this.level = 1;
 		this.gameOver = false;
 		this.score = 0;
+		this.nextId = 0;
 		
 		this.items.clear();
 		this.itemsToRemove.clear();
