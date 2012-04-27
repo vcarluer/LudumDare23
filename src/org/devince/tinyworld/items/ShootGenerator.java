@@ -45,14 +45,31 @@ public class ShootGenerator extends Shooter {
 	
 	@Override
 	public void shoot() {
-		double sel = Math.random();
-		int randCorner = 0;
-		if (sel > 0.5f) {
-			randCorner = 1;
+		int sel = (int) Math.floor(Math.random() * 4);
+		int randCornerX = 0;
+		int randCornerY = 0;
+		switch (sel) {
+			default:
+			case 0:
+				randCornerX = 0;
+				randCornerY = 1;
+				break;
+			case 1:
+				randCornerX = 1;
+				randCornerY = 1;
+				break;
+			case 2:
+				randCornerX = 1;
+				randCornerY = 0;
+				break;
+			case 3:
+				randCornerX = 0;
+				randCornerY = 0;
+				break;
 		}
 		
-		float x = TinyWorld.get().getViewPort().x + randCorner * TinyWorld.get().getViewPort().width;
-		float y = TinyWorld.get().getViewPort().y + TinyWorld.get().getViewPort().height;
+		float x = TinyWorld.get().getViewPort().x + randCornerX * TinyWorld.get().getViewPort().width;
+		float y = TinyWorld.get().getViewPort().y + randCornerY * TinyWorld.get().getViewPort().height;
 		this.setPosition(x, y);
 		super.shoot();
 	}
