@@ -9,7 +9,7 @@ public class Meteor extends Shoot {
 
 	private static final float METEOR_SIZE = 6f;
 	private static final float METEOR_REFERENCE = 8f;
-	private static final int LIFE = 3;
+	private static final int LIFE = 2;
 	private int life;
 
 	public Meteor(float x, float y, float dirX, float dirY) {

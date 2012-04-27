@@ -7,7 +7,13 @@ import org.devince.tinyworld.world.Galaxy;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
+import com.badlogic.gdx.scenes.scene2d.actions.Repeat;
+import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 public class Planet extends GameItem implements IHurtable {
 	
@@ -142,12 +148,42 @@ public class Planet extends GameItem implements IHurtable {
 				} else {
 					this.sndExtDestroy.play();
 				}
-				TinyWorld.get().getGalaxy().removePlanet(this);
+				
+				this.handleDestroy();
 			} else {
 				this.sndPlanetHurt.play();
 			}
 		}
 	}
+
+	private void handleDestroy() {
+		this.enable = false;
+		FadeOut fo = FadeOut.$(0.2f);
+		FadeIn fi = FadeIn.$(0.2f);
+		Sequence seq = Sequence.$(fo, fi);
+		Repeat rep = Repeat.$(seq, 3);
+		rep.setCompletionListener(new OnActionCompleted() {
+			
+			@Override
+			public void completed(Action action) {
+				endDestroy();
+			}
+		});
+		
+		this.action(rep);
+	}
+	
+	private void endDestroy() {
+		this.destroy(this.destroyListener);
+	}
+	
+	private OnActionCompleted destroyListener = new OnActionCompleted() {
+		
+		@Override
+		public void completed(Action action) {
+			TinyWorld.get().getGalaxy().removePlanet((Planet)me);
+		}
+	};
 
 	public boolean isPrimary() {
 		return this.primary;
@@ -157,6 +193,7 @@ public class Planet extends GameItem implements IHurtable {
 		if (this.backSprite != null) {
 			this.backSprite.setPosition(this.x - this.getAirRefereceWidth() / 2f, this.y - this.getAirReferenceHeight() / 2f);
 			this.backSprite.setRotation(this.rotation);
+			this.backSprite.setScale(this.scaleX, this.scaleY);
 			this.backSprite.draw(batch);
 		}
 	}

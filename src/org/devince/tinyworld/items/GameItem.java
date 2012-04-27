@@ -21,8 +21,8 @@ public abstract class GameItem extends Actor {
 	protected Rectangle boundingBox;
 	private Long uid;
 	protected Vector2 normal;
-	private GameItem me;
-	private boolean enable;
+	protected GameItem me;
+	protected boolean enable;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
@@ -42,16 +42,20 @@ public abstract class GameItem extends Actor {
 	}
 	
 	public void destroy() {
-		this.enable = false;
-		ScaleTo st = ScaleTo.$(0, 0, 0.3f);
-		this.action(st);
-		st.setCompletionListener(new OnActionCompleted() {
+		this.destroy(new OnActionCompleted() {
 			
 			@Override
 			public void completed(Action action) {
 				TinyWorld.get().addItemToRemove(me);
 			}
 		});
+	}
+	
+	public void destroy(OnActionCompleted onActionCompleted) {
+		this.enable = false;
+		ScaleTo st = ScaleTo.$(0, 0, 0.3f);
+		this.action(st);
+		st.setCompletionListener(onActionCompleted);
 	}
 
 	public void draw(SpriteBatch batch, float parentAlpha) {		
