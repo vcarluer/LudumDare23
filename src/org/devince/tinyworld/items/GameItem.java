@@ -23,6 +23,7 @@ public abstract class GameItem extends Actor {
 	protected Vector2 normal;
 	protected GameItem me;
 	protected boolean enable;
+	private Vector2 vecPosition;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
@@ -32,6 +33,7 @@ public abstract class GameItem extends Actor {
 		this.setUid(TinyWorld.get().getNextID());
 		this.normal = new Vector2(0, 1);
 		this.me = this;
+		this.vecPosition = new Vector2();
 		
 		this.scaleX = 0;
 		this.scaleY = 0;
@@ -181,5 +183,11 @@ public abstract class GameItem extends Actor {
 	
 	protected Sound sndLoad(String path) {
 		return Assets.getSound(path);
+	}
+	
+	public Vector2 getPosition() {
+		this.vecPosition.x = this.x;
+		this.vecPosition.y = this.y;
+		return this.vecPosition;
 	}
 }

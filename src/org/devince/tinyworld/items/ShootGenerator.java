@@ -5,6 +5,7 @@ import org.devince.tinyworld.TinyWorld;
 public class ShootGenerator extends Shooter {
 	private static final float SHOOT_DELTA = 6f;
 	private static final float MIN_DELTA = 10f;
+	private static final int MAX_METEOR = 6;
 	private float shootDelta;
 	private float shootElapsed;
 	
@@ -32,7 +33,9 @@ public class ShootGenerator extends Shooter {
 		
 		this.shootElapsed += delta;
 		if (this.shootElapsed > this.shootDelta) {
-			this.shoot();
+			if (TinyWorld.get().getMeteorsCount() < MAX_METEOR) {
+				this.shoot();
+			}
 			this.shootElapsed = 0f;
 			this.shootDelta = this.getShootDelta();
 		}

@@ -175,21 +175,32 @@ public class TinyWorld extends Game {
 	}
 
 	private void handleContacts() {
-		this.handleContactWithPlayer(this.bonuses);
+		// Contact with players
 		this.handleContactWithPlayer(this.aliens);
 		this.handleContactWithPlayer(this.shoots);
+		this.handleContactWithPlayer(this.bonuses);
+		
+		// Bonus contact with planets
+		for(GameItem bonus : this.bonuses) {
+			if (bonus.getEnable()) {
+				if (this.galaxy.contains(bonus.getGalaxyPoint())) {
+					this.addItemToRemove(bonus);
+				}
+			}
+		}
+		
+		// Meteor on aliens
 		for(GameItem meteor : this.meteors) {
 			this.handleContactWithItem(meteor, this.aliens);
 		}
 		
+		// Shoots on planets
 		for(GameItem shoot : this.shoots) {
 			if (shoot.getEnable()) {
 				if (this.galaxy.contains(shoot.getGalaxyPoint())) {
 					Planet planet = this.galaxy.getPlanet(shoot.getGalaxyPoint());
-					if (shoot.getBoundingBox().overlaps(planet.getBoundingBox())) {
-						planet.handleContact(shoot);
-						shoot.handleContact(planet);
-					}
+					planet.handleContact(shoot);
+					shoot.handleContact(planet);
 				}
 			}
 		}
@@ -485,5 +496,9 @@ public class TinyWorld extends Game {
 
 	public int getShootsCount() {
 		return this.shoots.size();
+	}
+
+	public int getMeteorsCount() {
+		return this.meteors.size();
 	}
 }
