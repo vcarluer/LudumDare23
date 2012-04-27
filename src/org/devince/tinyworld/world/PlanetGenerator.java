@@ -79,21 +79,23 @@ public class PlanetGenerator extends GameItem {
 		this.spawnTimeItem += delta;
 		Planet planet = null;
 		Planet free = null;
-		int x = (- SPAWN_RADIUS) + (int)(Math.random() * (SPAWN_RADIUS * 2)); 
+		int x = (- SPAWN_RADIUS) + (int)Math.floor((Math.random() * ((SPAWN_RADIUS * 2) + 1) )); 
 		if (x > 0) {
 			x += SPAWN_RADIUS_MIN;
 		} else {
 			x -= SPAWN_RADIUS_MIN;
 		}
 		
-		int y = (- SPAWN_RADIUS) + (int)(Math.random() * (SPAWN_RADIUS * 2));
+		int y = (- SPAWN_RADIUS) + (int)Math.floor((Math.random() * ((SPAWN_RADIUS * 2) + 1)));
 		if (y > 0) {
 			y += SPAWN_RADIUS_MIN;
 		} else {
 			y -= SPAWN_RADIUS_MIN;
 		}
 		
-		if (this.spawnTime > this.spawnDelta || this.spawnTimeItem > this.spawnDeltaItem) {
+		boolean forceNoAliens = TinyWorld.get().getAlienCount() == 0;
+		
+		if (this.spawnTime > this.spawnDelta || this.spawnTimeItem > this.spawnDeltaItem || forceNoAliens) {
 			Player p = TinyWorld.get().getPlayer();
 			x += p.getGalaxyPoint().x;
 			y += p.getGalaxyPoint().y;
@@ -107,7 +109,7 @@ public class PlanetGenerator extends GameItem {
 			}
 		}
 		
-		if (this.spawnTime > this.spawnDelta) {
+		if (this.spawnTime > this.spawnDelta || forceNoAliens) {
 			if (free == null) {
 				Player player = TinyWorld.get().getPlayer();
 				if (!(player.x == x && player.y == y))	 {
@@ -138,7 +140,7 @@ public class PlanetGenerator extends GameItem {
 			}
 		}
 		
-		if (this.spawnTimeItem > this.spawnDeltaItem) {
+		if (this.spawnTimeItem > this.spawnDeltaItem || forceNoAliens) {
 			if (planet == null && free != null) {
 				planet = free;
 			}

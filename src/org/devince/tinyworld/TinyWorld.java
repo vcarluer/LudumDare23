@@ -416,7 +416,7 @@ public class TinyWorld extends Game {
 	}
 	
 	private void init() {
-		this.level = 7;
+		this.level = 1;
 		this.gameOver = false;
 		this.score = 0;
 		this.nextId = 0;

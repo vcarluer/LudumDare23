@@ -48,7 +48,7 @@ public class Planet extends GameItem implements IHurtable {
 			this.backSprite	 = new Sprite(Assets.getTexture(this.getBackSpritePath()));
 		}
 		
-		int rot = (int) Math.floor(Math.random() * 4);
+		int rot = (int) Math.floor(Math.floor(Math.random() * 4));
 		switch(rot) {
 		default:
 		case 0:
