@@ -1,7 +1,10 @@
 package org.devince.tinyworld.world;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.devince.tinyworld.TinyWorld;
+import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Point;
 import org.devince.tinyworld.items.Sun;
@@ -28,6 +31,12 @@ public class Galaxy {
 	private Planet startPlanet;
 	private Point comparePoint;
 	private SpriteBatch batch;
+	
+	private final static int sunX = 0;
+	private final static int sunWidth = 1;
+	private final static int sunY = 0;
+	private final static int sunHeight = 1;
+	private final static int sunRadius = 2;
 	
 	public Galaxy() {
 		this.planets = new HashMap<Point, Planet>();
@@ -62,6 +71,10 @@ public class Galaxy {
 		}
 		
 		return planet;
+	}
+	
+	public boolean nearSun(int x, int y) {
+		return x >= sunX - sunRadius && x <= sunX + sunWidth + sunRadius && y >= sunY - sunRadius && y <= sunY + sunHeight + sunRadius;
 	}
 	
 	public Planet addPlanet(Planet planet) {

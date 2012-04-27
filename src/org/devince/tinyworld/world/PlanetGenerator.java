@@ -111,8 +111,10 @@ public class PlanetGenerator extends GameItem {
 			if (free == null) {
 				Player player = TinyWorld.get().getPlayer();
 				if (!(player.x == x && player.y == y))	 {
-					planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
-					this.sndCreate.play();
+					if (!TinyWorld.get().getGalaxy().nearSun(x, y)) {
+						planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
+						this.sndCreate.play();
+					}
 				}
 			} else {
 				planet = free;
