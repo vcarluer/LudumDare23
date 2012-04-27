@@ -151,4 +151,8 @@ public class Galaxy {
 		
 		this.batch.end();
 	}
+
+	public Planet getPlanet(Point galaxyPoint) {
+		return this.planets.get(galaxyPoint);
+	}
 }

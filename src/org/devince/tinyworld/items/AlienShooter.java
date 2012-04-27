@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 public class AlienShooter extends Alien {
 	private static final float SHOOT_DELTA = 1f;
 	private static final float MIN_DELTA = 0.5f;
+	private static final int MAX_SHOOT = 10;
 	private Shooter shooter;
 	private float shootDelta;
 	private float shootElapsed;
@@ -34,13 +35,16 @@ public class AlienShooter extends Alien {
 	public void act(float delta) {
 		this.shootElapsed += delta;
 		if (this.shootElapsed > this.shootDelta) {
-			this.dir.x = this.player.x - this.x;
-			this.dir.y = this.player.y - this.y;
-			this.dir.nor().mul(this.width + Shoot.SIZE / 2f + 1);
-			
-			this.shooter.setPosition(this.x + this.dir.x, this.y + this.dir.y);
-			this.shooter.shoot();
-			this.sndShoot.play();
+			if (TinyWorld.get().getShootsCount() < MAX_SHOOT) {
+				this.dir.x = this.player.x - this.x;
+				this.dir.y = this.player.y - this.y;
+				this.dir.nor().mul(this.width + Shoot.SIZE / 2f + 1);
+				
+				this.shooter.setPosition(this.x + this.dir.x, this.y + this.dir.y);
+				this.shooter.shoot();
+				this.sndShoot.play();
+			}
+
 			this.shootElapsed = 0;
 			this.shootDelta = this.getShootDelta();
 		}

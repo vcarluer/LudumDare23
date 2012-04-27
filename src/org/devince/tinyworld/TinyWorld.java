@@ -8,6 +8,7 @@ import org.devince.tinyworld.items.Alien;
 import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Invincibility;
 import org.devince.tinyworld.items.Life;
+import org.devince.tinyworld.items.Meteor;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Player;
 import org.devince.tinyworld.items.Score;
@@ -71,6 +72,7 @@ public class TinyWorld extends Game {
 	private List<GameItem> bonuses;
 	private List<GameItem> shoots;
 	private List<GameItem> planets;
+	private List<GameItem> meteors; // for aliens contacts
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -113,6 +115,7 @@ public class TinyWorld extends Game {
 		this.bonuses = new ArrayList<GameItem>();
 		this.shoots = new ArrayList<GameItem>();
 		this.planets = new ArrayList<GameItem>();
+		this.meteors = new ArrayList<GameItem>();
 		
 		this.init();
 		
@@ -171,41 +174,24 @@ public class TinyWorld extends Game {
 		super.render();
 	}
 
-	private void handleRemove() {
-		if (this.itemsToRemove.size() > 0) {
-			for(GameItem item : this.itemsToRemove) {
-				this.items.remove(item);
-				this.stage.removeActor(item);
-				if (this.isAlien(item)) {
-					this.aliens.remove(item);
-				}
-				
-				if (this.isBonus(item)) {
-					this.bonuses.remove(item);
-				}
-				
-				if (this.isShoot(item)) {
-					this.shoots.remove(item);
-				}
-				
-				if (this.isPlanet(item)) {
-					this.planets.remove(item);
-				}
-			}
-			
-			this.itemsToRemove.clear();
-		}		
-	}
-
 	private void handleContacts() {
 		this.handleContactWithPlayer(this.bonuses);
 		this.handleContactWithPlayer(this.aliens);
 		this.handleContactWithPlayer(this.shoots);
-		for(GameItem alien : this.aliens) {
-			this.handleContactWithItem(alien, this.shoots);
+		for(GameItem meteor : this.meteors) {
+			this.handleContactWithItem(meteor, this.aliens);
 		}
-		for(GameItem planet : this.planets) {
-			this.handleContactWithItem(planet, this.shoots);
+		
+		for(GameItem shoot : this.shoots) {
+			if (shoot.getEnable()) {
+				if (this.galaxy.contains(shoot.getGalaxyPoint())) {
+					Planet planet = this.galaxy.getPlanet(shoot.getGalaxyPoint());
+					if (shoot.getBoundingBox().overlaps(planet.getBoundingBox())) {
+						planet.handleContact(shoot);
+						shoot.handleContact(planet);
+					}
+				}
+			}
 		}
 	}
 	
@@ -250,6 +236,40 @@ public class TinyWorld extends Game {
 		if (this.isPlanet(item)) {
 			this.planets.add(item);
 		}
+		
+		if (this.isMeteor(item)) {
+			this.meteors.add(item);
+		}
+	}
+	
+	private void handleRemove() {
+		if (this.itemsToRemove.size() > 0) {
+			for(GameItem item : this.itemsToRemove) {
+				this.items.remove(item);
+				this.stage.removeActor(item);
+				if (this.isAlien(item)) {
+					this.aliens.remove(item);
+				}
+				
+				if (this.isBonus(item)) {
+					this.bonuses.remove(item);
+				}
+				
+				if (this.isShoot(item)) {
+					this.shoots.remove(item);
+				}
+				
+				if (this.isPlanet(item)) {
+					this.planets.remove(item);
+				}
+				
+				if (this.isMeteor(item)) {
+					this.meteors.remove(item);
+				}
+			}
+			
+			this.itemsToRemove.clear();
+		}		
 	}
 	
 	private boolean isAlien(GameItem item) {
@@ -266,6 +286,10 @@ public class TinyWorld extends Game {
 	
 	private boolean isPlanet(GameItem item) {
 		return item instanceof Planet;
+	}
+	
+	private boolean isMeteor(GameItem item) {
+		return item instanceof Meteor;
 	}
 	
 	public void addGameItemOnPlanet(GameItem item, Planet planet) {
@@ -392,6 +416,7 @@ public class TinyWorld extends Game {
 		this.aliens.clear();
 		this.shoots.clear();
 		this.planets.clear();
+		this.meteors.clear();
 				
 		this.stage.clear();
 		
@@ -456,5 +481,9 @@ public class TinyWorld extends Game {
 
 	public void setGWT(boolean isGWT) {
 		this.isGWT = isGWT;
+	}
+
+	public int getShootsCount() {
+		return this.shoots.size();
 	}
 }
