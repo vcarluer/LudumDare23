@@ -193,10 +193,12 @@ public class Player extends GameItem implements IHurtable {
 		Planet nextPlanet = null;
 		if (this.isPlayer) {
 			nextPlanet = currentAround[Galaxy.CENTER];
-			// handle sun here because no more contacts on planets
-			if (bottom instanceof Sun) {
-				bottom.handleContact(this);
-			}
+			
+		}
+		
+		// handle sun here because no more contacts on planets
+		if (bottom instanceof Sun) {
+			bottom.handleContact(this);
 		}
 		
 		if (nextPlanet != null) {

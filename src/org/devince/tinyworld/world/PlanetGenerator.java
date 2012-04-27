@@ -15,7 +15,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class PlanetGenerator extends GameItem {
-	private static final int SPAWN_RADIUS = 5;
+	private static final int SPAWN_RADIUS_MIN = 3;
+	private static final int SPAWN_RADIUS = 3; // On min
 	private static final int MAX_ALIEN = 10;
 	private static final int MAX_ITEMS = 20;
 	private static float SPAWN_MAX = 2f; 
@@ -79,7 +80,18 @@ public class PlanetGenerator extends GameItem {
 		Planet planet = null;
 		Planet free = null;
 		int x = (- SPAWN_RADIUS) + (int)(Math.random() * (SPAWN_RADIUS * 2)); 
+		if (x > 0) {
+			x += SPAWN_RADIUS_MIN;
+		} else {
+			x -= SPAWN_RADIUS_MIN;
+		}
+		
 		int y = (- SPAWN_RADIUS) + (int)(Math.random() * (SPAWN_RADIUS * 2));
+		if (y > 0) {
+			y += SPAWN_RADIUS_MIN;
+		} else {
+			y -= SPAWN_RADIUS_MIN;
+		}
 		
 		if (this.spawnTime > this.spawnDelta || this.spawnTimeItem > this.spawnDeltaItem) {
 			Player p = TinyWorld.get().getPlayer();
@@ -97,8 +109,11 @@ public class PlanetGenerator extends GameItem {
 		
 		if (this.spawnTime > this.spawnDelta) {
 			if (free == null) {
-				planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
-				this.sndCreate.play();
+				Player player = TinyWorld.get().getPlayer();
+				if (!(player.x == x && player.y == y))	 {
+					planet = TinyWorld.get().getGalaxy().addPlanet(x, y, true);
+					this.sndCreate.play();
+				}
 			} else {
 				planet = free;
 			}
