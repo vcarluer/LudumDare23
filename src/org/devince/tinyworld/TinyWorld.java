@@ -165,7 +165,6 @@ public class TinyWorld extends Game {
 			this.stage.setKeyboardFocus(this.player);
 			this.handleContacts();
 			this.stage.act(Gdx.graphics.getDeltaTime());
-			
 			this.renderStars();
 			this.galaxy.drawBack();
 			this.stage.draw();

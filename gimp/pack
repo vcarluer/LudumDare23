@@ -1,0 +1,33 @@
+
+hud1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+refresh
+  rotate: false
+  xy: 0, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+question
+  rotate: false
+  xy: 8, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+createbridge
+  rotate: false
+  xy: 16, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+arrow
+  rotate: false
+  xy: 24, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
