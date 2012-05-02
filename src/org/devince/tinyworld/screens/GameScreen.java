@@ -9,15 +9,24 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {	
+	private static final int ICON_SCALE = 4;
 	private static final int PADDING = 10;
+	private static final int PADDING_HUD = 20;
+	private static final int ICON_SIZE = 4 * ICON_SCALE;
 	private BitmapFont font;
 	private BitmapFont fontGO;
 	private SpriteBatch batch;
 	private Sound sndSelect;
 	private OnScreenController controller;
+	private Sprite coin;
+	private Sprite heart;
+	private Vector2 scorePos;
+	private Vector2 lifePos;
 	
 	public GameScreen() {				
 		this.font = Assets.getNewFont();
@@ -28,6 +37,21 @@ public class GameScreen implements Screen {
 		this.batch = new SpriteBatch();
 		this.sndSelect = Assets.getSound("data/select.wav");
 		this.controller = new OnScreenController();
+		this.coin = Assets.getSprite("data/score.png");
+		this.heart = Assets.getSprite("data/life.png");
+		this.coin.setScale(ICON_SCALE);
+		float x = Gdx.graphics.getWidth() /2f;
+		float y = Gdx.graphics.getHeight() - ICON_SIZE / 2f - PADDING;
+		this.coin.setPosition(x, y);
+		float xLbl = x + ICON_SIZE / 2f + PADDING;
+		float yLbl = Gdx.graphics.getHeight();
+		this.scorePos = new Vector2(xLbl, yLbl);
+		this.heart.setScale(ICON_SCALE);
+		y = Gdx.graphics.getHeight() - ICON_SIZE * 1.5f - PADDING - PADDING_HUD;
+		yLbl =Gdx.graphics.getHeight() - PADDING_HUD - ICON_SIZE;
+		this.heart.setPosition(x, y);
+		this.lifePos = new Vector2(xLbl, yLbl);
+		
 	}
 	
 	@Override
@@ -65,9 +89,11 @@ public class GameScreen implements Screen {
 			fontGO.draw(this.batch, "GAME OVER", 50, Gdx.graphics.getHeight() / 2f + 75f);
 			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, Gdx.graphics.getHeight() / 2f);
 		} else {
-			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING);
-			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING - 30);
-			font.draw(this.batch, "Life: " + String.valueOf(TinyWorld.get().getPlayer().getLife()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING - 60);
+			this.coin.draw(this.batch);
+			this.heart.draw(this.batch);
+			// font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING);
+			font.draw(this.batch, String.valueOf(TinyWorld.get().getScore()), scorePos.x, scorePos.y);
+			font.draw(this.batch, String.valueOf(TinyWorld.get().getPlayer().getLife()), lifePos.x, lifePos.y);
 			this.controller.render(this.batch);
 		}
 		
