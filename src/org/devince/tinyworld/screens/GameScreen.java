@@ -65,9 +65,9 @@ public class GameScreen implements Screen {
 			fontGO.draw(this.batch, "GAME OVER", 50, Gdx.graphics.getHeight() / 2f + 75f);
 			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, Gdx.graphics.getHeight() / 2f);
 		} else {
-			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), 0 + PADDING, Gdx.graphics.getHeight() - PADDING);
-			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), 0 + PADDING, Gdx.graphics.getHeight() - PADDING - 30);
-			font.draw(this.batch, "Life: " + String.valueOf(TinyWorld.get().getPlayer().getLife()), 0 + PADDING, Gdx.graphics.getHeight() - PADDING - 60);
+			font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING);
+			font.draw(this.batch, "Score: " + String.valueOf(TinyWorld.get().getScore()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING - 30);
+			font.draw(this.batch, "Life: " + String.valueOf(TinyWorld.get().getPlayer().getLife()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING - 60);
 			this.controller.render(this.batch);
 		}
 		

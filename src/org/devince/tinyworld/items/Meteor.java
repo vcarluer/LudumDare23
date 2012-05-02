@@ -4,6 +4,7 @@ import org.devince.tinyworld.TinyWorld;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Forever;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateBy;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleTo;
 
 public class Meteor extends Shoot {
 
@@ -26,9 +27,16 @@ public class Meteor extends Shoot {
 			this.life++;
 		}
 		
+		this.clearActions();
+		
 		RotateBy rb = RotateBy.$(360, 5f);
 		Forever forever = Forever.$(rb);
 		this.action(forever);
+		
+		this.scaleX = 10;
+		this.scaleY = 10;
+		ScaleTo st = ScaleTo.$(1, 1, 2.0f);
+		this.action(st);
 	}
 	
 	@Override

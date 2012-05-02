@@ -17,6 +17,7 @@ public class ShootGenerator extends Shooter {
 	public ShootGenerator(GameItem target) {
 		super(target);
 		this.shootDelta = this.getShootDelta();
+		this.shootElapsed = 100;
 	}
 
 	private float getShootDelta() {
