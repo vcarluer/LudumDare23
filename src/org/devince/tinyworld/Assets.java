@@ -21,6 +21,8 @@ public class Assets {
 	public static final String DATA_PLANETHURT_WAV = "data/planethurt.wav";
 	public static final String DATA_SELECT_WAV = "data/select.wav";
 	public static final String DATA_SPAWN_WAV = "data/spawn.wav";
+	public static final String DATA_INVINCIBLEEND_WAV = "data/endinvincible.wav";
+	public static final String DATA_INVINCIBLEMUS_MP3 = "data/invincible.mp3";
 	
 	public static final String DATA_ALIEN_PNG = "data/alien.png";
 	public static final String DATA_CONTROLS_PNG = "data/controls.png";
@@ -57,6 +59,8 @@ public class Assets {
 		sounds.put(DATA_EXTDESTROY_WAV, createSound(DATA_EXTDESTROY_WAV));
 		sounds.put(DATA_HURT_WAV, createSound(DATA_HURT_WAV));
 		sounds.put(DATA_INV_WAV, createSound(DATA_INV_WAV));
+		sounds.put(DATA_INVINCIBLEEND_WAV, createSound(DATA_INVINCIBLEEND_WAV));
+		sounds.put(DATA_INVINCIBLEMUS_MP3, createSound(DATA_INVINCIBLEMUS_MP3));
 		sounds.put(DATA_LIFE_WAV, createSound(DATA_LIFE_WAV));
 		sounds.put(DATA_PLANETEXPLOSE_WAV, createSound(DATA_PLANETEXPLOSE_WAV));
 		sounds.put(DATA_PLANETHURT_WAV, createSound(DATA_PLANETHURT_WAV));
@@ -64,7 +68,6 @@ public class Assets {
 		sounds.put(DATA_SPAWN_WAV, createSound(DATA_SPAWN_WAV));
 		
 		textures.put(DATA_ALIEN_PNG, createTexture(DATA_ALIEN_PNG));
-		textures.put(DATA_CONTROLS_PNG, createTexture(DATA_CONTROLS_PNG));
 		textures.put(DATA_HELP_PNG, createTexture(DATA_HELP_PNG));
 		textures.put(DATA_INVINCIBLE_PNG, createTexture(DATA_INVINCIBLE_PNG));
 		textures.put(DATA_LIFE_PNG, createTexture(DATA_LIFE_PNG));

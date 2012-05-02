@@ -13,7 +13,7 @@ import sys, struct, random
 import math
 
 # tunables.
-SMP_FREQ = 44100
+SMP_FREQ = 88200
 SMP_16BIT = True
 
 # IT format constants. leave these alone.

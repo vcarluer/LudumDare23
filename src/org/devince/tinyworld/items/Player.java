@@ -57,6 +57,8 @@ public class Player extends GameItem implements IHurtable {
 	// sounds
 	private Sound sndCreate;
 	private Sound sndHurt;	
+	private Sound sndEndInvincible;
+	private Sound sndInvincible;
 	
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
@@ -73,6 +75,8 @@ public class Player extends GameItem implements IHurtable {
 		this.invTexture = Assets.getTexture("data/playerinv.png");
 		this.sndCreate = this.sndLoad("data/createplan.wav");
 		this.sndHurt = this.sndLoad("data/hurt.wav");
+		this.sndEndInvincible = this.sndLoad(Assets.DATA_INVINCIBLEEND_WAV);
+		this.sndInvincible = this.sndLoad(Assets.DATA_INVINCIBLEMUS_MP3);
 		
 		this.currentAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
 		this.nextAround = TinyWorld.get().getGalaxy().createPlanetsStruc();
@@ -103,6 +107,8 @@ public class Player extends GameItem implements IHurtable {
 	}
 	
 	private boolean createHandled;
+	private boolean invincibleActionDone;
+	private boolean invincibleMusicStarted;
 	
 	private void handleKeys() {
 		float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
@@ -154,10 +160,27 @@ public class Player extends GameItem implements IHurtable {
 		}
 		
 		if (this.isInvincible) {
+			if (!this.invincibleMusicStarted) {
+				TinyWorld.get().pauseMusic();
+				this.sndInvincible.play();
+				this.invincibleMusicStarted = true;
+			}
 			this.invincibleElapsed += delta;
+			if (!this.invincibleActionDone && this.invincibleElapsed > INVINCIBLE_TIME - 1f) {
+				FadeOut fo = FadeOut.$(0.1f);
+				FadeIn fi = FadeIn.$(0.1f);
+				Sequence seq = Sequence.$(fo, fi);
+				Repeat rep = Repeat.$(seq, 5);
+				this.action(rep);
+				this.invincibleActionDone = true;
+			}
 			if (this.invincibleElapsed > INVINCIBLE_TIME) {
 				this.isInvincible = false;
 				this.sprite.setTexture(this.baseTexture);
+				this.sndEndInvincible.play();
+				this.invincibleActionDone = false;
+				this.invincibleMusicStarted = false;
+				TinyWorld.get().resumeMusic();
 			}
 		}
 		

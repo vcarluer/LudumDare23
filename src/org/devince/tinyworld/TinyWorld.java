@@ -31,7 +31,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class TinyWorld extends Game {
-	private static final float MUSIC_LENGTH = 52.62f;
+	private static final float MUSIC_TIME = 53f;
 	private static final int LEVEL_SCORE = 10;
 	private static final float DEFAULT_ZOOM = 0.3f;
 	private static TinyWorld game;
@@ -73,6 +73,7 @@ public class TinyWorld extends Game {
 	private List<GameItem> shoots;
 	private List<GameItem> planets;
 	private List<GameItem> meteors; // for aliens contacts
+	private boolean isMusicPaused;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -90,7 +91,6 @@ public class TinyWorld extends Game {
 	public void create() {
 		Assets.load();
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
-		music.setLooping(!this.isGWT); // can not loop on gwt
 		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
@@ -138,9 +138,9 @@ public class TinyWorld extends Game {
 	}
 
 	public void render() {
-		this.musicDelta += Gdx.graphics.getDeltaTime();
-		if (this.isGWT) {
-			if (this.musicDelta > MUSIC_LENGTH) {
+		if (!this.isMusicPaused) {
+			this.musicDelta += Gdx.graphics.getDeltaTime();
+			if (this.musicDelta > MUSIC_TIME) {
 				this.music.stop();
 				this.music.play();
 				this.musicDelta = 0f;
@@ -499,5 +499,15 @@ public class TinyWorld extends Game {
 
 	public int getMeteorsCount() {
 		return this.meteors.size();
+	}
+	
+	public void pauseMusic() {
+		this.music.pause();
+		this.isMusicPaused = true;
+	}
+	
+	public void resumeMusic() {
+		this.music.play();
+		this.isMusicPaused = false;
 	}
 }
