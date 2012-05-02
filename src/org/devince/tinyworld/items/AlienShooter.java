@@ -55,6 +55,11 @@ public class AlienShooter extends Alien {
 		super.act(delta);
 	}
 	
+	@Override
+	protected float getMaxVelocity() {
+		return super.getMaxVelocity() / 2f;
+	}
+
 	private float getShootDelta() {
 		float d = (float) (1 + SHOOT_DELTA * Math.random()) * (10 / TinyWorld.get().getLevel());
 		if (d < MIN_DELTA) {
