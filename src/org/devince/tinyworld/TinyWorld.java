@@ -74,6 +74,7 @@ public class TinyWorld extends Game {
 	private List<GameItem> planets;
 	private List<GameItem> meteors; // for aliens contacts
 	private boolean isMusicPaused;
+	private boolean paused;
 	
 	public static TinyWorld get() {
 		if (game == null) {
@@ -152,7 +153,13 @@ public class TinyWorld extends Game {
 				this.setGameOver();
 			}
 			
-			this.handleRemove();			
+			if (!this.paused) {
+				this.handleRemove();			
+				
+				this.stage.setKeyboardFocus(this.player);
+				this.handleContacts();
+				this.stage.act(Gdx.graphics.getDeltaTime());
+			}
 			
 			Gdx.gl.glClearColor(0, 0, 0, 1);
 			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -162,9 +169,7 @@ public class TinyWorld extends Game {
 			this.cam.update();
 			// this.cam.apply(Gdx.gl10); // does not work for gwt
 			
-			this.stage.setKeyboardFocus(this.player);
-			this.handleContacts();
-			this.stage.act(Gdx.graphics.getDeltaTime());
+			
 			this.renderStars();
 			this.galaxy.drawBack();
 			this.stage.draw();
@@ -509,5 +514,13 @@ public class TinyWorld extends Game {
 	public void resumeMusic() {
 		this.music.play();
 		this.isMusicPaused = false;
+	}
+
+	public void togglePause() {
+		this.paused = !this.paused;
+	}
+	
+	public void stopMusic() {
+		this.music.stop();
 	}
 }

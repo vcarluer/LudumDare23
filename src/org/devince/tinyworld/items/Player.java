@@ -102,6 +102,10 @@ public class Player extends GameItem implements IHurtable {
 		if (keycode == Keys.H) {
 			TinyWorld.get().showHelp();
 		}
+		
+		if (keycode == Keys.P) {
+			TinyWorld.get().togglePause();
+		}
 
 		return true;
 	}
