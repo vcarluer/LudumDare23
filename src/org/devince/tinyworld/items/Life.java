@@ -34,6 +34,7 @@ public class Life extends GameItem {
 			TinyWorld.get().getPlayer().addLife();
 			this.sndLife.play();
 			this.destroy();
+			TinyWorld.get().getGameScreen().takeLife();
 		}
 	}
 

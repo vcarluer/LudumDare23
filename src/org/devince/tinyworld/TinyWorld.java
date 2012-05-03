@@ -76,6 +76,8 @@ public class TinyWorld extends Game {
 	private boolean isMusicPaused;
 	private boolean paused;
 	
+	private GameScreen gameScreen;
+	
 	public static TinyWorld get() {
 		if (game == null) {
 			game = new TinyWorld();
@@ -117,6 +119,8 @@ public class TinyWorld extends Game {
 		this.shoots = new ArrayList<GameItem>();
 		this.planets = new ArrayList<GameItem>();
 		this.meteors = new ArrayList<GameItem>();
+		
+		this.gameScreen = new GameScreen();
 		
 		this.init();
 		
@@ -425,6 +429,8 @@ public class TinyWorld extends Game {
 		this.score = 0;
 		this.nextId = 0;
 		
+		this.gameScreen.reset();
+		
 		this.items.clear();
 		this.itemsToRemove.clear();
 		this.bonuses.clear();
@@ -479,7 +485,7 @@ public class TinyWorld extends Game {
 
 	public void start() {
 		this.gameStarted = true;
-		this.setScreen(new GameScreen());
+		this.setScreen(this.gameScreen);
 	}
 
 	public void showHelp() {
@@ -522,5 +528,9 @@ public class TinyWorld extends Game {
 	
 	public void stopMusic() {
 		this.music.stop();
+	}
+
+	public GameScreen getGameScreen() {
+		return this.gameScreen;
 	}
 }

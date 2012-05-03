@@ -38,6 +38,7 @@ public class Score extends GameItem {
 			TinyWorld.get().addScore(SCORE);
 			this.sndPick.play();
 			this.destroy();
+			TinyWorld.get().getGameScreen().takeCoin();
 		}
 	}	
 }

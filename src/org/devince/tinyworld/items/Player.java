@@ -163,7 +163,7 @@ public class Player extends GameItem implements IHurtable {
 			this.createBlock(currentAround);
 		}
 		
-		if (this.isInvincible) {
+		if (this.isInvincible()) {
 			if (!this.invincibleMusicStarted) {
 				TinyWorld.get().pauseMusic();
 				this.sndInvincible.play();
@@ -179,7 +179,7 @@ public class Player extends GameItem implements IHurtable {
 				this.invincibleActionDone = true;
 			}
 			if (this.invincibleElapsed > INVINCIBLE_TIME) {
-				this.isInvincible = false;
+				this.setInvincible(false);
 				this.sprite.setTexture(this.baseTexture);
 				this.sndEndInvincible.play();
 				this.invincibleActionDone = false;
@@ -684,7 +684,7 @@ public class Player extends GameItem implements IHurtable {
 	}
 
 	public void hurt(GameItem from) {
-		if (!this.isInvincible) {
+		if (!this.isInvincible()) {
 			this.life--;
 			if (this.isPlayer) {
 				this.sndHurt.play();
@@ -723,7 +723,7 @@ public class Player extends GameItem implements IHurtable {
 	}
 
 	public void startInvincible() {
-		this.isInvincible = true;
+		this.setInvincible(true);
 		this.invincibleElapsed = 0f;
 		this.sprite.setTexture(this.invTexture);
 	}
@@ -734,5 +734,13 @@ public class Player extends GameItem implements IHurtable {
 
 	public void setPlayer(boolean isPlayer) {
 		this.isPlayer = isPlayer;
+	}
+
+	public boolean isInvincible() {
+		return isInvincible;
+	}
+
+	public void setInvincible(boolean isInvincible) {
+		this.isInvincible = isInvincible;
 	}
 }
