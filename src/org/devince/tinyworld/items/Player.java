@@ -194,6 +194,7 @@ public class Player extends GameItem implements IHurtable {
 			this.hurt(currentAround[Galaxy.CENTER]);
 			if (this.life <= 0) {
 				TinyWorld.get().addScore(SCORE);
+				TinyWorld.get().getGameScreen().takeCoin();
 			}
 		}
 		
