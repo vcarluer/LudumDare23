@@ -7,7 +7,7 @@ public class Sun extends Planet {
 	public Sun(int x, int y) {
 		super(x, y);
 		
-		this.name = "Sun";
+		this.name = "a strange square Sun";
 	}
 
 	@Override

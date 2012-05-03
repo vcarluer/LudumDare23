@@ -196,4 +196,39 @@ public abstract class GameItem extends Actor {
 	public String getName() {
 		return this.name;
 	}
+	
+	protected String getRandomSurname() {
+		int size = 27;
+		int rand = (int) Math.floor(Math.random() * size);
+		String[] names = new String[size];
+		names[0] = "Willy Foo Foo";
+		names[1] = "Mr. Magnificent";
+		names[2] = "Sparky";
+		names[3] = "Mister Googlehead";
+		names[4] = "Dollface";
+		names[5] = "Tons of Fun";
+		names[6] = "Mr. Fabulous";
+		names[7] = "Captain Awesome";
+		names[8] = "Porkchop";
+		names[9] = "Captain Obvious";
+		names[10] = "Pissy Missy";
+		names[11] = "Miracle Boy";
+		names[12] = "DangerRoss";
+		names[13] = "Tits McGee";
+		names[14] = "Sister Boom Boom";
+		names[15] = "Sad Keanu";
+		names[16] = "Squirt";
+		names[17] = "Mr. Wonderful";		
+		names[18] = "Awesome McAwesome";
+		names[19] = "Joe Kickass";
+		names[20] = "Snaggletooth";
+		names[21] = "Pissy Baby";
+		names[22] = "He Hate Me";
+		names[23] = "Spunky";
+		names[24] = "Ross the Boss";		
+		names[25] = "Weird Beard";
+		names[26] = "Spanky";
+		
+		return "\"" + names[rand] + "\"";
+	}
 }

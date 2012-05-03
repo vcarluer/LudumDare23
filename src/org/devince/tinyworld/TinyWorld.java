@@ -540,8 +540,10 @@ public class TinyWorld extends Game {
 		if (item != null) {
 			kill += item.getName();
 		} else {
-			kill += "Space";
+			kill += "Space itself";
 		}
+		
+		kill += "!";
 		
 		return kill;
 	}

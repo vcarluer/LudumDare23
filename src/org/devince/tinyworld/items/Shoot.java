@@ -19,7 +19,7 @@ public class Shoot extends GameItem {
 		this.norTarget = new Vector2(dirX - x, dirY - y);
 		this.norTarget.nor();
 		
-		this.name = "Shooter";
+		this.name = this.getRandomSurname() + " the Shooter";
 	}
 	
 	protected String getSprite() {
