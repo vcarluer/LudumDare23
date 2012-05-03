@@ -31,6 +31,8 @@ public class Alien extends Player {
 		}
 		
 		this.sndEnenmyHurt = this.sndLoad("data/enhurt.wav");
+		
+		this.name = "Hunter";
 	}
 
 	@Override

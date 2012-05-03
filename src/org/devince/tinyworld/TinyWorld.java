@@ -533,4 +533,16 @@ public class TinyWorld extends Game {
 	public GameScreen getGameScreen() {
 		return this.gameScreen;
 	}
+	
+	public String getKillString() {
+		String kill = "Killed by ";
+		GameItem item = this.player.getKillItem();
+		if (item != null) {
+			kill += item.getName();
+		} else {
+			kill += "Space";
+		}
+		
+		return kill;
+	}
 }

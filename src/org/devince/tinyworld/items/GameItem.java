@@ -24,6 +24,7 @@ public abstract class GameItem extends Actor {
 	protected GameItem me;
 	protected boolean enable;
 	private Vector2 vecPosition;
+	protected String name;
 	
 	public GameItem() {
 		this.width = this.getRefereceWidth();
@@ -41,6 +42,7 @@ public abstract class GameItem extends Actor {
 		this.action(st);
 		
 		this.enable = true;
+		this.name = "";
 	}
 	
 	public void destroy() {
@@ -189,5 +191,9 @@ public abstract class GameItem extends Actor {
 		this.vecPosition.x = this.x;
 		this.vecPosition.y = this.y;
 		return this.vecPosition;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 }

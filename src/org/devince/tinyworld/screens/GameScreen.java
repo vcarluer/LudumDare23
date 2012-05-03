@@ -100,8 +100,9 @@ public class GameScreen implements Screen {
 					this.sndSelect.play();
 					TinyWorld.get().restart();
 				}
-			}
-			fontGO.draw(this.batch, "GAME OVER", 50, Gdx.graphics.getHeight() / 2f + 75f);
+			}						
+			fontGO.draw(this.batch, "GAME OVER", 50, Gdx.graphics.getHeight() / 2f + 150f);
+			fontGO.draw(this.batch, TinyWorld.get().getKillString(), 50, Gdx.graphics.getHeight() / 2f + 75f);
 			fontGO.draw(this.batch, "SCORE: " + String.valueOf(TinyWorld.get().getScore()), 50, Gdx.graphics.getHeight() / 2f);
 		} else {
 			this.coin.draw(this.batch);

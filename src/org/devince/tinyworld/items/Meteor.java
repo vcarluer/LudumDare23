@@ -37,6 +37,8 @@ public class Meteor extends Shoot {
 		this.scaleY = 10;
 		ScaleTo st = ScaleTo.$(1, 1, 2.0f);
 		this.action(st);
+		
+		this.name = "Meteor";
 	}
 	
 	@Override

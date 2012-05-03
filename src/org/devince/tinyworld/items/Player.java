@@ -59,6 +59,7 @@ public class Player extends GameItem implements IHurtable {
 	private Sound sndHurt;	
 	private Sound sndEndInvincible;
 	private Sound sndInvincible;
+	private GameItem killItem;
 	
 	public Player(float x, float y) {
 		this.setSprite(this.getSpritePath());
@@ -699,6 +700,7 @@ public class Player extends GameItem implements IHurtable {
 			this.velocity.x = -1 * this.facing * MAX_VELOCITY;
 			this.direction = NONE;
 			if (this.life <= 0) {
+				this.killItem = from;
 				this.destroy();
 			}
 		}
@@ -742,5 +744,9 @@ public class Player extends GameItem implements IHurtable {
 
 	public void setInvincible(boolean isInvincible) {
 		this.isInvincible = isInvincible;
+	}
+	
+	public GameItem getKillItem() {
+		return this.killItem;
 	}
 }

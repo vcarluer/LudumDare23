@@ -25,6 +25,8 @@ public class AlienShooter extends Alien {
 		this.shootDelta = this.getShootDelta();
 		this.dir = new Vector2();
 		this.sndShoot = this.sndLoad("data/enshoot.wav");
+		
+		this.name = "Shooter";
 	}
 	
 	@Override

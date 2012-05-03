@@ -68,6 +68,8 @@ public class Planet extends GameItem implements IHurtable {
 		this.sndExtDestroy = this.sndLoad("data/extdestroy.wav");
 		this.sndPlanetExplose = this.sndLoad("data/planetexplose.wav");
 		this.sndPlanetHurt = this.sndLoad("data/planethurt.wav");
+		
+		this.name = "Planet";
 	}
 	
 	protected boolean getPrimary() {

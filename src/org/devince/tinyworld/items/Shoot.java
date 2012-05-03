@@ -18,6 +18,8 @@ public class Shoot extends GameItem {
 		this.setSprite(this.getSprite());
 		this.norTarget = new Vector2(dirX - x, dirY - y);
 		this.norTarget.nor();
+		
+		this.name = "Shooter";
 	}
 	
 	protected String getSprite() {
