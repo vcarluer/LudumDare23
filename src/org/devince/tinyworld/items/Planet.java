@@ -123,7 +123,7 @@ public class Planet extends GameItem implements IHurtable {
 
 	@Override
 	public void hurt(GameItem from) {
-		if (!(this instanceof Sun)) {
+		if (this.enable && !(this instanceof Sun)) {
 			this.life--;
 			if (!this.primary) {
 				if (this.life == 2) {
@@ -145,11 +145,7 @@ public class Planet extends GameItem implements IHurtable {
 			
 			
 			if (this.life <= 0) {
-				if (this.primary) {
-					this.sndPlanetExplose.play();
-				} else {
-					this.sndExtDestroy.play();
-				}
+				this.playExploseSound();
 				
 				this.handleDestroy();
 			} else {
@@ -157,8 +153,16 @@ public class Planet extends GameItem implements IHurtable {
 			}
 		}
 	}
+	
+	public void playExploseSound() {
+		if (this.primary) {
+			this.sndPlanetExplose.play();
+		} else {
+			this.sndExtDestroy.play();
+		}		
+	}
 
-	private void handleDestroy() {
+	public void handleDestroy() {
 		this.enable = false;
 		FadeOut fo = FadeOut.$(0.2f);
 		FadeIn fi = FadeIn.$(0.2f);

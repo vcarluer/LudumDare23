@@ -146,6 +146,10 @@ public class Player extends GameItem implements IHurtable {
 		
 		this.acceleration.x = this.direction * ACCELERATION_BASE;
 	}
+	
+	private boolean existsAndIsEnabled(int position) {
+		return this.currentAround[position] != null && this.currentAround[position].enable;
+	}
 
 	@Override
 	public void act(float delta) {
@@ -163,6 +167,30 @@ public class Player extends GameItem implements IHurtable {
 		if (this.createBlock) {
 			this.createBlock(currentAround);
 		}
+		
+		if (bottom != null) {
+			boolean full = false;
+			if (this.existsAndIsEnabled(Galaxy.LEFT) && 
+				this.existsAndIsEnabled(Galaxy.TOP) && 
+				this.existsAndIsEnabled(Galaxy.RIGHT) && 
+				this.existsAndIsEnabled(Galaxy.BOTTOM)) {
+				full = true;
+			}
+			
+			if (full) {
+				boolean first = false;
+				for(Planet around : this.currentAround) {				
+					if (around != null && !around.isPrimary() && around != bottom) {
+						if (!first) {
+							around.playExploseSound();
+							first = true;
+						}
+						
+						around.handleDestroy();
+					}
+				}
+			}
+		}		
 		
 		if (this.isInvincible()) {
 			if (!this.invincibleMusicStarted) {
