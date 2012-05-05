@@ -17,8 +17,8 @@ public class OnScreenController {
 	public static final int PADDING = 26;
 	public static final int PADDINGMID = PADDING / 2;
 	public static final int X_RIGHT = X_LEFT + PADDING + CONTROL_SIZE  + PADDING;
-	public static final int X_CREATE = TinyWorld.WIDTH - CONTROL_SIZE - SCREEN_PADDING;
-	public static final int Y_POS = (int) (TinyWorld.HEIGHT - CONTROL_SIZE /2f - SCREEN_PADDING);
+	public static final int X_CREATE = Gdx.graphics.getWidth() - CONTROL_SIZE - SCREEN_PADDING;
+	public static final int Y_POS = (int) (Gdx.graphics.getHeight() - CONTROL_SIZE /2f - SCREEN_PADDING);
 	public static final int Y_BOTTOM = (int) (Y_POS - CONTROL_SIZE /2f);
 	public static final int X_POS = (int) (X_CREATE + CONTROL_SIZE / 2f);
 	TextureRegion left;
@@ -42,7 +42,7 @@ public class OnScreenController {
 	}
 
 	public void render (SpriteBatch batch) {
-		//if (Gdx.app.getType() != ApplicationType.Android) return;
+		if (Gdx.app.getType() != ApplicationType.Android) return;
 		batch.draw(left, SCREEN_PADDING + (4 * 8), SCREEN_PADDING + (4 * 8), 4, 4, 8, 8, 8, 8, 90f, false);
 		batch.draw(right, X_LEFT + PADDING + (4 * 8), SCREEN_PADDING + (4 * 8), 4, 4, 8, 8, 8, 8, -90f, false);
 		batch.draw(bridgeControl, X_POS, SCREEN_PADDING + (4 * 8), 4, 4, 8, 8, 8, 8, 0f, false);

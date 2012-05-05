@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Repeat;
 import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 public class Player extends GameItem implements IHurtable {
-	private final static float EPSILON = 0.05f;
+	private final static float EPSILON = 0.01f;
 	protected static final int RIGHT = 1;
 	protected static final int LEFT = -1;
 	private static final int NONE = 0;
@@ -168,7 +168,7 @@ public class Player extends GameItem implements IHurtable {
 			this.createBlock(currentAround);
 		}
 		
-		if (bottom != null) {
+		if (this.isPlayer && bottom != null) {
 			boolean full = false;
 			if (this.existsAndIsEnabled(Galaxy.LEFT) && 
 				this.existsAndIsEnabled(Galaxy.TOP) && 
@@ -193,11 +193,6 @@ public class Player extends GameItem implements IHurtable {
 		}		
 		
 		if (this.isInvincible()) {
-			if (!this.invincibleMusicStarted) {
-				TinyWorld.get().pauseMusic();
-				this.sndInvincible.play();
-				this.invincibleMusicStarted = true;
-			}
 			this.invincibleElapsed += delta;
 			if (!this.invincibleActionDone && this.invincibleElapsed > INVINCIBLE_TIME - 1f) {
 				FadeOut fo = FadeOut.$(0.1f);
@@ -375,6 +370,10 @@ public class Player extends GameItem implements IHurtable {
 		
 		if (TinyWorld.get().isTier2()) {
 			max += 0.1f;
+		}
+		
+		if (this.isInvincible) {
+			max *= 1.33f;
 		}
 		
 		return max;
@@ -757,6 +756,11 @@ public class Player extends GameItem implements IHurtable {
 		this.setInvincible(true);
 		this.invincibleElapsed = 0f;
 		this.sprite.setTexture(this.invTexture);
+		TinyWorld.get().pauseMusic();
+		this.sndInvincible.stop();
+		this.sndInvincible.play();
+		this.invincibleMusicStarted = true;
+		this.invincibleActionDone = false;
 	}
 
 	public boolean isPlayer() {

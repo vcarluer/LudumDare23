@@ -1,0 +1,16 @@
+{
+  "name": "Tiny Galaxy",
+  "description": "Arcade action game in a tiny galaxy. Help Green to survive in this wild tiny galaxy, beware the meteor!",
+  "version": "1.0.0.0",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "urls": [
+      "http://vcarluer.github.com/tinygalaxy/"
+    ],
+    "launch": {
+      "web_url": "http://vcarluer.github.com/tinygalaxy/"
+    }
+  }
+}

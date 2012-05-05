@@ -47,6 +47,8 @@ public class Assets {
 	public static final String DATA_SUNBACK_PNG = "data/sunback.png";
 	public static final String DATA_TITLE_PNG = "data/title.png";
 	public static final String DATA_HUD_PNG = "data/hud.png";
+	public static final String DATA_BLACK_TRANS = "data/blacktranslayer.png";
+	public static final String DATA_LOGO = "data/ga.png";
 	
 	private static Map<String, Sound> sounds = new HashMap<String, Sound>();
 	private static Map<String, Texture> textures = new HashMap<String, Texture>();
@@ -89,6 +91,8 @@ public class Assets {
 		textures.put(DATA_SUNBACK_PNG, createTexture(DATA_SUNBACK_PNG));
 		textures.put(DATA_TITLE_PNG, createTexture(DATA_TITLE_PNG));
 		textures.put(DATA_HUD_PNG, createTexture(DATA_HUD_PNG));
+		textures.put(DATA_BLACK_TRANS, createTexture(DATA_BLACK_TRANS));
+		textures.put(DATA_LOGO, createTexture(DATA_LOGO));
 	}
 	
 	private static Sound createSound(String path) {

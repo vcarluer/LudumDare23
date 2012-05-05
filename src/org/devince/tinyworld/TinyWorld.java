@@ -485,6 +485,7 @@ public class TinyWorld extends Game {
 
 	public void start() {
 		this.gameStarted = true;
+		TinyWorld.get().setPause(false);
 		this.setScreen(this.gameScreen);
 	}
 
@@ -546,5 +547,9 @@ public class TinyWorld extends Game {
 		kill += "!";
 		
 		return kill;
+	}
+
+	public void setPause(boolean isPause) {
+		this.paused = isPause;
 	}
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +37,7 @@ public class GameScreen implements Screen {
 	private Sprite invincible;
 	private Vector2 scorePos;
 	private Vector2 lifePos;
+	private Texture transBlack;
 	
 	private Stage stage;
 	
@@ -66,7 +68,9 @@ public class GameScreen implements Screen {
 		this.invincible.setPosition(x, y);
 		this.lifePos = new Vector2(xLbl, yLbl);
 		
-		this.stage = new Stage(TinyWorld.WIDTH, TinyWorld.HEIGHT, false, this.batch);
+		this.stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, this.batch);
+		
+		this.transBlack = Assets.getTexture("data/blacktranslayer.png");
 	}
 	
 	@Override
@@ -92,9 +96,10 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		this.batch.begin();
 		if (TinyWorld.get().isGameOver()) {
+			this.batch.draw(this.transBlack, 50, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
 			cumDelta += delta;
 			if (cumDelta > 1f) {
-				fontGO.draw(this.batch, "PRESS ANY KEY", 50, Gdx.graphics.getHeight() / 2f - 75f);
+				font.draw(this.batch, "PRESS ANY KEY", 50, Gdx.graphics.getHeight() / 2f - 150f);
 				if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
 					this.cumDelta = 0;
 					this.sndSelect.play();
