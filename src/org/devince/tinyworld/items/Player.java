@@ -118,12 +118,15 @@ public class Player extends GameItem implements IHurtable {
 	private void handleKeys() {
 		float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
 		float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
-		// float y0 = TinyWorld.HEIGHT - (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
+		float y0 = TinyWorld.HEIGHT - (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
+		float y1 = TinyWorld.HEIGHT - (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
 		
-		boolean leftButton = (Gdx.input.isTouched(0) && x0 < OnScreenController.X_LEFT + OnScreenController.PADDINGMID) || (Gdx.input.isTouched(1) && x1 < OnScreenController.X_LEFT + OnScreenController.PADDINGMID);
-		boolean rightButton = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x0 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID) || (Gdx.input.isTouched(1) && x1 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x1 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID);
-		boolean isCreatePressed = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_CREATE && x0 < TinyWorld.WIDTH)
-			|| (Gdx.input.isTouched(1) && x1 > OnScreenController.X_CREATE && x1 < TinyWorld.WIDTH);
+		boolean leftButton = (Gdx.input.isTouched(0) && x0 < (OnScreenController.X_LEFT + OnScreenController.PADDINGMID) && y0 < OnScreenController.Y_POS) || 
+				(Gdx.input.isTouched(1) && x1 < (OnScreenController.X_LEFT + OnScreenController.PADDINGMID) && y1 < OnScreenController.Y_POS);
+		boolean rightButton = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x0 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID && y0 < OnScreenController.Y_POS) || 
+				(Gdx.input.isTouched(1) && x1 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x1 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID && y1 < OnScreenController.Y_POS);
+		boolean isCreatePressed = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_CREATE && x0 < TinyWorld.WIDTH && y0 < OnScreenController.Y_POS)
+			|| (Gdx.input.isTouched(1) && x1 > OnScreenController.X_CREATE && x1 < TinyWorld.WIDTH && y1 < OnScreenController.Y_POS);
 		if (isCreatePressed) {
 			if (!this.createHandled) {
 				this.createBlock = true;;
