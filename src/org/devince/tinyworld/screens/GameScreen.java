@@ -185,4 +185,8 @@ public class GameScreen implements Screen {
 	public void reset() {
 		this.stage.clear();
 	}
+	
+	public OnScreenController getController() {
+		return this.controller;
+	}
 }

@@ -2,7 +2,7 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
-import org.devince.tinyworld.screens.OnScreenController;
+import org.devince.tinyworld.screens.Button;
 import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
@@ -93,40 +93,95 @@ public class Player extends GameItem implements IHurtable {
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.SPACE) {
-			this.createBlock = true;	
+			this.createBlock = true;
+			return true;
 		}
 		
 		if (keycode == Keys.ESCAPE) {
-			TinyWorld.get().restart();	
+			TinyWorld.get().restart();
+			return true;
 		}
 		
 		if (keycode == Keys.H) {
 			TinyWorld.get().showHelp();
+			return true;
 		}
 		
 		if (keycode == Keys.P) {
 			TinyWorld.get().togglePause();
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 	
+	@Override
+	public boolean touchDown(float x, float y, int pointer) {
+		super.touchDown(x, y, pointer);
+		float yy = Gdx.graphics.getHeight() - y;
+		boolean restartPressed = TinyWorld.get().getGameScreen().getController().refreshControl.isTouched(x, yy);
+		if (restartPressed) {
+			TinyWorld.get().restart();
+			return true;
+		}
+		
+		boolean helpPressed = TinyWorld.get().getGameScreen().getController().helpControl.isTouched(x, yy);
+		if (helpPressed) {
+			TinyWorld.get().showHelp();
+			return true;
+		}
+		
+		boolean pausePressed = TinyWorld.get().getGameScreen().getController().pauseControl.isTouched(x, yy); 
+		if (pausePressed) {
+			TinyWorld.get().togglePause();
+			return true;
+		}
+		
+		if (!this.getEnable()) return false;
+		
+		if (this.isPlayer) {
+			this.handleKeys();
+		}
+		
+		return false;
+	}
+
 	private boolean createHandled;
 	private boolean invincibleActionDone;
 	private boolean invincibleMusicStarted;
 	
-	private void handleKeys() {
-		float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
-		float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
-		float y0 = TinyWorld.HEIGHT - (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
-		float y1 = TinyWorld.HEIGHT - (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
+	private boolean testTouch(Button button, float x0, float y0, float x1, float y1) {
+		boolean test = button.isTouched(x0, y0);
+		if (!test) {
+			test = button.isTouched(x1, y1);
+		}
 		
-		boolean leftButton = (Gdx.input.isTouched(0) && x0 < (OnScreenController.X_LEFT + OnScreenController.PADDINGMID) && y0 < OnScreenController.Y_POS) || 
-				(Gdx.input.isTouched(1) && x1 < (OnScreenController.X_LEFT + OnScreenController.PADDINGMID) && y1 < OnScreenController.Y_POS);
-		boolean rightButton = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x0 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID && y0 < OnScreenController.Y_POS) || 
-				(Gdx.input.isTouched(1) && x1 > OnScreenController.X_LEFT + OnScreenController.PADDINGMID && x1 < OnScreenController.X_RIGHT - OnScreenController.PADDINGMID && y1 < OnScreenController.Y_POS);
-		boolean isCreatePressed = (Gdx.input.isTouched(0) && x0 > OnScreenController.X_CREATE && x0 < TinyWorld.WIDTH && y0 < OnScreenController.Y_POS)
-			|| (Gdx.input.isTouched(1) && x1 > OnScreenController.X_CREATE && x1 < TinyWorld.WIDTH && y1 < OnScreenController.Y_POS);
+		return test;
+	}
+	
+	private void handleOptionKeys() {
+		float x0 = Gdx.input.getX(0);
+		float y0 = Gdx.graphics.getHeight() - Gdx.input.getY(0);
+		float x1 = Gdx.input.getX(1);
+		float y1 = Gdx.graphics.getHeight() - Gdx.input.getY(1);
+				
+		
+	}
+	
+	private void handleKeys() {
+//		float x0 = (Gdx.input.getX(0) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
+//		float x1 = (Gdx.input.getX(1) / (float)Gdx.graphics.getWidth()) * TinyWorld.WIDTH;
+//		float y0 = TinyWorld.HEIGHT - (Gdx.input.getY(0) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
+//		float y1 = TinyWorld.HEIGHT - (Gdx.input.getY(1) / (float)Gdx.graphics.getHeight()) * TinyWorld.HEIGHT;
+		float x0 = Gdx.input.getX(0);
+		float y0 = Gdx.graphics.getHeight() - Gdx.input.getY(0);
+		float x1 = Gdx.input.getX(1);
+		float y1 = Gdx.graphics.getHeight() - Gdx.input.getY(1);
+		
+		boolean leftButton = this.testTouch(TinyWorld.get().getGameScreen().getController().left, x0, y0, x1, y1);
+		boolean rightButton = this.testTouch(TinyWorld.get().getGameScreen().getController().right, x0, y0, x1, y1);
+		boolean isCreatePressed = this.testTouch(TinyWorld.get().getGameScreen().getController().bridgeControl, x0, y0, x1, y1);
+				
 		if (isCreatePressed) {
 			if (!this.createHandled) {
 				this.createBlock = true;;
@@ -157,6 +212,7 @@ public class Player extends GameItem implements IHurtable {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		this.handleOptionKeys();
 		if (!this.getEnable()) return;
 		
 		if (this.isPlayer) {
