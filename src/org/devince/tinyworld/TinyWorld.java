@@ -78,6 +78,18 @@ public class TinyWorld extends Game {
 	
 	private GameScreen gameScreen;
 	
+	public IActivityRequestHandler myRequestHandler;
+	
+	public static TinyWorld get(IActivityRequestHandler requestHandler) {
+		if (game == null) {
+			game = new TinyWorld();
+		}
+		
+		game.myRequestHandler = requestHandler;		
+		
+		return game;
+	}
+	
 	public static TinyWorld get() {
 		if (game == null) {
 			game = new TinyWorld();
@@ -89,6 +101,9 @@ public class TinyWorld extends Game {
 	public float getZoom() {
 		return DEFAULT_ZOOM;
 	}
+	
+	protected TinyWorld() {
+    }
 	
 	@Override
 	public void create() {
@@ -486,11 +501,19 @@ public class TinyWorld extends Game {
 	public void start() {
 		this.gameStarted = true;
 		TinyWorld.get().setPause(false);
+		this.showAd(true);
 		this.setScreen(this.gameScreen);
 	}
 
 	public void showHelp() {
+		this.showAd(false);
 		this.setScreen(new Help());
+	}
+	
+	private void showAd(boolean show) {
+		if (this.myRequestHandler != null) {
+			this.myRequestHandler.showAds(show);
+		}
 	}
 	
 	public long getNextID() {
