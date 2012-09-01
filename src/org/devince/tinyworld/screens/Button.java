@@ -22,6 +22,7 @@ public class Button {
 	private float y;
 	private float width;
 	private float height;
+	private boolean visible;
 	
 	public Button(boolean onlyAndroid, String pngFile, int pngX, int pngY, float posX, float posY)	{
 		this.onlyAndroid = onlyAndroid;
@@ -30,6 +31,7 @@ public class Button {
 		this.y = posY;
 		this.width = CONTROL_SIZE;
 		this.height = CONTROL_SIZE;
+		this.visible = true;
 	}
 	
 	private TextureRegion loadAssets (String pngFile, int x, int y) {
@@ -41,6 +43,7 @@ public class Button {
 	}
 	
 	public void render (SpriteBatch batch) {
+		if (!this.visible) return;
 		if (this.onlyAndroid && Gdx.app.getType() != ApplicationType.Android) return;
 		
 		if (this.textureControl != null) {
@@ -53,10 +56,20 @@ public class Button {
 	}
 	
 	public boolean isTouched(float touchX, float touchY) {
+		if (!this.visible) return false;
+		
 		return touchX > this.x && touchX < this.x + this.width && touchY > this.y && touchY < this.y + this.height;
 	}
 	
 	public float getRightX() {
 		return this.x + this.width;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }

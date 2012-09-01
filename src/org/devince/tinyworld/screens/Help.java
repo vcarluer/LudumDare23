@@ -35,7 +35,7 @@ public class Help implements Screen {
 		this.batch.begin();
 		this.sprite.draw(this.batch);
 		this.batch.end();
-		if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
+		if (!Gdx.input.isKeyPressed(Keys.VOLUME_DOWN) && !Gdx.input.isKeyPressed(Keys.VOLUME_UP) && (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched())) {
 			if (!this.keyPressed) {
 				this.sndSelect.play();
 				TinyWorld.get().start();

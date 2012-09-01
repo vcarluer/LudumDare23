@@ -17,7 +17,7 @@ public class Title implements Screen {
 	private Sprite sprite;
 	private Sound sndSelect;
 	private Sprite ga;
-	private static float TIME_GA = 3f;
+	private static float TIME_GA = 5f;
 	private float timeElapsed;
 	private boolean keyPressed;
 	
@@ -27,6 +27,7 @@ public class Title implements Screen {
 		this.sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		this.sndSelect = Assets.getSound("data/select.wav");
 		this.ga =new Sprite(new TextureRegion(Assets.getTexture(Assets.DATA_LOGO), 0, 0, 667, 640));
+		this.ga.setScale(0.9375f);
 		this.ga.setSize(667 * 0.85f, 640 * 0.85f);
 		this.ga.setPosition(Gdx.graphics.getWidth() / 2f - this.ga.getWidth() / 2f, Gdx.graphics.getHeight() / 2f - this.ga.getHeight() / 2f);
 		this.keyPressed = false;
@@ -45,7 +46,8 @@ public class Title implements Screen {
 		
 		this.batch.end();
 		
-		if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
+		
+		if (!Gdx.input.isKeyPressed(Keys.VOLUME_DOWN) && !Gdx.input.isKeyPressed(Keys.VOLUME_UP) && (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched())) {
 			if (!this.keyPressed) {
 				this.keyPressed = true;
 				if (this.timeElapsed < TIME_GA) {

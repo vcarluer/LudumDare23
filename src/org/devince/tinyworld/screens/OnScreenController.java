@@ -46,4 +46,22 @@ public class OnScreenController {
 		helpControl.dispose();
 		refreshControl.dispose();		
 	}
+	
+	public void initGame() {
+		this.left.setVisible(true);
+		this.right.setVisible(true);
+		this.bridgeControl.setVisible(true);
+		this.pauseControl.setVisible(true);
+		this.helpControl.setVisible(false);
+		this.refreshControl.setVisible(false);
+	}
+	
+	public void pauseGame() {
+		this.left.setVisible(false);
+		this.right.setVisible(false);
+		this.bridgeControl.setVisible(false);
+		this.pauseControl.setVisible(true);
+		this.helpControl.setVisible(true);
+		this.refreshControl.setVisible(true);
+	}
 }

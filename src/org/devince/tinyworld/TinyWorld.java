@@ -109,6 +109,7 @@ public class TinyWorld extends Game {
 	public void create() {
 		Assets.load();
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/tinygalaxy.mp3"));
+		music.setLooping(true);
 		music.play();
 		this.items = new ArrayList<GameItem>();
 		this.itemsToRemove = new ArrayList<GameItem>();
@@ -119,7 +120,7 @@ public class TinyWorld extends Game {
 		
 		this.stage = new Stage(WIDTH, HEIGHT, false);
 		this.stage.setCamera(this.cam);
-		Gdx.input.setInputProcessor(this.stage);
+//		Gdx.input.setInputProcessor(this.stage);
 		
 		this.galaxy = new Galaxy();
 		
@@ -158,14 +159,14 @@ public class TinyWorld extends Game {
 	}
 
 	public void render() {
-		if (!this.isMusicPaused) {
-			this.musicDelta += Gdx.graphics.getDeltaTime();
-			if (this.musicDelta > MUSIC_TIME) {
-				this.music.stop();
-				this.music.play();
-				this.musicDelta = 0f;
-			}
-		}
+//		if (!this.isMusicPaused) {
+//			this.musicDelta += Gdx.graphics.getDeltaTime();
+//			if (this.musicDelta > MUSIC_TIME) {
+//				this.music.stop();
+//				this.music.play();
+//				this.musicDelta = 0f;
+//			}
+//		}
 		
 		if (this.gameStarted) {
 			if (this.player.getLife() <= 0) {
@@ -175,7 +176,7 @@ public class TinyWorld extends Game {
 			if (!this.paused) {
 				this.handleRemove();			
 				
-				this.stage.setKeyboardFocus(this.player);
+				// this.stage.setKeyboardFocus(this.player);
 				this.handleContacts();
 				this.stage.act(Gdx.graphics.getDeltaTime());
 			}
@@ -434,8 +435,9 @@ public class TinyWorld extends Game {
 		return this.gameOver;
 	}
 
-	public void restart() {
+	public void restart() {		
 		this.init();
+		this.start();
 	}
 	
 	private void init() {
@@ -460,6 +462,7 @@ public class TinyWorld extends Game {
 		this.galaxy.initWorld();
 		
 		this.player = new Player(0, 0);
+		Gdx.input.setInputProcessor(null);
 		this.player.setPlayer(true);
 		this.addGameItem(this.player);
 		
@@ -503,6 +506,8 @@ public class TinyWorld extends Game {
 		TinyWorld.get().setPause(false);
 		this.showAd(true);
 		this.setScreen(this.gameScreen);
+		this.gameScreen.getController().initGame();
+		Gdx.input.setInputProcessor(this.player);		
 	}
 
 	public void showHelp() {
@@ -548,6 +553,9 @@ public class TinyWorld extends Game {
 
 	public void togglePause() {
 		this.paused = !this.paused;
+		if (this.paused) this.gameScreen.getController().pauseGame();
+		else this.gameScreen.getController().initGame();
+		
 	}
 	
 	public void stopMusic() {
