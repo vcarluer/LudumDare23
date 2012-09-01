@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Button {
-	private static final String pngBack = "data/backbutton.png";
 	public static final int CONTROL_SIZE = 64;
 	private static final int BASE_SIZE = 8;
 	private static final float BASE_SCALE = CONTROL_SIZE / BASE_SIZE;
@@ -35,7 +34,7 @@ public class Button {
 	}
 	
 	private TextureRegion loadAssets (String pngFile, int x, int y) {
-		this.textureBack = Assets.getTexture(pngBack);
+		this.textureBack = Assets.getTexture(Assets.DATA_BACK_BUTTON);
 		Texture texture = Assets.getTexture(pngFile);
 		TextureRegion[][] buttons = TextureRegion.split(texture, BASE_SIZE, BASE_SIZE);
 		TextureRegion textureRegion = buttons[x][y];
@@ -47,12 +46,22 @@ public class Button {
 		if (this.onlyAndroid && Gdx.app.getType() != ApplicationType.Android) return;
 		
 		if (this.textureControl != null) {
+			if (this.textureBack != null) {
+				batch.draw(this.textureBack, this.x, this.y, this.width, this.height);
+			}
+			
 			batch.draw(this.textureControl, this.x, this.y, this.width, this.height);
 		}		
 	}
 	
 	public void dispose () {
-		this.textureControl.getTexture().dispose();
+		if (this.textureControl != null) {
+			this.textureControl.getTexture().dispose();
+		}		
+		
+		if (this.textureBack != null) {
+			this.textureBack.dispose();
+		}
 	}
 	
 	public boolean isTouched(float touchX, float touchY) {

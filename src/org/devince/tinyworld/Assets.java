@@ -50,6 +50,8 @@ public class Assets {
 	public static final String DATA_BLACK_TRANS = "data/blacktranslayer.png";
 	public static final String DATA_LOGO = "data/ga.png";
 	
+	public static final String DATA_BACK_BUTTON = "data/backbutton.png";
+	
 	private static Map<String, Sound> sounds = new HashMap<String, Sound>();
 	private static Map<String, Texture> textures = new HashMap<String, Texture>();
 	
@@ -93,6 +95,7 @@ public class Assets {
 		textures.put(DATA_HUD_PNG, createTexture(DATA_HUD_PNG));
 		textures.put(DATA_BLACK_TRANS, createTexture(DATA_BLACK_TRANS));
 		textures.put(DATA_LOGO, createTexture(DATA_LOGO));
+		textures.put(DATA_BACK_BUTTON, createTexture(DATA_BACK_BUTTON));
 	}
 	
 	private static Sound createSound(String path) {
