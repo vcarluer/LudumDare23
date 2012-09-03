@@ -9,9 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Button {
-	public static final int CONTROL_SIZE = 64;
-	private static final int BASE_SIZE = 8;
-	private static final float BASE_SCALE = CONTROL_SIZE / BASE_SIZE;
+	public static final int CONTROL_SIZE = 81; // on a 800*600 screen
+	private static final int BASE_SIZE = 8;	
 	
 	private TextureRegion textureControl;
 	private boolean onlyAndroid;
@@ -22,6 +21,12 @@ public class Button {
 	private float width;
 	private float height;
 	private boolean visible;
+	private boolean skipBackground;
+	
+	public Button(boolean onlyAndroid, String pngFile, int pngX, int pngY, float posX, float posY, boolean skipBackground) {
+		this(onlyAndroid, pngFile, pngX, pngY, posX, posY);
+		this.skipBackground = skipBackground;
+	}
 	
 	public Button(boolean onlyAndroid, String pngFile, int pngX, int pngY, float posX, float posY)	{
 		this.onlyAndroid = onlyAndroid;
@@ -46,7 +51,7 @@ public class Button {
 		if (this.onlyAndroid && Gdx.app.getType() != ApplicationType.Android) return;
 		
 		if (this.textureControl != null) {
-			if (this.textureBack != null) {
+			if (this.textureBack != null && ! this.skipBackground) {
 				batch.draw(this.textureBack, this.x, this.y, this.width, this.height);
 			}
 			
@@ -73,7 +78,7 @@ public class Button {
 	public float getRightX() {
 		return this.x + this.width;
 	}
-
+	
 	public boolean isVisible() {
 		return visible;
 	}

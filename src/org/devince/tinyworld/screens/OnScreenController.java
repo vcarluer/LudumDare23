@@ -24,9 +24,10 @@ public class OnScreenController {
 		this.right = new Button(true, png, 0, 0, left.getRightX() + SCREEN_PADDING, SCREEN_PADDING);
 		this.bridgeControl = new Button(true, png, 0, 2, Gdx.graphics.getWidth() - Button.CONTROL_SIZE - SCREEN_PADDING, SCREEN_PADDING);
 		float topY = Gdx.graphics.getHeight() - Button.CONTROL_SIZE - SCREEN_PADDING;
-		this.pauseControl = new Button(true, png, 0, 3, SCREEN_PADDING, topY);		
-		this.helpControl = new Button(true, png, 0, 4, this.pauseControl.getRightX() + SCREEN_PADDING, topY);
-		this.refreshControl = new Button(true, png, 0, 5, Gdx.graphics.getWidth() - Button.CONTROL_SIZE - SCREEN_PADDING, topY);
+		this.pauseControl = new Button(true, png, 0, 3, SCREEN_PADDING, topY, true);		
+		// this.helpControl = new Button(true, png, 0, 4, this.pauseControl.getRightX() + SCREEN_PADDING, topY);
+		this.helpControl = new Button(true, png, 0, 4, SCREEN_PADDING, topY - Button.CONTROL_SIZE - SCREEN_PADDING, true);
+		this.refreshControl = new Button(true, png, 0, 5, Gdx.graphics.getWidth() - Button.CONTROL_SIZE - SCREEN_PADDING, topY, true);
 	}
 
 	public void render (SpriteBatch batch) {

@@ -23,8 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveTo;
 
 public class GameScreen implements Screen {	
-	private static final int ICON_SCALE = 4;
-	private static final int PADDING = 10;
+	private static final int ICON_SCALE = 6;
+	private static final int PADDING = 25;
 	private static final int PADDING_HUD = 20;
 	private static final int ICON_SIZE = 4 * ICON_SCALE;
 	private BitmapFont font;
@@ -32,11 +32,13 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 	private Sound sndSelect;
 	private OnScreenController controller;
-	private Sprite coin;
+	private Sprite coin;	
 	private Sprite heart;
 	private Sprite invincible;
 	private Vector2 scorePos;
 	private Vector2 lifePos;
+	private Vector2 scoreSpritePos;
+	private Vector2 lifeSpritePos;
 	private Texture transBlack;
 	
 	private Stage stage;
@@ -57,17 +59,19 @@ public class GameScreen implements Screen {
 		float x = Gdx.graphics.getWidth() /2f;
 		// float y = Gdx.graphics.getHeight() - ICON_SIZE / 2f - PADDING;
 		float y = ICON_SIZE * 1.5f + PADDING + PADDING_HUD;
+		this.scoreSpritePos = new Vector2(x, y);
 		this.coin.setPosition(x, y);
 		float xLbl = x + ICON_SIZE / 2f + PADDING;
 		// float yLbl = Gdx.graphics.getHeight();
-		float yLbl = PADDING_HUD + PADDING + ICON_SIZE * 2.5f;
+		float yLbl = PADDING_HUD + PADDING + ICON_SIZE * 2f;
 		this.scorePos = new Vector2(xLbl, yLbl);
 		this.heart.setScale(ICON_SCALE);
 		this.invincible.setScale(ICON_SCALE);
 		// y = Gdx.graphics.getHeight() - ICON_SIZE * 1.5f - PADDING - PADDING_HUD;
 		y = ICON_SIZE / 2f + PADDING;
 		// yLbl =Gdx.graphics.getHeight() - PADDING_HUD - ICON_SIZE;
-		yLbl = PADDING + ICON_SIZE * 1.5f;
+		yLbl = PADDING + ICON_SIZE * 1f;
+		this.lifeSpritePos = new Vector2(x, y);
 		this.heart.setPosition(x, y);
 		this.invincible.setPosition(x, y);
 		this.lifePos = new Vector2(xLbl, yLbl);
@@ -103,7 +107,7 @@ public class GameScreen implements Screen {
 			this.batch.draw(this.transBlack, 50, 50, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100);
 			cumDelta += delta;
 			if (cumDelta > 1f) {
-				font.draw(this.batch, "PRESS ANY KEY", 50, Gdx.graphics.getHeight() / 2f - 150f);
+				font.draw(this.batch, "TOUCH SCREEN", 50, Gdx.graphics.getHeight() / 2f - 150f);
 				if (Gdx.input.isKeyPressed(Keys.ANY_KEY) || Gdx.input.justTouched()) {
 					this.cumDelta = 0;
 					this.sndSelect.play();
@@ -155,17 +159,18 @@ public class GameScreen implements Screen {
 	
 	public void takeCoin() {
 		Score score = new Score();
-		this.actIcon(score, this.scorePos);
+		// this.actIcon(score, this.scorePos);
+		this.actIcon(score, this.scoreSpritePos);
 	}
 	
 	public void takeLife() {
 		Life life = new Life();
-		this.actIcon(life, this.lifePos);
+		this.actIcon(life, this.lifeSpritePos);
 	}
 	
 	public void takeInvincible() {
 		Invincibility inv = new Invincibility();
-		this.actIcon(inv, this.lifePos);
+		this.actIcon(inv, this.lifeSpritePos);
 	}
 	
 	private void actIcon(GameItem item, Vector2 targetPos) {
@@ -175,7 +180,7 @@ public class GameScreen implements Screen {
 		item.scaleX = ICON_SCALE;
 		item.scaleY = ICON_SCALE;
 		this.stage.addActor(item);
-		MoveTo moveTo = MoveTo.$(targetPos.x - ICON_SIZE, targetPos.y - ICON_SIZE, 0.3f);
+		MoveTo moveTo = MoveTo.$(targetPos.x, targetPos.y, 0.3f);
 		moveTo.setCompletionListener(new OnActionCompleted() {
 			
 			@Override
