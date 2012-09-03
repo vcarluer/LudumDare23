@@ -1,7 +1,6 @@
 package org.devince.tinyworld;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.devince.tinyworld.items.Alien;

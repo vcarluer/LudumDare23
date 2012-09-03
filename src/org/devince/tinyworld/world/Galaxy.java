@@ -1,10 +1,7 @@
 package org.devince.tinyworld.world;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.devince.tinyworld.TinyWorld;
-import org.devince.tinyworld.items.GameItem;
 import org.devince.tinyworld.items.Planet;
 import org.devince.tinyworld.items.Point;
 import org.devince.tinyworld.items.Sun;

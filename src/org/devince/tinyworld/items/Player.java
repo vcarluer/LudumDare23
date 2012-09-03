@@ -2,7 +2,6 @@ package org.devince.tinyworld.items;
 
 import org.devince.tinyworld.Assets;
 import org.devince.tinyworld.TinyWorld;
-import org.devince.tinyworld.screens.Button;
 import org.devince.tinyworld.world.Galaxy;
 
 import com.badlogic.gdx.Gdx;
