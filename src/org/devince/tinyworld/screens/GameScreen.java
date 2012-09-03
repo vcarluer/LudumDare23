@@ -57,20 +57,20 @@ public class GameScreen implements Screen {
 		this.invincible = Assets.getSprite("data/invincible.png");
 		this.coin.setScale(ICON_SCALE);
 		float x = Gdx.graphics.getWidth() /2f;
-		// float y = Gdx.graphics.getHeight() - ICON_SIZE / 2f - PADDING;
-		float y = ICON_SIZE * 1.5f + PADDING + PADDING_HUD;
+		// float y = Gdx.graphics.getHeight() - getIconSize() / 2f - getPadding;
+		float y = getIconSize() * 1.5f + getPadding() + getPaddingHud();
 		this.scoreSpritePos = new Vector2(x, y);
 		this.coin.setPosition(x, y);
-		float xLbl = x + ICON_SIZE / 2f + PADDING;
+		float xLbl = x + getIconSize() / 2f + getPadding();
 		// float yLbl = Gdx.graphics.getHeight();
-		float yLbl = PADDING_HUD + PADDING + ICON_SIZE * 2f;
+		float yLbl = getPaddingHud() + getPadding() + getIconSize() * 2f;
 		this.scorePos = new Vector2(xLbl, yLbl);
 		this.heart.setScale(ICON_SCALE);
 		this.invincible.setScale(ICON_SCALE);
-		// y = Gdx.graphics.getHeight() - ICON_SIZE * 1.5f - PADDING - PADDING_HUD;
-		y = ICON_SIZE / 2f + PADDING;
-		// yLbl =Gdx.graphics.getHeight() - PADDING_HUD - ICON_SIZE;
-		yLbl = PADDING + ICON_SIZE * 1f;
+		// y = Gdx.graphics.getHeight() - getIconSize() * 1.5f - getPadding() - getPaddingHud();
+		y = getIconSize() / 2f + getPadding();
+		// yLbl =Gdx.graphics.getHeight() - getPaddingHud() - getIconSize();
+		yLbl = getPadding() + getIconSize() * 1f;
 		this.lifeSpritePos = new Vector2(x, y);
 		this.heart.setPosition(x, y);
 		this.invincible.setPosition(x, y);
@@ -125,7 +125,7 @@ public class GameScreen implements Screen {
 				this.heart.draw(this.batch);
 			}
 			
-			// font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - PADDING);
+			// font.draw(this.batch, "Level: " + String.valueOf(TinyWorld.get().getLevel()), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() - getPadding());
 			font.draw(this.batch, String.valueOf(TinyWorld.get().getScore()), scorePos.x, scorePos.y);
 			font.draw(this.batch, String.valueOf(TinyWorld.get().getPlayer().getLife()), lifePos.x, lifePos.y);
 			
@@ -197,5 +197,17 @@ public class GameScreen implements Screen {
 	
 	public OnScreenController getController() {
 		return this.controller;
+	}
+	
+	private static float getPadding() {
+		return PADDING * OnScreenController.getDensity();
+	}
+	
+	private static float getPaddingHud() {
+		return PADDING_HUD * OnScreenController.getDensity();
+	}
+	
+	private static float getIconSize() {
+		return ICON_SIZE * OnScreenController.getDensity();
 	}
 }

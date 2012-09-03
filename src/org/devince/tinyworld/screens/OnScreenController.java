@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class OnScreenController {
+	private static float baseDensity = 1.5f;
 	public static final int SCREEN_PADDING = 15;
 	
 	public Button left;
@@ -20,14 +21,14 @@ public class OnScreenController {
 
 	private void loadAssets () {
 		String png = "data/hud.png";		
-		this.left = new Button(true, png, 0, 1, SCREEN_PADDING, SCREEN_PADDING);
-		this.right = new Button(true, png, 0, 0, left.getRightX() + SCREEN_PADDING, SCREEN_PADDING);
-		this.bridgeControl = new Button(true, png, 0, 2, Gdx.graphics.getWidth() - Button.CONTROL_SIZE - SCREEN_PADDING, SCREEN_PADDING);
-		float topY = Gdx.graphics.getHeight() - Button.CONTROL_SIZE - SCREEN_PADDING;
-		this.pauseControl = new Button(true, png, 0, 3, SCREEN_PADDING, topY, true);		
+		this.left = new Button(true, png, 0, 1, getPadding(), getPadding());
+		this.right = new Button(true, png, 0, 0, left.getRightX() + getPadding(), getPadding());
+		this.bridgeControl = new Button(true, png, 0, 2, Gdx.graphics.getWidth() - Button.GetControlSize() - getPadding(), getPadding());
+		float topY = Gdx.graphics.getHeight() - Button.GetControlSize() - getPadding();
+		this.pauseControl = new Button(true, png, 0, 3, getPadding(), topY, true);		
 		// this.helpControl = new Button(true, png, 0, 4, this.pauseControl.getRightX() + SCREEN_PADDING, topY);
-		this.helpControl = new Button(true, png, 0, 4, SCREEN_PADDING, topY - Button.CONTROL_SIZE - SCREEN_PADDING, true);
-		this.refreshControl = new Button(true, png, 0, 5, Gdx.graphics.getWidth() - Button.CONTROL_SIZE - SCREEN_PADDING, topY, true);
+		this.helpControl = new Button(true, png, 0, 4, getPadding(), topY - Button.GetControlSize() - getPadding(), true);
+		this.refreshControl = new Button(true, png, 0, 5, Gdx.graphics.getWidth() - Button.GetControlSize() - getPadding(), topY, true);
 	}
 
 	public void render (SpriteBatch batch) {
@@ -64,5 +65,13 @@ public class OnScreenController {
 		this.pauseControl.setVisible(true);
 		this.helpControl.setVisible(true);
 		this.refreshControl.setVisible(true);
+	}
+	
+	public static float getDensity() {
+		return Gdx.graphics.getDensity() / baseDensity;
+	}
+	
+	private static float getPadding() {
+		return SCREEN_PADDING * getDensity();
 	}
 }

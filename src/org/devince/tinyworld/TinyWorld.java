@@ -16,6 +16,7 @@ import org.devince.tinyworld.items.ShootGenerator;
 import org.devince.tinyworld.items.Star;
 import org.devince.tinyworld.screens.GameScreen;
 import org.devince.tinyworld.screens.Help;
+import org.devince.tinyworld.screens.OnScreenController;
 import org.devince.tinyworld.screens.Title;
 import org.devince.tinyworld.world.Galaxy;
 import org.devince.tinyworld.world.PlanetGenerator;
@@ -98,7 +99,7 @@ public class TinyWorld extends Game {
 	}
 	
 	public float getZoom() {
-		return DEFAULT_ZOOM;
+		return DEFAULT_ZOOM / OnScreenController.getDensity();
 	}
 	
 	protected TinyWorld() {

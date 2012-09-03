@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Button {
-	public static final int CONTROL_SIZE = 81; // on a 800*600 screen
+	private static final int CONTROL_SIZE = 81; // on a 800*600 screen
 	private static final int BASE_SIZE = 8;	
 	
 	private TextureRegion textureControl;
@@ -33,8 +33,8 @@ public class Button {
 		this.textureControl = this.loadAssets(pngFile, pngX, pngY);
 		this.x = posX;
 		this.y = posY;
-		this.width = CONTROL_SIZE;
-		this.height = CONTROL_SIZE;
+		this.width = GetControlSize();
+		this.height = GetControlSize();
 		this.visible = true;
 	}
 	
@@ -85,5 +85,10 @@ public class Button {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+
+	}
+	
+	public static float GetControlSize() {
+		return CONTROL_SIZE * OnScreenController.getDensity();
 	}
 }
